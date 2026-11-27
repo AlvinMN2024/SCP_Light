@@ -1,4 +1,4 @@
-# SCP-Light 1.0.7
+# SCP-Light 1.0.10
 
 SCP-Light is an early QGIS 4 and Qt 6 port based on the official Semi-Automatic Classification Plugin 7.10.11 release by Luca Congedo. It is an independent trial fork and is not an official SCP release.
 
@@ -6,7 +6,7 @@ SCP-Light is an early QGIS 4 and Qt 6 port based on the official Semi-Automatic 
 
 1. Open **Plugins → Manage and Install Plugins…**.
 2. Choose **Install from ZIP**.
-3. Select `SCP_Light_v1.0.7.zip` and install **SCP-Light**.
+3. Select `SCP_Light_v1.0.10.zip` and install **SCP-Light**.
 4. Enable it from the Installed plugins list if QGIS does not enable it automatically.
 
 ## Sentinel downloads through Copernicus Data Space
@@ -26,6 +26,10 @@ Version 0.2.1 skips the cloud-cover filter when the maximum is 100% and includes
 ## Port notes
 
 Versions 0.1.1–0.1.6 addressed Qt 6 and Python 3.14 compatibility issues encountered during startup. SCP-Light does not use Remotior Sensus. Some legacy tools may need more QGIS 4 fixes, and some optional workflows may require ESA SNAP.
+
+Version 1.0.10 declares a QGIS compatibility range of 4.2.0–4.99.0 for the QGIS 4.x line. Testing to date has been performed on QGIS 4.2.3; please validate workflows on later QGIS releases. Version 1.0.9 replaces the XML escaping import flagged by Bandit with Python's standard-library HTML escaping and logs sieve progress and temporary-file cleanup errors instead of silently ignoring them. Version 1.0.8 uses GDAL's Python SieveFilter API instead of launching a GDAL batch script, uses the extended Windows RAM API, escapes SNAP vector paths in generated XML, and passes SNAP GPT arguments as a list to handle paths containing spaces. At that release, the declared QGIS range was 4.2.x, matching the QGIS 4.2.3 validation baseline.
+
+Version 1.0.7 renames the stored SMTP credential key to avoid the QGIS plugin repository's false-positive secret finding. If you use SMTP notifications and had saved its password in an earlier version, enter it again once in Settings.
 
 ## Source and license
 
