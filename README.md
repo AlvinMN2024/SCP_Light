@@ -1,4 +1,4 @@
-# SCP-Light 1.0.5
+# SCP-Light 1.0.7
 
 SCP-Light is an early QGIS 4 and Qt 6 port based on the official Semi-Automatic Classification Plugin 7.10.11 release by Luca Congedo. It is an independent trial fork and is not an official SCP release.
 
@@ -6,7 +6,7 @@ SCP-Light is an early QGIS 4 and Qt 6 port based on the official Semi-Automatic 
 
 1. Open **Plugins → Manage and Install Plugins…**.
 2. Choose **Install from ZIP**.
-3. Select `SCP_Light_v1.0.5.zip` and install **SCP-Light**.
+3. Select `SCP_Light_v1.0.7.zip` and install **SCP-Light**.
 4. Enable it from the Installed plugins list if QGIS does not enable it automatically.
 
 ## Sentinel downloads through Copernicus Data Space

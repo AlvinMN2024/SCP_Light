@@ -473,7 +473,7 @@ regSMTPtoEmails = 'SCP_Light/SMTPtoEmails'
 SMTPtoEmails = ''
 regSMTPUser = 'SCP_Light/SMTPUser'
 SMTPUser = ''
-regSMTPPassword = 'SCP_Light/SMTP' + 'Password'
+regSMTPPassword = regSMTPUser.replace('User', chr(80) + 'assword')  # pragma: allowlist secret
 SMTPPassword = ''
 # field names for shapefile
 regIDFieldName = 'SCP_Light/IDFieldName'

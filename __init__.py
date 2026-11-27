@@ -42,7 +42,7 @@ def description():
 
 
 def version():
-    return '1.0.5 (based on SCP 7.10.11)'
+    return '1.0.7 (based on SCP 7.10.11)'
 
 
 def icon():

@@ -584,7 +584,10 @@ class SemiAutomaticClassificationPlugin:
 			if os.path.isfile(_usgs_zip) and not os.path.isfile(_usgs_dir + '/minerals.csv'):
 			    import zipfile as _zf_scp
 			    with _zf_scp.ZipFile(_usgs_zip, 'r') as _z:
-			        _z.extractall(_usgs_dir)
+			        for _m in _z.namelist():
+			            if _m.endswith('.csv') and '/' not in _m and '\\' not in _m:
+			                with open(os.path.join(_usgs_dir, _m), 'wb') as _out:
+			                    _out.write(_z.read(_m))
 			cfg.usgs_C1p = cfg.plgnDir + '/' + cfg.usgs_C1p
 			cfg.usgs_C2p = cfg.plgnDir + '/' + cfg.usgs_C2p
 			cfg.usgs_C3p = cfg.plgnDir + '/' + cfg.usgs_C3p
