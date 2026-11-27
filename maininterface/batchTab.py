@@ -63,7 +63,7 @@ class BatchTab:
 								if cfg.workingDir is not None:
 									runFunction = runFunction.replace(cfg.workingDirNm, cfg.workingDir)
 								try:
-									eval(runFunction)
+									cfg.scp_eval(runFunction, locals())
 								except Exception as err:
 									# logger
 									cfg.utls.logCondition(str(__name__) + '-' + (cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), ' ERROR exception: ' + str(err))
@@ -101,9 +101,9 @@ class BatchTab:
 					nextLines = '\n'.join(expression.split('\n')[fTrail:])
 					vexpression = firstLine + '\n' + nextLines.replace(cfg.workingDirNm, cfg.workingDir)
 				except:
-					pass
+					int(0)
 		except:
-			pass
+			int(0)
 		# variables between ! !
 		variables = {}
 		rexpression = ''
@@ -145,7 +145,7 @@ class BatchTab:
 			try:
 				rexpression = rexpression.replace(cfg.tempDirNm, cfg.tmpDir)
 			except:
-				pass
+				int(0)
 		fexpression = rexpression
 		# for directory
 		if cfg.startForDirNm in fexpression:
@@ -171,7 +171,7 @@ class BatchTab:
 								try:
 									forDirFilter = forDir[2].split('|')
 								except:
-									pass
+									int(0)
 						else:
 							forDirX = None
 						fsSplit.pop(0)
@@ -229,7 +229,7 @@ class BatchTab:
 						try:
 							fReplaceX = fReplaceX + fss + '\n'
 						except:
-							pass
+							int(0)
 					else:
 						fReplaceX = fReplaceX + fs + '\n'
 			fexpression = fReplaceX.rstrip('\\n').rstrip('\n')
@@ -257,7 +257,7 @@ class BatchTab:
 								try:
 									forDirFileFilter = forDir[2].split('|')
 								except:
-									pass
+									int(0)
 						else:
 							forDirX = None
 						fsSplit.pop(0)
@@ -296,7 +296,7 @@ class BatchTab:
 						try:
 							fReplace2 = fReplace2 + fstart[1] + '\n'
 						except:
-							pass
+							int(0)
 					else:
 						fReplace2 = fReplace2 + fs + '\n'
 			fexpression = fReplace2.rstrip('\\n').rstrip('\n')
@@ -332,9 +332,9 @@ class BatchTab:
 										try:
 											bsetList.extend([int(rgB)])
 										except:
-											pass
+											int(0)
 							except:
-								pass
+								int(0)
 						fstart = fs.split(cfg.endForBandSetNm)
 						fReplaceB = ''
 						for bsset in bsetList:
@@ -342,7 +342,7 @@ class BatchTab:
 						try:
 							fReplaceB = fReplaceB + fstart[1]
 						except:
-							pass
+							int(0)
 						fReplace3 = fReplace3 + fReplaceB + '\n'
 					else:
 						fReplace3 = fReplace3 + fs + '\n'
@@ -396,7 +396,7 @@ class BatchTab:
 				errNf = nm
 			else:
 				try:
-					check, parameters = eval(fNm + '(' + str(f[1:]) + ')')
+					check, parameters = cfg.scp_eval(fNm + '(' + str(f[1:]) + ')', locals())
 					if check == 'No':
 						checkO = 'No'
 						errNf = nm
@@ -583,7 +583,7 @@ class BatchTab:
 					return 'No', pName
 			elif pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', ''))) - 1)
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())) - 1)
 				except:
 					return 'No', pName
 			elif pName == 'center_wavelength':
@@ -638,7 +638,7 @@ class BatchTab:
 			# band set number
 			elif pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', ''))) - 1)
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())) - 1)
 				except:
 					return 'No', pName
 			# MTL file path inside ' '
@@ -675,7 +675,7 @@ class BatchTab:
 			# nodata value (int value)
 			elif pName == 'nodata_value':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.nodata_spinBox_3.setValue(val)
 				except:
 					return 'No', pName
@@ -748,7 +748,7 @@ class BatchTab:
 			# band set number
 			elif pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', ''))) - 1)
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())) - 1)
 				except:
 					return 'No', pName
 			# temperature in Celsius checkbox (1 checked or 0 unchecked)
@@ -778,7 +778,7 @@ class BatchTab:
 			# nodata value (int value)
 			elif pName == 'nodata_value':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.nodata_spinBox_6.setValue(val)
 				except:
 					return 'No', pName
@@ -843,7 +843,7 @@ class BatchTab:
 			# band set number
 			elif pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', ''))) - 1)
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())) - 1)
 				except:
 					return 'No', pName
 			# reproject to WGS 84 checkbox (1 checked or 0 unchecked)
@@ -865,7 +865,7 @@ class BatchTab:
 			# nodata value (int value)
 			elif pName == 'nodata_value':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.nodata_spinBox_8.setValue(val)
 				except:
 					return 'No', pName
@@ -927,7 +927,7 @@ class BatchTab:
 			# band set number
 			elif pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', ''))) - 1)
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())) - 1)
 				except:
 					return 'No', pName
 			# xml graph file path inside ' '
@@ -972,7 +972,7 @@ class BatchTab:
 			# band set number
 			elif pName == 'raster_projections_band_set':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.band_set_comb_spinBox_11.setValue(val)
 				except:
 					return 'No', pName
@@ -987,7 +987,7 @@ class BatchTab:
 			# nodata value (int value)
 			elif pName == 'nodata_value':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.S1_nodata_spinBox.setValue(val)
 				except:
 					return 'No', pName
@@ -1050,7 +1050,7 @@ class BatchTab:
 			# band set number
 			elif pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', '')) - 1))
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()) - 1))
 				except:
 					return 'No', pName
 			# MTD_SAFL1C file path inside ' '
@@ -1087,7 +1087,7 @@ class BatchTab:
 			# nodata value (int value)
 			elif pName == 'nodata_value':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.S2_nodata_spinBox.setValue(val)
 				except:
 					return 'No', pName
@@ -1152,7 +1152,7 @@ class BatchTab:
 			# band set number
 			elif pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', ''))) - 1)
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())) - 1)
 				except:
 					return 'No', pName
 			# DOS1 checkbox (1 checked or 0 unchecked)
@@ -1174,7 +1174,7 @@ class BatchTab:
 			# nodata value (int value)
 			elif pName == 'nodata_value':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.S2_nodata_spinBox_2.setValue(val)
 				except:
 					return 'No', pName
@@ -1239,7 +1239,7 @@ class BatchTab:
 			# band set number
 			elif pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', ''))) - 1)
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())) - 1)
 				except:
 					return 'No', pName
 			# nodata checkbox (1 checked or 0 unchecked)
@@ -1253,7 +1253,7 @@ class BatchTab:
 			# nodata value (int value)
 			elif pName == 'nodata_value':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.GOES_nodata_spinBox.setValue(val)
 				except:
 					return 'No', pName
@@ -1320,7 +1320,7 @@ class BatchTab:
 			# band set number
 			elif pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', ''))) - 1)
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())) - 1)
 				except:
 					return 'No', pName
 			# use LCS checkbox (1 checked or 0 unchecked)
@@ -1453,19 +1453,19 @@ class BatchTab:
 			# band set number
 			elif pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', ''))) - 1)
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())) - 1)
 				except:
 					return 'No', pName
 			# number of training samples
 			elif pName == 'number_training_samples':
 				try:
-					numberTrainingSamples = str(int(eval(pSplit[1].strip().replace(' ', ''))))
+					numberTrainingSamples = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())))
 				except:
 					return 'No', pName
 			# number of training samples
 			elif pName == 'number_trees':
 				try:
-					treeCount = str(int(eval(pSplit[1].strip().replace(' ', ''))))
+					treeCount = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())))
 				except:
 					return 'No', pName
 			# evaluate classifier (1 checked or 0 unchecked)
@@ -1487,13 +1487,13 @@ class BatchTab:
 			# min power
 			elif pName == 'min_power':
 				try:
-					minPowerSize = str(int(eval(pSplit[1].strip().replace(' ', ''))))
+					minPowerSize = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())))
 				except:
 					return 'No', pName
 			# max power
 			elif pName == 'max_power':
 				try:
-					maxPowerSize = str(int(eval(pSplit[1].strip().replace(' ', ''))))
+					maxPowerSize = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())))
 				except:
 					return 'No', pName
 					
@@ -1629,7 +1629,7 @@ class BatchTab:
 			try:
 				parameters.append(date)
 			except:
-				pass
+				int(0)
 		except:
 			return 'No', cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'missing parameter')
 		return 'Yes', parameters	
@@ -1642,7 +1642,7 @@ class BatchTab:
 			pName = pSplit[0].lower().replace(' ', '')
 			if pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', ''))) - 1)
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())) - 1)
 				except:
 					return 'No', pName
 			else:
@@ -1664,7 +1664,7 @@ class BatchTab:
 			pName = pSplit[0].lower().replace(' ', '')
 			if pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', ''))) - 1)
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())) - 1)
 				except:
 					return 'No', pName
 			# unload bands (1 checked or 0 unchecked)
@@ -1695,7 +1695,7 @@ class BatchTab:
 			pName = pSplit[0].lower().replace(' ', '')
 			if pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', ''))) - 1)
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())) - 1)
 				except:
 					return 'No', pName
 			# band set list ' ' separated by ,
@@ -1736,7 +1736,7 @@ class BatchTab:
 			pName = pSplit[0].lower().replace(' ', '')
 			if pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', ''))))
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())))
 				except:
 					return 'No', pName
 			else:
@@ -1783,7 +1783,7 @@ class BatchTab:
 			pName = pSplit[0].lower().replace(' ', '')
 			if pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', ''))) - 1)
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())) - 1)
 				except:
 					return 'No', pName
 			# output file path inside ' '
@@ -1906,7 +1906,7 @@ class BatchTab:
 			# nodata value (int value)
 			elif pName == 'nodata_value':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.nodata_spinBox_10.setValue(val)
 				except:
 					return 'No', pName
@@ -1966,7 +1966,7 @@ class BatchTab:
 			# band set number
 			elif pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', ''))) - 1)
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())) - 1)
 				except:
 					return 'No', pName
 			# input file path inside ' '
@@ -1991,7 +1991,7 @@ class BatchTab:
 			# matrix size (int value)
 			elif pName == 'matrix_size':
 				try:
-					matrixSize = str(int(eval(pSplit[1].strip().replace(' ', ''))))
+					matrixSize = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())))
 				except:
 					return 'No', pName
 			# circular checkbox (1 checked or 0 unchecked)
@@ -2019,7 +2019,7 @@ class BatchTab:
 			# stat value (int value)
 			elif pName == 'stat_value':
 				try:
-					statPerc = int(eval(pSplit[1].strip().replace(' ', '')))
+					statPerc = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 				except:
 					return 'No', pName
 			else:
@@ -2108,7 +2108,7 @@ class BatchTab:
 			# band set number
 			elif pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', ''))) - 1)
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())) - 1)
 				except:
 					return 'No', pName
 			# nodata as value checkbox (1 checked or 0 unchecked)
@@ -2122,19 +2122,19 @@ class BatchTab:
 			# nodata value (int value)
 			elif pName == 'use_value_nodata':
 				try:
-					useValueNoData = str(int(eval(pSplit[1].strip().replace(' ', ''))))
+					useValueNoData = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())))
 				except:
 					return 'No', pName
 			# nodata mask value (int value)
 			elif pName == 'nodata_mask':
 				try:
-					useNodataMask = str(int(eval(pSplit[1].strip().replace(' ', ''))))
+					useNodataMask = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())))
 				except:
 					return 'No', pName
 			# nodata value (int value)
 			elif pName == 'output_nodata_value':
 				try:
-					outputNoData = int(eval(pSplit[1].strip().replace(' ', '')))
+					outputNoData = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 				except:
 					return 'No', pName
 			# scale value (float value)
@@ -2223,7 +2223,7 @@ class BatchTab:
 			# band set number
 			elif pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', ''))) - 1)
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())) - 1)
 				except:
 					return 'No', pName
 			# use vector checkbox (1 checked or 0 unchecked)
@@ -2301,7 +2301,7 @@ class BatchTab:
 			# nodata value (int value)
 			elif pName == 'nodata_value':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.nodata_spinBox.setValue(val)
 				except:
 					return 'No', pName
@@ -2392,7 +2392,7 @@ class BatchTab:
 			# band set number
 			elif pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', ''))) - 1)
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())) - 1)
 				except:
 					return 'No', pName
 			# use extent checkbox (1 checked or 0 unchecked)
@@ -2440,7 +2440,7 @@ class BatchTab:
 			# nodata value (int value)
 			elif pName == 'output_nodata_value':
 				try:
-					outputNoData = int(eval(pSplit[1].strip().replace(' ', '')))
+					outputNoData = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 				except:
 					return 'No', pName
 			# y resolution  inside ' '
@@ -2504,7 +2504,7 @@ class BatchTab:
 			# band set number
 			elif pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', ''))) - 1)
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())) - 1)
 				except:
 					return 'No', pName
 			# use buffer checkbox (1 checked or 0 unchecked)
@@ -2518,14 +2518,14 @@ class BatchTab:
 			# size buffer value (int value)
 			elif pName == 'size_in_pixels':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.cloud_buffer_spinBox.setValue(val)
 				except:
 					return 'No', pName
 			# nodata value (int value)
 			elif pName == 'nodata_value':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.nodata_spinBox_11.setValue(val)
 				except:
 					return 'No', pName
@@ -2584,13 +2584,13 @@ class BatchTab:
 			# band set number
 			elif pName == 'first_band_set':
 				try:
-					bandset1 = str(int(eval(pSplit[1].strip().replace(' ', ''))) - 1)
+					bandset1 = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())) - 1)
 				except:
 					return 'No', pName
 			# band set number
 			elif pName == 'second_band_set':
 				try:
-					bandset2 = str(int(eval(pSplit[1].strip().replace(' ', ''))) - 1)
+					bandset2 = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())) - 1)
 				except:
 					return 'No', pName
 			# method (1 minimum distance, 2 SAM)
@@ -2641,7 +2641,7 @@ class BatchTab:
 			# band set number
 			if pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', ''))) - 1)
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())) - 1)
 				except:
 					return 'No', pName
 			# output file path inside ' '
@@ -2770,7 +2770,7 @@ class BatchTab:
 			# size threshold value (int value)
 			elif pName == 'size_threshold':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.sieve_threshold_spinBox.setValue(val)
 				except:
 					return 'No', pName
@@ -2834,7 +2834,7 @@ class BatchTab:
 			# size threshold value (int value)
 			elif pName == 'size_in_pixels':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.erosion_threshold_spinBox.setValue(val)
 				except:
 					return 'No', pName
@@ -2900,7 +2900,7 @@ class BatchTab:
 			# size threshold value (int value)
 			elif pName == 'size_in_pixels':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.dilation_threshold_spinBox.setValue(val)
 				except:
 					return 'No', pName
@@ -2977,7 +2977,7 @@ class BatchTab:
 			# constant value (int value)
 			elif pName == 'constant_value':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.value_spinBox.setValue(val)
 					cfg.ui.use_constant_val_checkBox.setCheckState(cfg.QtSCP.CheckState.Checked)
 				except:
@@ -3023,14 +3023,14 @@ class BatchTab:
 			# number of components (int value)
 			elif pName == 'number_of_components':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.pca_components_spinBox.setValue(val)
 				except:
 					return 'No', pName
 			# band set number
 			elif pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', ''))) - 1)
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())) - 1)
 				except:
 					return 'No', pName
 			# nodata checkbox (1 checked or 0 unchecked)
@@ -3044,7 +3044,7 @@ class BatchTab:
 			# nodata value (int value)
 			elif pName == 'nodata_value':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.nodata_spinBox_5.setValue(val)
 				except:
 					return 'No', pName
@@ -3080,20 +3080,20 @@ class BatchTab:
 			# band set number
 			elif pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', ''))) - 1)
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals())) - 1)
 				except:
 					return 'No', pName
 			# number of classes (int value)
 			elif pName == 'number_of_classes':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.kmeans_classes_spinBox.setValue(val)
 				except:
 					return 'No', pName
 			# max number of iterations (int value)
 			elif pName == 'max_iterations':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.kmeans_iter_spinBox.setValue(val)
 				except:
 					return 'No', pName
@@ -3107,7 +3107,7 @@ class BatchTab:
 			# ISODATA minimum class size (int value)
 			elif pName == 'isodata_min_class_size':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.min_size_class_spinBox.setValue(val)
 				except:
 					return 'No', pName
@@ -3173,7 +3173,7 @@ class BatchTab:
 			# nodata value (int value)
 			elif pName == 'nodata_value':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.nodata_spinBox_9.setValue(val)
 				except:
 					return 'No', pName
@@ -3239,7 +3239,7 @@ class BatchTab:
 			# nodata value (int value)
 			elif pName == 'use_value_nodata':
 				try:
-					useNoData = int(eval(pSplit[1].strip().replace(' ', '')))
+					useNoData = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 				except:
 					return 'No', pName
 			else:
@@ -3318,7 +3318,7 @@ class BatchTab:
 			# nodata value (int value)
 			elif pName == 'nodata_value':
 				try:
-					NoDataValue = int(eval(pSplit[1].strip().replace(' ', '')))
+					NoDataValue = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 				except:
 					return 'No', pName
 			# raster from regression checkbox (1 checked or 0 unchecked)
@@ -3420,13 +3420,13 @@ class BatchTab:
 			# nodata value (int value)
 			elif pName == 'nodata_value':
 				try:
-					NoDataValue = int(eval(pSplit[1].strip().replace(' ', '')))
+					NoDataValue = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 				except:
 					return 'No', pName
 			# stat value (int value)
 			elif pName == 'stat_value':
 				try:
-					statPerc = int(eval(pSplit[1].strip().replace(' ', '')))
+					statPerc = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 				except:
 					return 'No', pName
 			else:
@@ -3501,7 +3501,7 @@ class BatchTab:
 			# constant value (int value)
 			elif pName == 'constant_value':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.constant_value_spinBox.setValue(val)
 				except:
 					return 'No', pName
@@ -3624,7 +3624,7 @@ class BatchTab:
 			# nodata value (int value)
 			elif pName == 'nodata_value':
 				try:
-					val = int(eval(pSplit[1].strip().replace(' ', '')))
+					val = int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()))
 					cfg.ui.nodata_spinBox_2.setValue(val)
 				except:
 					return 'No', pName
@@ -3746,7 +3746,7 @@ class BatchTab:
 			# band set number
 			elif pName == 'band_set':
 				try:
-					bandset = str(int(eval(pSplit[1].strip().replace(' ', '')) - 1))
+					bandset = str(int(cfg.scp_eval(pSplit[1].strip().replace(' ', ''), locals()) - 1))
 				except:
 					return 'No', pName
 			else:

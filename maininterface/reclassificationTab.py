@@ -155,7 +155,7 @@ class ReclassificationTab:
 					for ar in cfg.parallelArrayDict[x]:
 						values = cfg.np.append(values, ar[0][0, ::])
 				except:
-					pass
+					int(0)
 			values = cfg.np.unique(values).tolist()
 			cfg.uiUtls.updateBar(80)
 			if cfg.ui.CID_MCID_code_checkBox.isChecked() is True:
@@ -202,7 +202,7 @@ class ReclassificationTab:
 					for ar in cfg.parallelArrayDict[x]:
 						values = cfg.np.append(values, ar[0][0, ::])
 				except:
-					pass
+					int(0)
 			values = cfg.np.unique(values).tolist()
 			cfg.uiUtls.updateBar(80)
 			uniq = self.createValueList(values, 'Yes')
@@ -300,7 +300,7 @@ class ReclassificationTab:
 				c = val.replace(cfg.variableName, 'rasterSCPArrayfunctionBand')
 				rasterSCPArrayfunctionBand = cfg.np.arange(9).reshape(3, 3)
 				try:
-					eval('cfg.np.where(' + c + ', 1, rasterSCPArrayfunctionBand)')
+					cfg.scp_eval('cfg.np.where(' + c + ', 1, rasterSCPArrayfunctionBand)', locals())
 				except:
 					cfg.ReclassTabEdited = 'No'
 					cfg.utls.setTableItem(tW, row, column, '0')
@@ -335,7 +335,7 @@ class ReclassificationTab:
 						oldV = p[0]
 						newV = p[1]
 					except:
-						pass
+						int(0)
 					# add item to table
 					c = tW.rowCount()
 					# add list items to table
@@ -369,7 +369,7 @@ class ReclassificationTab:
 					oldV = tW.item(i,0).text()
 					newV = tW.item(i,1).text()
 				except:
-					pass
+					int(0)
 				txt = txt + oldV + sep + newV + '\n'
 			f.write(txt)
 			f.close()

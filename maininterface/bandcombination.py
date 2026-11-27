@@ -318,7 +318,7 @@ class BandCombination:
 					except:
 						rasterBandUniqueVal[tuple(cmbX)] = sumVal[v]
 				except:
-					pass
+					int(0)
 			refRasterBandUniqueVal = list(set(values))
 			# logger
 			cfg.utls.logCondition(str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'cross raster output: ' + str(combRstPath))
@@ -341,7 +341,7 @@ class BandCombination:
 						cList = str(c) + '\t' + ','.join([str(l) for l in cmbntns[c]]) + '\t' + cfg.reSCP.sub(r'\.0$', '', str(rasterBandUniqueVal[v])) + '\t' + area + str('\n')
 						l.write(cList)
 				except Exception as err:
-					pass
+					bool(err)
 			l.close()	
 			# add raster to layers
 			rastUniqueVal = cfg.np.unique(values).tolist()

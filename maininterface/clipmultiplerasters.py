@@ -46,7 +46,7 @@ class ClipMultipleRasters:
 		try:
 			self.clearCanvasPoly()
 		except:
-			pass
+			int(0)
 		self.rbbrBndPol = cfg.qgisGuiSCP.QgsRubberBand(cfg.cnvs, cfg.qgisCoreSCP.QgsWkbTypes.LineGeometry)
 		pointF = cfg.QtCoreSCP.QPointF()
 		polF = cfg.QtGuiSCP.QPolygonF()
@@ -177,7 +177,7 @@ class ClipMultipleRasters:
 							UY = str(LRP.y())
 							LY = str(ULP.y())
 					except:
-						pass
+						int(0)
 			else:
 				try:
 					if float(UX) > float(LX):
@@ -189,7 +189,7 @@ class ClipMultipleRasters:
 						UY = str(LY)
 						LY = str(tUY)
 				except:
-					pass
+					int(0)
 		if cfg.bandSetsList[bandSetNumber][0] == 'Yes':
 			ckB = cfg.utls.checkBandSet(bandSetNumber)
 			if ckB == 'Yes':
@@ -322,7 +322,7 @@ class ClipMultipleRasters:
 						try:
 							cfg.osSCP.remove(tRxs)
 						except:
-							pass
+							int(0)
 						try:
 							for oU in outList:
 								cfg.utls.addRasterLayer(oU)
@@ -345,7 +345,7 @@ class ClipMultipleRasters:
 					try:
 						cfg.osSCP.remove(tRxs)
 					except:
-						pass
+						int(0)
 					try:
 						for oU in outList:
 							cfg.utls.addRasterLayer(oU)
@@ -410,7 +410,7 @@ class ClipMultipleRasters:
 		try:
 			self.addRubberBandPolygon(cfg.qgisCoreSCP.QgsPointXY(float(cfg.ui.UX_lineEdit.text()), float(cfg.ui.UY_lineEdit.text())), cfg.qgisCoreSCP.QgsPointXY(float(cfg.ui.LX_lineEdit.text()), float(cfg.ui.LY_lineEdit.text())))
 		except:
-			pass
+			int(0)
 		
 	# refresh shape and training list	
 	def refreshShapeClip(self):
@@ -424,7 +424,7 @@ class ClipMultipleRasters:
 			else:
 				self.clearCanvasPoly()
 		except:
-			pass
+			int(0)
 			
 	# checkbox changed
 	def checkboxShapeChanged(self):
@@ -458,7 +458,7 @@ class ClipMultipleRasters:
 					if str(i.typeName()).lower() != "string":
 						cfg.dlg.class_field_combo_3(str(i.name()))
 		except:
-			pass
+			int(0)
 		# logger
 		cfg.utls.logCondition(str(cfg.inspectSCP.stack()[0][3])+ " " + cfg.utls.lineOfCode(), "reference layer name: " + str(referenceLayer3))
 		

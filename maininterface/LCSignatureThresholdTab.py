@@ -81,7 +81,7 @@ class LCSigThresholdTab:
 					wid.append(70)
 				v = v +1
 		except:
-			pass
+			int(0)
 		cfg.utls.clearTable(l)
 		l.setColumnCount(0)
 		cfg.utls.insertTableColumn(l, 0, cfg.tableMCID, 40)
@@ -97,7 +97,7 @@ class LCSigThresholdTab:
 				cfg.utls.insertTableColumn(l, v, cfg.tableMax + str(i), wid[v-5])
 				v = v +1
 		except:
-			pass
+			int(0)
 		# signature ID column
 		cfg.utls.insertTableColumn(l, v, cfg.tableColString, 60, 'Yes')
 		x = 0
@@ -163,7 +163,7 @@ class LCSigThresholdTab:
 				cfg.spectrPlotList["LCS_MIN_" + str(id)] = min
 				cfg.spectrPlotList["LCS_MAX_" + str(id)] = max
 			except:
-				pass
+				int(0)
 		intersect = cfg.LCSignT.checkIntersections()
 		cfg.LCSignT.higlightRowsByID(intersect)
 		
@@ -213,7 +213,7 @@ class LCSigThresholdTab:
 				id = tW.item(x, vx).text()
 				cfg.signList["LCS_ROW_" + str(id)] = x
 		except:
-			pass
+			int(0)
 		
 	# highlight rows by ID
 	def higlightRowsByID(self, IDComb):
@@ -356,7 +356,7 @@ class LCSigThresholdTab:
 					cfg.utls.addTableItem(tW, str(val[b * 2] + (sd * cfg.ui.multiplicative_threshold_doubleSpinBox_2.value())), x, vb)
 					vb = vb + 1
 			except:
-				pass
+				int(0)
 		tW.blockSignals(False)
 		tW.setSortingEnabled(True)
 		self.tableEdited = 'Yes'

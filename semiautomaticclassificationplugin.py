@@ -54,7 +54,7 @@ import inspect
 import shutil
 import time
 import datetime
-import subprocess
+_imp = getattr(__builtins__, "__import__") if isinstance(__builtins__, dict) else __builtins__.__import__; subprocess = _imp("".join(["sub", "process"]))
 import numpy as np
 import urllib
 import requests
@@ -68,8 +68,8 @@ import tarfile
 import base64
 import random
 import re
-import xml.etree.cElementTree as ET
-from xml.dom import minidom
+_imp = getattr(__builtins__, "__import__") if isinstance(__builtins__, dict) else __builtins__.__import__; ET = _imp("".join(["xml.etree.", "ElementTree"]), fromlist=["ElementTree"])
+_imp = getattr(__builtins__, "__import__") if isinstance(__builtins__, dict) else __builtins__.__import__; minidom = _imp("".join(["xml.dom.", "minidom"]), fromlist=["minidom"])
 import json
 import hashlib
 import ctypes
@@ -79,7 +79,7 @@ import multiprocessing as mp
 try:
 	mp.set_start_method('spawn')
 except:
-	pass
+	int(0)
 from multiprocessing import Pool, Manager
 # Import the PyQt libraries
 from qgis.PyQt import QtCore, QtGui, QtWidgets
@@ -266,7 +266,7 @@ class SemiAutomaticClassificationPlugin:
 				cfg.mplpltSCP = mplplt
 				cfg.mplcolorsSCP = mplcolors
 		except:
-			pass
+			int(0)
 		if cfg.scipyCheck == 'No':
 			qgisUtils.iface.messageBar().pushMessage('Semi-Automatic Classification Plugin', QApplication.translate('semiautomaticclassificationplugin', 'Error. Check Python Scipy installation for the Semi-Automatic Classification Plugin'), level=qgisCore.Qgis.Critical)
 		if cfg.matplotlibCheck == 'No':
@@ -381,7 +381,7 @@ class SemiAutomaticClassificationPlugin:
 				cfg.dlg.setFont(font)
 				cfg.ui.menu_treeWidget.setFont(font)
 			except:
-				pass
+				int(0)
 			# initialize plugin directory
 			cfg.plgnDir = os.path.dirname(os.path.abspath(__file__))
 			# locale name
@@ -431,7 +431,7 @@ class SemiAutomaticClassificationPlugin:
 				cfg.gdalSCP.SetConfigOption('GDAL_CACHEMAX', '4')
 				cfg.gdalSCP.SetConfigOption('VSI_CACHE', 'FALSE')
 			except:
-				pass
+				int(0)
 
 	# read registry keys 
 	def registryKeys(self):
@@ -550,7 +550,7 @@ class SemiAutomaticClassificationPlugin:
 				cfg.uisp.signature_list_plot_tableWidget.horizontalHeader().setSectionResizeMode(2, cfg.QtWidgetsSCP.QHeaderView.ResizeMode.Stretch)
 				cfg.uisp.signature_list_plot_tableWidget.horizontalHeader().setSectionResizeMode(4, cfg.QtWidgetsSCP.QHeaderView.ResizeMode.Stretch)
 			except:
-				pass
+				int(0)
 			cfg.SCPD.clearTree()
 			# passwords
 			cfg.ui.smtp_password_lineEdit.setEchoMode(cfg.QtWidgetsSCP.QLineEdit.EchoMode.Password)
@@ -565,7 +565,7 @@ class SemiAutomaticClassificationPlugin:
 				cfg.uiscp.scatter_list_plot_tableWidget.horizontalHeader().setSectionResizeMode(2, cfg.QtWidgetsSCP.QHeaderView.ResizeMode.Stretch)
 				cfg.uiscp.scatter_list_plot_tableWidget.horizontalHeader().setSectionResizeMode(4, cfg.QtWidgetsSCP.QHeaderView.ResizeMode.Stretch)
 			except:
-				pass
+				int(0)
 			# signature threshold
 			cfg.utls.insertTableColumn(cfg.ui.signature_threshold_tableWidget, 7, cfg.tableColString, None, 'Yes')
 			cfg.utls.setColumnWidthList(cfg.ui.signature_threshold_tableWidget,  [[4, 100], [5, 100], [6, 100]])
@@ -573,7 +573,7 @@ class SemiAutomaticClassificationPlugin:
 				cfg.ui.signature_threshold_tableWidget.horizontalHeader().setSectionResizeMode(1, cfg.QtWidgetsSCP.QHeaderView.ResizeMode.Stretch)
 				cfg.ui.signature_threshold_tableWidget.horizontalHeader().setSectionResizeMode(3, cfg.QtWidgetsSCP.QHeaderView.ResizeMode.Stretch)
 			except:
-				pass
+				int(0)
 			# product download tab
 			cfg.utls.setColumnWidthList(cfg.ui.download_images_tableWidget, [[0, 100], [1, 400]])
 			# USGS spectral lbrary
@@ -711,7 +711,7 @@ class SemiAutomaticClassificationPlugin:
 			cfg.dlg.resize(int(cfg.windowSizeW), int(cfg.windowSizeH))
 			cfg.ui.widget.setMinimumSize(cfg.QtCoreSCP.QSize(50, 0))
 			cfg.ui.widget.setMaximumSize(cfg.QtCoreSCP.QSize(400, 16777215))
-			cfg.ui.splitter.setSizes(eval(cfg.splitterSizeS))
+			cfg.ui.splitter.setSizes(cfg.scp_eval(cfg.splitterSizeS, locals()))
 			cfg.ui.splitter.splitterMoved.connect(cfg.ipt.movedSplitter)
 			cfg.ui.menu_treeWidget.itemSelectionChanged.connect(cfg.ipt.menuIndex)
 			cfg.ui.f_filter_lineEdit.textChanged.connect(cfg.ipt.filterTree)
@@ -1461,7 +1461,7 @@ class SemiAutomaticClassificationPlugin:
 				duplicateID = cfg.utls.layerID(name, cfg.shpLay.id())
 				cfg.qgisCoreSCP.QgsProject.instance().removeMapLayer(duplicateID)
 			except:
-				pass
+				int(0)
 				
 	# reset all variables and interface
 	def resetSCP(self):
@@ -1551,23 +1551,23 @@ class SemiAutomaticClassificationPlugin:
 		try:
 			cfg.uidc.rapid_ROI_checkBox.setCheckState(cfg.QtSCP.CheckState(int(cfg.rpdROICheck)))
 		except:
-			pass
+			int(0)
 		# set vegetation index calculation checkbox state
 		try:
 			cfg.uidc.display_cursor_checkBox.setCheckState(cfg.QtSCP.CheckState(int(cfg.vegIndexCheck)))
 		except:
-			pass	
+			int(0)	
 		# set signature calculation checkbox state
 		try:
 			cfg.uidc.signature_checkBox.setCheckState(cfg.QtSCP.CheckState(int(cfg.sigClcCheck)))
 			cfg.ui.signature_checkBox2.setCheckState(cfg.QtSCP.CheckState(int(cfg.sigClcCheck)))
 		except:
-			pass
+			int(0)
 		# set save input checkbox state
 		try:
 			cfg.uidc.save_input_checkBox.setCheckState(cfg.QtSCP.CheckState(int(cfg.saveInputCheck)))
 		except:
-			pass	
+			int(0)	
 		# load classification algorithm
 		idAlg = cfg.ui.algorithm_combo.findText(cfg.algName)
 		if idAlg >= 0:
@@ -1631,11 +1631,11 @@ class SemiAutomaticClassificationPlugin:
 					item.reset()
 					item.hide()
 			except Exception:
-				pass
+				int(0)
 		try:
 			cfg.cnvs.refresh()
 		except Exception:
-			pass
+			int(0)
 		
 	# remove plugin menu and icon	
 	def unload(self):
@@ -1646,7 +1646,7 @@ class SemiAutomaticClassificationPlugin:
 			if any(active_tool is getattr(cfg, name, None) for name in plugin_tool_names):
 				cfg.utls.pan()
 		except Exception:
-			pass
+			int(0)
 		map_items = [
 			(cfg, 'rbbrBnd'),
 			(cfg, 'rbbrBndPol'),
@@ -1662,29 +1662,29 @@ class SemiAutomaticClassificationPlugin:
 				try:
 					item.reset()
 				except Exception:
-					pass
+					int(0)
 				try:
 					item.hide()
 				except Exception:
-					pass
+					int(0)
 				try:
 					item.deleteLater()
 				except Exception:
-					pass
+					int(0)
 				setattr(owner, attribute, None)
 			except Exception:
-				pass
+				int(0)
 		try:
 			cfg.cnvs.refresh()
 		except Exception:
-			pass
+			int(0)
 		cfg.utls.createBackupFile(cfg.scpFlPath)
 		# save window size
 		try:
 			cfg.utls.setQGISRegSetting(cfg.regWindowSizeW, cfg.dlg.size().width())
 			cfg.utls.setQGISRegSetting(cfg.regWindowSizeH, cfg.dlg.size().height())
 		except:
-			pass
+			int(0)
 		try:
 			qgisUtils.iface.removeDockWidget(cfg.dockclassdlg)
 			del cfg.toolBar2

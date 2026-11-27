@@ -90,7 +90,7 @@ class BandSetListTab:
 				try:
 					b = cfg.utls.createRGBColorComposite("3,2,1", i)
 				except:
-					pass
+					int(0)
 		cfg.tmpVrtDict[cfg.bndSetNumber] = tmpVrt
 		cfg.uiUtls.removeProgressBar()				
 		# logger

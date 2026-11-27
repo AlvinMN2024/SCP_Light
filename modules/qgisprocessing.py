@@ -53,7 +53,7 @@ class qgisprocessing:
 	def runProcessingAlg(self, command, parameters, loadResults = 'Yes'):
 		if ' {' not in parameters:
 			parameters = ' {' + parameters + '}'
-		parameters = eval(parameters)
+		parameters = cfg.scp_eval(parameters, locals())
 		cfg.uiUtls.updateBar(10, command)
 		# pool
 		cfg.pool = cfg.poolSCP(processes=1)
@@ -132,7 +132,7 @@ class qgisprocessing:
 			from processing.algs.grass7.Grass7Utils import Grass7Utils
 			Grass7Utils.checkGrassIsInstalled()
 		except:
-			pass
+			int(0)
 		try:
 			result = processing.run(command, parameters)
 			return result, ''
@@ -165,15 +165,15 @@ class qgisprocessing:
 				if len(pSplitX) > 0:
 					param = pSplitX
 					try:
-						eval(param)	
+						cfg.scp_eval(param, locals())	
 					except:
 						param = '"' + pSplitX + '"'	
 						try:
-							eval(param)	
+							cfg.scp_eval(param, locals())	
 						except:
 							param =  '\'' + pSplitX + '\''	
 							try:
-								eval(param)
+								cfg.scp_eval(param, locals())
 							except:
 								return 'No', 'parameters'
 				else:

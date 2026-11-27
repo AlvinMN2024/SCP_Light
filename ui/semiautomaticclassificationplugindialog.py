@@ -43,7 +43,7 @@ from .ui_semiautomaticclassificationplugin_signature_plot import Ui_SpectralSign
 try:
 	cfg = __import__(str(__name__).split('.')[0] + '.core.config', fromlist=[''])
 except:
-	pass
+	int(0)
 
 # create the dialog
 class SemiAutomaticClassificationPluginDialog(QtWidgets.QDialog):
@@ -85,15 +85,15 @@ class SemiAutomaticClassificationPluginDialog(QtWidgets.QDialog):
 					try:
 						item.reset()
 					except Exception:
-						pass
+						int(0)
 				try:
 					item.hide()
 				except Exception:
-					pass
+					int(0)
 			if getattr(cfg, 'cnvs', None) is not None:
 				cfg.cnvs.refresh()
 		except Exception:
-			pass
+			int(0)
 		QtWidgets.QDialog.closeEvent(self, event)
 		
 	def shape_clip_combo(self, shape):

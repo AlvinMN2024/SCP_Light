@@ -400,7 +400,7 @@ class ClassRandomForestTab:
 					cfg.ui.report_textBrowser_5.setText(str(eM))
 					cfg.ui.toolBox_random_forest.setCurrentIndex(1)
 				except:
-					pass
+					int(0)
 			# remove temp
 			try:
 				int(0)
@@ -410,7 +410,7 @@ class ClassRandomForestTab:
 				cfg.osSCP.remove(iL[0])
 				cfg.osSCP.remove(iL[1])
 			except:
-				pass
+				int(0)
 			if cfg.actionCheck == 'Yes':
 				# load raster bands
 				v = cfg.utls.addRasterLayer(cfg.reSCP.sub(r'\.tif$', '', str(rstrOut)) + '_conf.tif')

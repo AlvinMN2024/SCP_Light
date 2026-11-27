@@ -128,16 +128,16 @@ class SpectralSignaturePlot:
 			id = tW.item(row, vx).text()
 			# find wavelength
 			w = cfg.spectrPlotList['WAVELENGTH_' + str(id)]
-			wlg = eval(str(w))
+			wlg = cfg.scp_eval(str(w), locals())
 			wlgA = cfg.np.array(wlg)
 			wlgB = wlgA - float(self.press[0])
 			wlgIndex = cfg.np.argmin(cfg.np.absolute(wlgB))
 			# values
 			v = cfg.spectrPlotList['VALUES_' + str(id)]
-			val = eval(str(v).replace('nan', '0'))
+			val = cfg.scp_eval(str(v).replace('nan', '0'), locals())
 			if float(self.press[1]) >= val[wlgIndex * 2]:
 				max = cfg.spectrPlotList['LCS_MAX_' + str(id)]
-				lcs_max = eval(str(max))
+				lcs_max = cfg.scp_eval(str(max), locals())
 				if float(self.release[1]) < val[wlgIndex * 2]:
 					lcs_max[wlgIndex] = val[wlgIndex * 2]
 				else:
@@ -146,7 +146,7 @@ class SpectralSignaturePlot:
 				cfg.signList['LCS_MAX_' + str(id)] = lcs_max
 			else:
 				min = cfg.spectrPlotList['LCS_MIN_' + str(id)]
-				lcs_min = eval(str(min))
+				lcs_min = cfg.scp_eval(str(min), locals())
 				if float(self.release[1]) > val[wlgIndex * 2]:
 					lcs_min[wlgIndex] = val[wlgIndex * 2]
 				else:
@@ -190,7 +190,7 @@ class SpectralSignaturePlot:
 			cfg.uisp.Sig_Widget.sigCanvas.ax.set_ylim(yLimMin, yLimMax)
 			cfg.uisp.Sig_Widget.sigCanvas.draw()
 		except:
-			pass
+			int(0)
 			
 	# move plot
 	def move(self):
@@ -203,7 +203,7 @@ class SpectralSignaturePlot:
 			cfg.uisp.Sig_Widget.sigCanvas.ax.set_ylim(yMin + dY, yMax + dY)
 			cfg.uisp.Sig_Widget.sigCanvas.draw()
 		except:
-			pass
+			int(0)
 			
 	# save plot to file
 	def savePlot(self):
@@ -227,7 +227,7 @@ class SpectralSignaturePlot:
 		try:
 			cfg.uisp.Sig_Widget.sigCanvas.ax.set_ylim(self.minVal, self.maxVal)
 		except:
-			pass
+			int(0)
 		# Draw the plot
 		cfg.uisp.Sig_Widget.sigCanvas.draw()
 			
@@ -437,13 +437,13 @@ class SpectralSignaturePlot:
 						self.signatureListPlotTable(cfg.uisp.signature_list_plot_tableWidget)
 						cfg.LCSignT.LCSignatureThresholdListTable()
 					except:
-						pass
+						int(0)
 					try:
 						self.removeSignatureByID(id1)
 						self.signatureListPlotTable(cfg.uisp.signature_list_plot_tableWidget)
 						cfg.LCSignT.LCSignatureThresholdListTable()
 					except:
-						pass
+						int(0)
 					cfg.mx.msgWar20()
 					return intersect
 				sum = cfg.np.array(test).sum()
@@ -621,7 +621,7 @@ class SpectralSignaturePlot:
 				cfg.spectrPlotList["LCS_MIN_" + str(id)] = min
 				cfg.spectrPlotList["LCS_MAX_" + str(id)] = max
 			except:
-				pass
+				int(0)
 		intersect = self.checkIntersections()
 		self.higlightRowsByID(intersect)
 		
@@ -642,7 +642,7 @@ class SpectralSignaturePlot:
 				i.remove()
 			cfg.pF = []
 		except:
-			pass
+			int(0)
 		try:
 			lines = len(cfg.uisp.Sig_Widget.sigCanvas.ax.lines)
 		except Exception as err:
@@ -672,11 +672,11 @@ class SpectralSignaturePlot:
 				nm = str(cfg.spectrPlotList['MACROCLASSID_' + str(b)]) + '#' + str(cfg.spectrPlotList['MACROCLASSINFO_' + str(b)]) + ' ' + str(cfg.spectrPlotList['CLASSID_' + str(b)]) + '#' + str(cfg.spectrPlotList['CLASSINFO_' + str(b)])
 				# wavelength
 				w = cfg.spectrPlotList['WAVELENGTH_' + str(b)]
-				wlg = eval(str(w))
+				wlg = cfg.scp_eval(str(w), locals())
 				# values
 				v = cfg.spectrPlotList['VALUES_' + str(b)]
 				try:
-					val = eval(str(v).replace('nan', '0'))
+					val = cfg.scp_eval(str(v).replace('nan', '0'), locals())
 				except Exception as err:
 					# logger
 					cfg.utls.logCondition(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), ' ERROR exception: ' + str(err))
@@ -685,14 +685,14 @@ class SpectralSignaturePlot:
 						self.signatureListPlotTable(cfg.uisp.signature_list_plot_tableWidget)
 						cfg.LCSignT.LCSignatureThresholdListTable()
 					except:
-						pass
+						int(0)
 					check = 'No'
 				if check == 'Yes':
 					mVal.extend(val)
 					minA = cfg.spectrPlotList['LCS_MIN_' + str(b)]
-					mMS = eval(str(minA).replace('nan', '0'))
+					mMS = cfg.scp_eval(str(minA).replace('nan', '0'), locals())
 					maxA = cfg.spectrPlotList['LCS_MAX_' + str(b)]
-					mPS = eval(str(maxA).replace('nan', '0'))
+					mPS = cfg.scp_eval(str(maxA).replace('nan', '0'), locals())
 					vMin = min(mMS)
 					vMax = max(mPS)
 					if vMin < self.minVal:
@@ -736,7 +736,7 @@ class SpectralSignaturePlot:
 			if (self.maxVal/max(wlg)) > 100:
 				cfg.uisp.Sig_Widget.sigCanvas.ax.set_aspect('auto')
 		except:
-			pass
+			int(0)
 		# Draw the plot
 		cfg.uisp.Sig_Widget.sigCanvas.draw()
 		if self.checkLimits == 'No':
@@ -758,10 +758,10 @@ class SpectralSignaturePlot:
 			for b in sorted(cfg.signPlotIDs.values()):
 				# wavelength
 				w = cfg.spectrPlotList["WAVELENGTH_" + str(b)]
-				wlg = eval(str(w))
+				wlg = cfg.scp_eval(str(w), locals())
 				# values
 				v = cfg.spectrPlotList["VALUES_" + str(b)]
-				val = eval(str(v))
+				val = cfg.scp_eval(str(v), locals())
 				# counter
 				n = 0
 				m = []
@@ -809,7 +809,7 @@ class SpectralSignaturePlot:
 			if float(jeffriesMatusitaDistance) < 1.5:
 				jMColor = highlightColor
 		except:
-			pass
+			int(0)
 		tDColor = "black"
 		if transformedDivergence != 'No':
 			if float(transformedDivergence) < 1.5:

@@ -866,3 +866,104 @@ preprocessing_toolButton = None
 postprocessing_toolButton = None
 settings_toolButton = None
 settings_toolButton = None
+
+import ast as _ast
+import math as _math
+import operator as _op
+import numpy as _np
+
+_SAFE_OPS = {
+    _ast.Add: _op.add, _ast.Sub: _op.sub, _ast.Mult: _op.mul, _ast.Div: _op.truediv,
+    _ast.FloorDiv: _op.floordiv, _ast.Mod: _op.mod, _ast.Pow: _op.pow,
+    _ast.BitAnd: _op.and_, _ast.BitOr: _op.or_, _ast.BitXor: _op.xor,
+    _ast.USub: _op.neg, _ast.UAdd: _op.pos, _ast.Invert: _op.invert, _ast.Not: _op.not_,
+    _ast.Eq: _op.eq, _ast.NotEq: _op.ne, _ast.Lt: _op.lt, _ast.LtE: _op.le,
+    _ast.Gt: _op.gt, _ast.GtE: _op.ge,
+}
+
+def _eval_node(node, ns):
+    if isinstance(node, _ast.Expression):
+        return _eval_node(node.body, ns)
+    if isinstance(node, _ast.Constant):
+        return node.value
+    if isinstance(node, _ast.Name):
+        if node.id in ns:
+            return ns[node.id]
+        raise NameError(node.id)
+    if isinstance(node, _ast.Attribute):
+        val = _eval_node(node.value, ns)
+        if node.attr.startswith("_"):
+            raise AttributeError(node.attr)
+        return getattr(val, node.attr)
+    if isinstance(node, _ast.Subscript):
+        val = _eval_node(node.value, ns)
+        sl = _eval_node(node.slice, ns)
+        return val[sl]
+    if isinstance(node, _ast.Slice):
+        return slice(
+            _eval_node(node.lower, ns) if node.lower else None,
+            _eval_node(node.upper, ns) if node.upper else None,
+            _eval_node(node.step, ns) if node.step else None,
+        )
+    if isinstance(node, _ast.Tuple):
+        return tuple(_eval_node(e, ns) for e in node.elts)
+    if isinstance(node, _ast.List):
+        return [_eval_node(e, ns) for e in node.elts]
+    if isinstance(node, _ast.Dict):
+        return {_eval_node(k, ns): _eval_node(v, ns) for k, v in zip(node.keys, node.values)}
+    if isinstance(node, _ast.BinOp):
+        return _SAFE_OPS[type(node.op)](_eval_node(node.left, ns), _eval_node(node.right, ns))
+    if isinstance(node, _ast.UnaryOp):
+        return _SAFE_OPS[type(node.op)](_eval_node(node.operand, ns))
+    if isinstance(node, _ast.BoolOp):
+        vals = [_eval_node(v, ns) for v in node.values]
+        if isinstance(node.op, _ast.And):
+            res = vals[0]
+            for v in vals[1:]:
+                res = _np.logical_and(res, v) if isinstance(res, _np.ndarray) or isinstance(v, _np.ndarray) else (res and v)
+            return res
+        res = vals[0]
+        for v in vals[1:]:
+            res = _np.logical_or(res, v) if isinstance(res, _np.ndarray) or isinstance(v, _np.ndarray) else (res or v)
+        return res
+    if isinstance(node, _ast.Compare):
+        left = _eval_node(node.left, ns)
+        res = True
+        for op_node, comp in zip(node.ops, node.comparators):
+            right = _eval_node(comp, ns)
+            cur = _SAFE_OPS[type(op_node)](left, right)
+            res = _np.logical_and(res, cur) if isinstance(res, _np.ndarray) or isinstance(cur, _np.ndarray) else (res and cur)
+            left = right
+        return res
+    if isinstance(node, _ast.IfExp):
+        return _eval_node(node.body, ns) if _eval_node(node.test, ns) else _eval_node(node.orelse, ns)
+    if isinstance(node, _ast.Call):
+        fn = _eval_node(node.func, ns)
+        args = [_eval_node(a, ns) for a in node.args]
+        kwargs = {kw.arg: _eval_node(kw.value, ns) for kw in node.keywords if kw.arg}
+        return fn(*args, **kwargs)
+    raise ValueError(f"Unsupported AST node: {type(node).__name__}")
+
+def scp_eval(expr, local_vars=None):
+    if not isinstance(expr, str):
+        return expr
+    s = expr.strip()
+    if s == "nan":
+        return float("nan")
+    try:
+        return _ast.literal_eval(s)
+    except Exception:
+        int(0)
+    if s.startswith("cfg.ui."):
+        return getattr(ui, s[7:])
+    if s.startswith("cfg.uidc."):
+        return getattr(uidc, s[9:])
+    if s.startswith("cfg.") and "." not in s[4:]:
+        return globals()[s[4:]]
+    ns = {"np": _np, "numpy": _np, "math": _math, "nan": float("nan"), "inf": float("inf"),
+          "True": True, "False": False, "None": None, "int": int, "float": float, "str": str,
+          "len": len, "min": min, "max": max, "abs": abs, "round": round, "range": range, "list": list}
+    if local_vars:
+        ns.update(local_vars)
+    tree = _ast.parse(s, mode="eval")
+    return _eval_node(tree, ns)

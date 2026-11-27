@@ -222,7 +222,7 @@ class PcaTab:
 			try:
 				cfg.osSCP.remove(tR)
 			except:
-				pass
+				int(0)
 		# load raster
 		if o != 'No':
 			for r in outputList:

@@ -79,7 +79,7 @@ class SigThresholdTab:
 				cfg.signList['ML_THRESHOLD_' + str(id)] = wIML
 				cfg.signList['SAM_THRESHOLD_' + str(id)] = wISAM
 			except:
-				pass
+				int(0)
 
 	# edited threshold table
 	def editedThresholdTable(self, row, column):
@@ -152,7 +152,7 @@ class SigThresholdTab:
 					try:
 						cfg.utls.setTableItem(tW, c[0], 6, str(wvSAM))
 					except:
-						pass
+						int(0)
 				elif c[1] == 5:
 					wvML = cfg.ui.threshold_doubleSpinBox.value()
 					if wvML > 100:
@@ -161,13 +161,13 @@ class SigThresholdTab:
 					try:
 						cfg.utls.setTableItem(tW, c[0], 5, str(wvML))
 					except:
-						pass
+						int(0)
 				else:
 					wv = cfg.ui.threshold_doubleSpinBox.value()
 					try:
 						cfg.utls.setTableItem(tW, c[0], 4, str(wv))
 					except:
-						pass
+						int(0)
 		else:
 			pass
 		tW.setSortingEnabled(True)

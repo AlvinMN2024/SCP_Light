@@ -81,7 +81,7 @@ class MosaicBandSets:
 				bandSetList = list(range(1, len(cfg.bandSetsList)+1))
 			else:
 				try:
-					bandSetList = eval(bandSetList)
+					bandSetList = cfg.scp_eval(bandSetList, locals())
 				except:
 					cfg.mx.msgWar28()
 					return 'No'

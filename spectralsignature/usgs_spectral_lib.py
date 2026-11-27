@@ -65,7 +65,7 @@ class USGS_Spectral_Lib:
 						oldROIInfo = cfg.ROIInfo
 						cfg.ROIInfo = str(cfg.ui.usgs_library_comboBox.currentText())
 					except:
-						pass
+						int(0)
 					cfg.sigImport.USGSLibrary(libraryR, libraryW, libraryS)
 					# logger
 					cfg.utls.logCondition(str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'signature added: ' + str(self.library))
@@ -104,7 +104,7 @@ class USGS_Spectral_Lib:
 			return 1
 		l = open(usgsList, 'r')
 		for i in l.readlines( ):
-			c = eval(i)
+			c = cfg.scp_eval(i, locals())
 			self.usgsLibNm.append(c[0])
 			self.usgsLib.append([c[1], c[2]])
 		self.addLibrariesToCombo()

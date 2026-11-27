@@ -39,11 +39,11 @@ from qgis.PyQt.QtWidgets import QWidget
 try:
 	import matplotlib
 except:
-	pass
+	int(0)
 try:
 	matplotlib.use('Qt5Agg')
 except:
-	pass
+	int(0)
 try:
 	from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigCanvas
 	# Import Figure

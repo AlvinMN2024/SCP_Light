@@ -856,12 +856,12 @@ class LandsatTab:
 										try:
 											dRadMB['RADIANCE_MULT_' + str(key)] = str(float(r.split()[2]))
 										except:
-											pass
+											int(0)
 									if 'BIAS_' + str(key) in r.split() or ('BIAS_' + str(key)).replace('BAND_', 'BAND') in r.split():
 										try:
 											dRadAB['RADIANCE_ADD_' + str(key)] = str(float(r.split()[2]))
 										except:
-											pass
+											int(0)
 								except Exception as err:
 									# logger
 									cfg.utls.logCondition(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), ' ERROR exception: ' + str(err))	
@@ -874,51 +874,51 @@ class LandsatTab:
 								try:
 									cfg.utls.addTableItem(l, 0.0001, b, 3)
 								except:
-									pass
+									int(0)
 								try:
 									cfg.utls.addTableItem(l, 0, b, 4)
 								except:
-									pass
+									int(0)
 							if dRadMB:
 								try:
 									cfg.utls.addTableItem(l, dRadMB['RADIANCE_MULT_' + str(key)], b, 1)
 								except:
-									pass
+									int(0)
 							if dRadAB:
 								try:
 									cfg.utls.addTableItem(l, dRadAB['RADIANCE_ADD_' + str(key)], b, 2)
 								except:
-									pass
+									int(0)
 							if dRefMB:
 								try:
 									cfg.utls.addTableItem(l, dRefMB['REFLECTANCE_MULT_' + str(key)], b, 3)
 								except:
-									pass
+									int(0)
 							if dRefAB:
 								try:
 									cfg.utls.addTableItem(l, dRefAB['REFLECTANCE_ADD_' + str(key)], b, 4)
 								except:
-									pass
+									int(0)
 							if dRadMxB:
 								try:
 									cfg.utls.addTableItem(l, dRadMxB['RADIANCE_MAXIMUM_' + str(key)], b, 5)
 								except:
-									pass
+									int(0)
 							if dRefMxB:
 								try:
 									cfg.utls.addTableItem(l, dRefMxB['REFLECTANCE_MAXIMUM_' + str(key)], b, 6)
 								except:
-									pass
+									int(0)
 							if dK1B:
 								try:
 									cfg.utls.addTableItem(l, dK1B['K1_CONSTANT_' + str(key)], b, 7)
 								except:
-									pass
+									int(0)
 							if dK2B:
 								try:
 									cfg.utls.addTableItem(l, dK2B['K2_CONSTANT_' + str(key)], b, 8)
 								except:
-									pass
+									int(0)
 							if dRad:
 								try:
 									cfg.utls.addTableItem(l, dRad['LMAX_' + str(key)], b, 9)
@@ -926,7 +926,7 @@ class LandsatTab:
 									cfg.utls.addTableItem(l, dRad['QCALMAX_' + str(key)], b, 11)
 									cfg.utls.addTableItem(l, dRad['QCALMIN_' + str(key)], b, 12)
 								except:
-									pass
+									int(0)
 					b = b + 1
 				if batch == 'No':
 					cfg.uiUtls.removeProgressBar()			

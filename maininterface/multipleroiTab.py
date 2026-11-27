@@ -85,7 +85,7 @@ class MultipleROITab:
 			try:
 				cfg.ui.stratified_lineEdit.setStyleSheet("color : green")
 				check = 'Yes'
-				eval(b.replace(cfg.variableName, "1"))
+				cfg.scp_eval(b.replace(cfg.variableName, "1"), locals())
 				if b.strip() == cfg.variableName:
 					cfg.ui.stratified_lineEdit.setStyleSheet("color : red")
 					check = 'No'
@@ -188,7 +188,7 @@ class MultipleROITab:
 			try:
 				pP = cfg.lstPnt
 			except:
-				pass
+				int(0)
 			cfg.uiUtls.addProgressBar()
 			rpdROICheckOrig = cfg.rpdROICheck
 			for i in range(0, c):
@@ -265,7 +265,7 @@ class MultipleROITab:
 			try:
 				cfg.lstPnt = pP
 			except:
-				pass
+				int(0)
 			# logger
 			cfg.utls.logCondition(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), ' ROI created')
 
@@ -302,7 +302,7 @@ class MultipleROITab:
 					RangRad = tW.item(i,8).text()
 					RBand = tW.item(i,9).text()
 				except:
-					pass
+					int(0)
 				txt = X + sep + Y + sep + MID + sep + MInf + sep + CID + sep + CInf + sep + MinSize + sep + MaxWidth + sep + RangRad + sep + RBand+ '\n'
 				f.write(txt)
 				f.close()
@@ -340,7 +340,7 @@ class MultipleROITab:
 							RangRad = p[8]
 							RBand = p[9]
 						except:
-							pass
+							int(0)
 						# add item to table
 						c = tW.rowCount()
 						# add list items to table

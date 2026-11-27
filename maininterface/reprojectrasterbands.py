@@ -238,13 +238,13 @@ class ReprojectRasterBands:
 					try:
 						extra = '-tr ' + str(float(xResolution)) + ' ' + str(float(yResolution))
 					except:
-						pass
+						int(0)
 				else:
 					leftR, rightR, topR, bottomR, pXR, pYR, rPR, unitR = cfg.utls.imageGeoTransform(alignRasterPath)	
 					try:
 						extra = '-tr ' + str(float(xResolution)) + ' ' + str(float(yResolution)) + ' -te ' + str(leftR) + ' ' + str(bottomR) + ' ' + str(rightR) + ' ' + str(topR)
 					except:
-						pass
+						int(0)
 			# resample
 			else:
 				if EPSG == 'No':
@@ -271,13 +271,13 @@ class ReprojectRasterBands:
 					try:
 						extra = '-tr ' + str(pX) + ' ' + str(pY)
 					except:
-						pass
+						int(0)
 				else:
 					leftR, rightR, topR, bottomR, pXR, pYR, rPR, unitR = cfg.utls.imageGeoTransform(alignRasterPath)	
 					try:
 						extra = '-tr ' + str(pX) + ' ' + str(pY) + ' -te ' + str(leftR) + ' ' + str(bottomR) + ' ' + str(rightR) + ' ' + str(topR)
 					except:
-						pass
+						int(0)
 			if str(l).lower().endswith('.tif'):
 				pass
 			else:

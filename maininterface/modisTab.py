@@ -119,7 +119,7 @@ class MODISTab:
 							bandSetNameList.append(pre + bandName)
 							convInputList.append([inputRaster, e, outputRaster])
 					except:
-						pass
+						int(0)
 		# conversion
 		inputList = []
 		argumentList = []
@@ -155,7 +155,7 @@ class MODISTab:
 				try:
 					cfg.osSCP.remove(tmpR)
 				except:
-					pass
+					int(0)
 			# create band set
 			if cfg.ui.create_bandset_checkBox.isChecked() is True:
 				if cfg.ui.add_new_bandset_checkBox_5.isChecked() is True:
@@ -169,7 +169,7 @@ class MODISTab:
 					cfg.bst.setSatelliteWavelength(cfg.satMODIS2, None, bandSetNumber)	
 				if bandSetNumber is None:
 					bandSetNumber = cfg.ui.Band_set_tabWidget.currentIndex()
-				tW = eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber])
+				tW = cfg.scp_eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber], locals())
 				tW.clearSelection()
 				tW.selectRow(0)
 				tW.selectRow(1)
@@ -238,7 +238,7 @@ class MODISTab:
 							try:
 								bandNames.append(fileNm + '_' + nm.split('b')[1][0:2])
 							except:
-								pass
+								int(0)
 			# add band items to table
 			b = 0
 			for band in sorted(bandNames):				

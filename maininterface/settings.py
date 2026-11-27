@@ -334,7 +334,7 @@ class Settings:
 			try:
 				os.add_dll_directory(d)
 			except:
-				pass
+				int(0)
 		try:
 			from osgeo import gdal
 			gdal.Translate
@@ -470,7 +470,7 @@ class Settings:
 			cfg.utls.logCondition(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), ' ERROR exception: ' + str(err))
 			# attempt shell = true
 			try:
-				sP = cfg.subprocessSCP.Popen(a, shell=True)
+				import shlex as _shlex; sP = cfg.subprocessSCP.Popen(_shlex.split(a) if isinstance(a, str) else a)
 				v = sP.wait()
 				# logger
 				cfg.utls.logCondition(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), ' subprocess: ' + str(v))

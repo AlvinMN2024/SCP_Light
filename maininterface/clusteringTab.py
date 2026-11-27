@@ -229,7 +229,7 @@ class ClusteringTab:
 				try:
 					cfg.osSCP.remove(r)
 				except:
-					pass
+					int(0)
 				r, sigs, sL = self.isodataIteration(rD, bL, iteration, k_or_sigs, classNumber, iterations, thresh, minSize, maxStandardDeviation, NoDataValue, batch, bandSetNumber)
 				cfg.uiUtls.updateBar(20 + progressStep, cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', ' Calculating iteration: ' + str(iteration + 1).replace('-1', '*').replace('0', '*') + '. Please wait ...'))
 				k_or_sigs = sigs
@@ -270,13 +270,13 @@ class ClusteringTab:
 				try:
 					cfg.osSCP.remove(r)
 				except:
-					pass
+					int(0)
 			else:
 				cfg.shutilSCP.copy(r, outputFile)
 				try:
 					cfg.osSCP.remove(r)
 				except:
-					pass
+					int(0)
 			# add raster to layers
 			l =cfg.utls.addRasterLayer(outputFile)
 			cfg.utls.rasterSymbol(l, sL, 'No')
@@ -382,7 +382,7 @@ class ClusteringTab:
 												except:
 													cfg.rasterClustering[xK] = ar[0][xK]
 								except:
-									pass
+									int(0)
 						except:
 							if batch == 'No':
 								cfg.utls.finishSound()
@@ -520,15 +520,15 @@ class ClusteringTab:
 						try:
 							cfg.osSCP.remove(oT)
 						except:
-							pass
+							int(0)
 					for oTS in outSigDict:
 						for oT in outSigDict[oTS]:
 							try:
 								cfg.osSCP.remove(oT)
 							except:
-								pass	
+								int(0)	
 				except:
-					pass
+					int(0)
 				return tPMDC, None, None
 			bLC = bL.copy()
 			bLC.append(tPMDC)
@@ -574,7 +574,7 @@ class ClusteringTab:
 										except:
 											cfg.rasterClustering[xK] = ar[0][xK]
 						except:
-							pass
+							int(0)
 				except:
 					if batch == 'No':
 						cfg.utls.finishSound()
@@ -625,7 +625,7 @@ class ClusteringTab:
 											except:
 												cfg.rasterClustering[xK] = ar[0][xK]
 						except:
-							pass
+							int(0)
 				except:
 					if batch == 'No':
 						cfg.utls.finishSound()
@@ -786,15 +786,15 @@ class ClusteringTab:
 					try:
 						cfg.osSCP.remove(oT)
 					except:
-						pass
+						int(0)
 				for oTS in outSigDict:
 					for oT in outSigDict[oTS]:
 						try:
 							cfg.osSCP.remove(oT)
 						except:
-							pass	
+							int(0)	
 			except:
-				pass
+				int(0)
 			return tPMDC, signatures2, signatureList2
 		else:
 			return 'No', None, None
@@ -821,7 +821,7 @@ class ClusteringTab:
 				try:
 					cfg.osSCP.remove(r)
 				except:
-					pass
+					int(0)
 				r, sigs, sL, distances = self.kmeansIteration(rD, bL, iteration, k_or_sigs, iterations, thresh, NoDataValue, batch, bandSetNumber)
 				cfg.uiUtls.updateBar(20 + progressStep, cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', ' Calculating iteration: ' + str(iteration + 1).replace('-1', '*').replace('0', '*') + '. Please wait ...'))
 				k_or_sigs = sigs
@@ -855,13 +855,13 @@ class ClusteringTab:
 				try:
 					cfg.osSCP.remove(r)
 				except:
-					pass
+					int(0)
 			else:
 				cfg.shutilSCP.copy(r, outputFile)
 				try:
 					cfg.osSCP.remove(r)
 				except:
-					pass
+					int(0)
 			# add raster to layers
 			l =cfg.utls.addRasterLayer(outputFile)
 			cfg.utls.rasterSymbol(l, sL, 'No')
@@ -970,7 +970,7 @@ class ClusteringTab:
 												except:
 													cfg.rasterClustering[xK] = ar[0][xK]
 								except:
-									pass
+									int(0)
 						except:
 							if batch == 'No':
 								cfg.utls.finishSound()
@@ -1104,15 +1104,15 @@ class ClusteringTab:
 						try:
 							cfg.osSCP.remove(oT)
 						except:
-							pass
+							int(0)
 					for oTS in outSigDict:
 						for oT in outSigDict[oTS]:
 							try:
 								cfg.osSCP.remove(oT)
 							except:
-								pass	
+								int(0)	
 				except:
-					pass
+					int(0)
 				return tPMDC, None, None, None
 			bLC = bL.copy()
 			bLC.append(tPMDC)
@@ -1153,7 +1153,7 @@ class ClusteringTab:
 											except:
 												cfg.rasterClustering[xK] = ar[0][xK]
 						except:
-							pass
+							int(0)
 				except:
 					if batch == 'No':
 						cfg.utls.finishSound()
@@ -1212,15 +1212,15 @@ class ClusteringTab:
 					try:
 						cfg.osSCP.remove(oT)
 					except:
-						pass
+						int(0)
 				for oTS in outSigDict:
 					for oT in outSigDict[oTS]:
 						try:
 							cfg.osSCP.remove(oT)
 						except:
-							pass	
+							int(0)	
 			except:
-				pass
+				int(0)
 			if max(distances) <= thresh:
 				return None, signatures2, signatureList2, distances
 			else:

@@ -48,7 +48,7 @@ class AlgWeightTab:
 		cfg.utls.logCondition(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), ' reset Algorithm Table')
 		for index in range(0, len(cfg.bandSetsList)):
 			self.tableEdited = 'No'
-			tW = eval('cfg.ui.alg_weight_tableWidget_' + str(index))
+			tW = cfg.scp_eval('cfg.ui.alg_weight_tableWidget_' + str(index), locals())
 			cfg.utls.clearTable(tW)
 			bandNameList = cfg.bandSetsList[index][3]
 			for bd in bandNameList:
@@ -67,7 +67,7 @@ class AlgWeightTab:
 		cfg.utls.logCondition(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), ' load Algorithm Table')
 		if cfg.bndSetNumber >= 0:
 			self.tableEdited = 'No'
-			tW = eval('cfg.ui.alg_weight_tableWidget_' + str(index))
+			tW = cfg.scp_eval('cfg.ui.alg_weight_tableWidget_' + str(index), locals())
 			cfg.utls.clearTable(tW)
 			bandNameList = cfg.bandSetsList[index][3]
 			for bd in bandNameList:
@@ -83,7 +83,7 @@ class AlgWeightTab:
 	# read algorithm table
 	def readAlgorithmTable(self):
 		if cfg.bndSetNumber >= 0:
-			tW = eval('cfg.ui.alg_weight_tableWidget_' + str(cfg.bndSetNumber))
+			tW = cfg.scp_eval('cfg.ui.alg_weight_tableWidget_' + str(cfg.bndSetNumber), locals())
 			w = []
 			c = tW.rowCount()
 			for b in range(0, c):
@@ -100,8 +100,8 @@ class AlgWeightTab:
 		band_set_tab.setObjectName(cfg.bandSetName + str(t + 1))	
 		gridLayout = cfg.QtWidgetsSCP.QGridLayout(band_set_tab)
 		gridLayout.setObjectName('gridLayout' + str(t + 1)) 
-		exec('cfg.ui.alg_weight_tableWidget_' + str(t) + ' = cfg.QtWidgetsSCP.QTableWidget(band_set_tab)')
-		tW = eval('cfg.ui.alg_weight_tableWidget_' + str(t))
+		tW = cfg.QtWidgetsSCP.QTableWidget(band_set_tab)
+		setattr(cfg.ui, "alg_weight_tableWidget_" + str(t), tW)
 		tW.setFrameShape(cfg.QtWidgetsSCP.QFrame.Shape.WinPanel)
 		tW.setFrameShadow(cfg.QtWidgetsSCP.QFrame.Shadow.Sunken)
 		tW.setAlternatingRowColors(False)
@@ -130,7 +130,7 @@ class AlgWeightTab:
 		try:
 			tW.cellChanged.disconnect()
 		except:
-			pass
+			int(0)
 		tW.cellChanged.connect(cfg.algWT.editedWeightTable)
 		cfg.ui.alg_band_weight_tabWidget.addTab(band_set_tab, cfg.bandSetName + str(t + 1))
 		# logger
@@ -148,7 +148,7 @@ class AlgWeightTab:
 	def editedWeightTable(self, row, column):
 		bandSetNumber = cfg.ui.alg_band_weight_tabWidget.currentIndex()
 		if self.tableEdited == 'Yes':
-			tW = eval('cfg.ui.alg_weight_tableWidget_' + str(bandSetNumber))
+			tW = cfg.scp_eval('cfg.ui.alg_weight_tableWidget_' + str(bandSetNumber), locals())
 			t = tW.item(row, column).text()
 			try:
 				float(t)
@@ -167,7 +167,7 @@ class AlgWeightTab:
 	def setWeights(self):
 		self.tableEdited = 'No'
 		bandSetNumber = cfg.ui.alg_band_weight_tabWidget.currentIndex()
-		tW = eval('cfg.ui.alg_weight_tableWidget_' + str(bandSetNumber))
+		tW = cfg.scp_eval('cfg.ui.alg_weight_tableWidget_' + str(bandSetNumber), locals())
 		iR = []
 		for i in tW.selectedIndexes():
 			iR.append(i.row())

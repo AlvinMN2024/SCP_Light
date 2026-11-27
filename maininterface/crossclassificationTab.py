@@ -152,15 +152,15 @@ class CrossClassification:
 								try:
 									cfg.utls.removeLayerByLayer(reml)
 								except:
-									pass
+									int(0)
 								try:
 									cfg.utls.removeLayerByLayer(remiClass)
 								except:
-									pass
+									int(0)
 								try:
 									cfg.utls.removeLayerByLayer(remiClass2)
 								except:
-									pass
+									int(0)
 								# logger
 								cfg.utls.logCondition(str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), ' ERROR exception: ' + str(err))
 								return 'No'
@@ -243,7 +243,7 @@ class CrossClassification:
 					try:
 						refRasterBandUniqueVal.remove(nD)
 					except:
-						pass
+						int(0)
 					bandsUniqueVal.append(refRasterBandUniqueVal)
 					if 0 in refRasterBandUniqueVal:
 						k.append(1)
@@ -323,15 +323,15 @@ class CrossClassification:
 					try:
 						cfg.utls.removeLayerByLayer(reml)
 					except:
-						pass
+						int(0)
 					try:
 						cfg.utls.removeLayerByLayer(remiClass)
 					except:
-						pass
+						int(0)
 					try:
 						cfg.utls.removeLayerByLayer(remiClass2)
 					except:
-						pass
+						int(0)
 					# logger
 					cfg.utls.logCondition(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'Error')
 					return 'No'
@@ -369,7 +369,7 @@ class CrossClassification:
 						cmbX = cmbntns[values[v]]
 						rasterBandUniqueVal[(cmbX[0], cmbX[1])] = [reclRasterBandUniqueVal[values[v]], values[v]]
 					except:
-						pass
+						int(0)
 				cfg.uiUtls.updateBar(80)
 				col2 = list(set(col))
 				row2 = list(set(row))
@@ -384,15 +384,15 @@ class CrossClassification:
 					try:
 						cfg.utls.removeLayerByLayer(reml)
 					except:
-						pass
+						int(0)
 					try:
 						cfg.utls.removeLayerByLayer(remiClass)
 					except:
-						pass
+						int(0)
 					try:
 						cfg.utls.removeLayerByLayer(remiClass2)
 					except:
-						pass
+						int(0)
 					# logger
 					cfg.utls.logCondition(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), ' ERROR exception: ' + str(err))
 					return 'No'
@@ -431,7 +431,7 @@ class CrossClassification:
 								Syy = Syy + rasterBandUniqueVal[v][0] * (r - rYMean)**2
 								Sxy = Sxy + (c - rXMean) * (r - rYMean) * rasterBandUniqueVal[v][0]
 							except:
-								pass
+								int(0)
 					try:
 						rCoeff = Sxy / (Sxx * Syy)**0.5
 						rCoeff2 = rCoeff**2
@@ -540,15 +540,15 @@ class CrossClassification:
 				try:
 					cfg.utls.removeLayerByLayer(reml)
 				except:
-					pass
+					int(0)
 				try:
 					cfg.utls.removeLayerByLayer(remiClass)
 				except:
-					pass
+					int(0)
 				try:
 					cfg.utls.removeLayerByLayer(remiClass2)
 				except:
-					pass
+					int(0)
 				if batch == 'No':
 					# enable map canvas render
 					cfg.cnvs.setRenderFlag(True)
@@ -574,7 +574,7 @@ class CrossClassification:
 					if str(i.typeName()).lower() != 'string':
 						cfg.dlg.class_field_combo_2(str(i.name()))
 		except:
-			pass
+			int(0)
 		# logger
 		cfg.utls.logCondition(str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'reference layer name: ' + str(cfg.referenceLayer2))
 	

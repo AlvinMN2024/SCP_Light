@@ -151,7 +151,7 @@ class BandCalcTab:
 				try:
 					w = e
 				except:
-					pass
+					int(0)
 				try:
 					value = tW.item(row, 0).text()
 					t = tW.item(row, 1).text()
@@ -166,7 +166,7 @@ class BandCalcTab:
 				try:
 					e = w.replace('str(NoDataValue)', str(e))
 				except:
-					pass
+					int(0)
 			e = e.replace('str(NoDataValue)', str(NoDataValue))
 			return e
 		
@@ -429,7 +429,7 @@ class BandCalcTab:
 								e = v[1].strip()
 								cfg.expressionListBC.append([n, e])
 							except:
-								pass
+								int(0)
 							# logger
 							cfg.utls.logCondition(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), " expressions imported")
 						# save in registry
@@ -784,7 +784,7 @@ class BandCalcTab:
 							ee = ee.replace('$', '\'').replace('!!', ';')
 							dCheck, function = cfg.batchT.checkExpressionLine(ee)
 							try:
-								eval(function)
+								cfg.scp_eval(function, locals())
 							except Exception as err:
 								cfg.mx.msgErr36()
 								# logger
@@ -1035,7 +1035,7 @@ class BandCalcTab:
 											iCrs = cfg.utls.getCrs(bN0)
 											cfg.utls.removeLayerByLayer(bN0)
 										except:
-											pass
+											int(0)
 										# image CRS
 										if iCrs is None:
 											iCrs = pCrs
@@ -1134,7 +1134,7 @@ class BandCalcTab:
 												eNBS = int(eNBS) - 1
 											cfg.bst.addBandToBandSet(eN, eNBS)
 										except:
-											pass
+											int(0)
 							it = it + 1
 				cfg.uiUtls.updateBar(100)
 				if batch == 'No':
@@ -1240,7 +1240,7 @@ class BandCalcTab:
 					except:
 						# list of band sets
 						try:
-							bsetListA = eval(foB)
+							bsetListA = cfg.scp_eval(foB, locals())
 						except:
 							checkO = 'No'
 					if filterBS is None:
@@ -1257,7 +1257,7 @@ class BandCalcTab:
 										bsetList.append(j)
 										break
 							except:
-								pass
+								int(0)
 					e.pop(0)
 				# bands in band set iteration
 				if cfg.forbandsinbandset in e[0]:
@@ -1269,7 +1269,7 @@ class BandCalcTab:
 					except:
 						# list of band sets
 						try:
-							bsetList = eval(foB)
+							bsetList = cfg.scp_eval(foB, locals())
 						except:
 							checkO = 'No'
 					e.pop(0)
@@ -1301,7 +1301,7 @@ class BandCalcTab:
 									rg = lrgL.split(':')
 									dtRList.append([cfg.datetimeSCP.datetime.strptime(rg[0].strip(), '%Y-%m-%d'), cfg.datetimeSCP.datetime.strptime(rg[1].strip(), '%Y-%m-%d')])
 								except:
-									pass
+									int(0)
 						except:
 							checkO = 'No'
 					else:
@@ -1336,7 +1336,7 @@ class BandCalcTab:
 													bsetList.append(j+1)
 													break
 								except:
-									pass
+									int(0)
 						else:
 							# range of dates
 							for j in range(0, len(cfg.bandSetsList)):
@@ -1358,7 +1358,7 @@ class BandCalcTab:
 														bsetList.append(j+1)
 														break
 								except:
-									pass
+									int(0)
 					e.pop(0)
 			except Exception as err:
 				# logger
@@ -1400,73 +1400,73 @@ class BandCalcTab:
 							try:
 								nm = nm.replace(cfg.variableOutputNameBandset, cfg.bandSetsList[b-1][3][0][:-2])
 							except:
-								pass
+								int(0)
 							try:
 								nm = nm.replace(cfg.variableOutputNameDate, dT)
 							except:
-								pass
+								int(0)
 							try:
 								nm, bsN = nm.split('%')
 								nm = nm.strip()
 							except:
-								pass
+								int(0)
 							# replace variables
 							findB = cfg.utls.findBandNumber(b-1)
 							try:
 								f = f.replace(cfg.variableOutputNameBandset, cfg.bandSetsList[b-1][3][0][:-2])
 							except:
-								pass
+								int(0)
 							if findB == 'Yes':
 								if cfg.bandSetsList[b-1][0] == 'Yes':
 									try:
 										f = f.replace(cfg.variableRedName, cfg.bandSetsList[b-1][3][int(cfg.REDBand) - 1])
 									except:
-										pass
+										int(0)
 									try:
 										f = f.replace(cfg.variableNIRName, cfg.bandSetsList[b-1][3][int(cfg.NIRBand) - 1])	
 									except:
-										pass
+										int(0)
 									try:
 										f = f.replace(cfg.variableBlueName, cfg.bandSetsList[b-1][3][int(cfg.BLUEBand) - 1])
 									except:
-										pass
+										int(0)
 									try:
 										f = f.replace(cfg.variableGreenName, cfg.bandSetsList[b-1][3][int(cfg.GREENBand) - 1])
 									except:
-										pass
+										int(0)
 									try:
 										f = f.replace(cfg.variableSWIR1Name, cfg.bandSetsList[b-1][3][int(cfg.SWIR1Band) - 1])
 									except:
-										pass
+										int(0)
 									try:
 										f = f.replace(cfg.variableSWIR2Name, cfg.bandSetsList[b-1][3][int(cfg.SWIR2Band) - 1])
 									except:
-										pass
+										int(0)
 								else:
 									try:
 										f = f.replace(cfg.variableRedName, cfg.variableBandsetName + '#b' + str(cfg.REDBand))
 									except:
-										pass
+										int(0)
 									try:
 										f = f.replace(cfg.variableNIRName, cfg.variableBandsetName + '#b' + str(cfg.NIRBand))
 									except:
-										pass
+										int(0)
 									try:
 										f = f.replace(cfg.variableBlueName, cfg.variableBandsetName + '#b' + str(cfg.BLUEBand))
 									except:
-										pass
+										int(0)
 									try:
 										f = f.replace(cfg.variableGreenName, cfg.variableBandsetName + '#b' + str(cfg.GREENBand))
 									except:
-										pass
+										int(0)
 									try:
 										f = f.replace(cfg.variableSWIR1Name, cfg.variableBandsetName + '#b' + str(cfg.SWIR1Band))
 									except:
-										pass
+										int(0)
 									try:
 										f = f.replace(cfg.variableSWIR2Name, cfg.variableBandsetName + '#b' + str(cfg.SWIR2Band))
 									except:
-										pass
+										int(0)
 								# replace previous output names
 								#for r in nmList:
 								#	f = f.replace(r[0], r[1])
@@ -1515,7 +1515,7 @@ class BandCalcTab:
 												except:
 													h.append(f)
 							except:
-								pass
+								int(0)
 				e = h
 			for nf in e:
 				nm = None
@@ -1530,16 +1530,16 @@ class BandCalcTab:
 					try:
 						nm = nf.split('@')[1].strip()
 					except:
-						pass
+						int(0)
 				try:
 					nm = nm.replace(cfg.variableOutputNameBandset, cfg.utls.fileName(cfg.bndSetLst[0]).rpartition('.')[0][:-2])
 				except:
-					pass
+					int(0)
 				try:
 					dT = cfg.utls.getTime()
 					nm = nm.replace(cfg.variableOutputNameDate, dT)
 				except:
-					pass
+					int(0)
 				# logger
 				cfg.utls.logCondition(str(__name__) + "-" + (cfg.inspectSCP.stack()[0][3])+ " " + cfg.utls.lineOfCode(), str(nameList))
 				# replace NoData values
@@ -1550,7 +1550,7 @@ class BandCalcTab:
 						nm, bsN = nm.split('%')
 						nm = nm.strip()
 					except:
-						pass
+						int(0)
 					if nm.lower().endswith('.vrt'):
 						vrt = 'Yes'
 					if nm.lower().endswith('.tif') or nm.lower().endswith('.vrt'):
@@ -1574,7 +1574,7 @@ class BandCalcTab:
 					f = cfg.utls.replaceNumpyOperators(f)
 					rasterSCPArrayfunctionBand = cfg.np.arange(9).reshape(3, 3)
 					try:
-						o = eval(f)
+						o = cfg.scp_eval(f, locals())
 						cfg.ui.plainTextEdit_calc.setStyleSheet('color : green')
 						if cfg.bandCalcIndex == 0:
 							self.expressionButton = True

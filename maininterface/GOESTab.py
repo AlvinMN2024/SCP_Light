@@ -77,7 +77,7 @@ class GOESTab:
 						if int(bNmb) in range(1,7):
 							bandNames.append(f)
 					except:
-						pass
+						int(0)
 			cfg.uiUtls.updateBar(50)
 			# add band items to table
 			b = 0
@@ -213,7 +213,7 @@ class GOESTab:
 							dots = ''
 						cfg.uiUtls.updateBar(message = cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'Reprojecting') + dots)
 					except:
-						pass
+						int(0)
 				cfg.QtWidgetsSCP.QApplication.instance().processEvents()
 				if cfg.actionCheck != 'Yes':
 					break
@@ -297,7 +297,7 @@ class GOESTab:
 					cfg.bst.setSatelliteWavelength(cfg.satGOES, bandSetList, bandSetNumber)				
 					if bandSetNumber is None:
 						bandSetNumber = cfg.ui.Band_set_tabWidget.currentIndex()
-					tW = eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber])
+					tW = cfg.scp_eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber], locals())
 					tW.clearSelection()
 				cfg.bst.bandSetTools(oDir)
 				# remove temporary files
@@ -305,7 +305,7 @@ class GOESTab:
 					for t in tempRasterList1:
 						cfg.osSCP.remove(t)
 				except:
-					pass
+					int(0)
 		if batch == 'No':
 			cfg.utls.finishSound()
 			cfg.utls.sendSMTPMessage(None, str(__name__))

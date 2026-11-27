@@ -606,7 +606,7 @@ class ClassificationTab:
 				try:
 					cfg.osSCP.remove(oC)
 				except:
-					pass
+					int(0)
 		opOut = []
 		if algRasterPath is not None:
 			if vrtR == 'Yes':
@@ -628,7 +628,7 @@ class ClassificationTab:
 					try:
 						cfg.osSCP.remove(oA)
 					except:
-						pass
+						int(0)
 				rOBaseNm = cfg.osSCP.path.dirname(outputRasterPath)
 			for s in range(0, len(signatureList)):
 				sLR = str(signatureList[s][0]) + '_' + str(signatureList[s][2])
@@ -656,20 +656,20 @@ class ClassificationTab:
 						gcopy = cfg.utls.GDALCopyRaster(tPMDS, opO, 'GTiff', compress, 'LZW')
 						opOut.append(opO)
 					except:
-						pass
+						int(0)
 		else:
 			for oA in outputAlgs:
 				try:
 					cfg.osSCP.remove(oA)
 				except:
-					pass
+					int(0)
 			for s in range(0, len(signatureList)):
 				sLR = str(signatureList[s][0]) + '_' + str(signatureList[s][2])
 				try:
 					for oS in outSigDict[sLR]	:
 						cfg.osSCP.remove(oS)
 				except:
-					pass
+					int(0)
 		# create raster table (removed because of some issues)
 		#cfg.utls.createRasterTable(outputRasterPath, 1, signatureList)
 		return 'Yes', cOut, algRasterPath, opOut

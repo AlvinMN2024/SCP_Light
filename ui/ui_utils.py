@@ -110,13 +110,13 @@ class Ui_Utils:
 			try:
 				cfg.subprocDictProc['proc_'+ str(p)].kill()
 			except:
-				pass
+				int(0)
 		# terminate multiprocessing
 		try:
 			cfg.pool.close()
 			cfg.pool.terminate()
 		except:
-			pass
+			int(0)
 		self.removeProgressBar()
 		self.setInterface(True)
 		cfg.cnvs.setRenderFlag(True)
@@ -128,19 +128,19 @@ class Ui_Utils:
 				cfg.msgLabel.setText(str(message))
 			cfg.progressBar.setValue(value)
 		except:
-			pass
+			int(0)
 		try:
 			if mainMessage is not None:
 				cfg.msgLabelMain.setText(str(mainMessage))
 		except:
-			pass
+			int(0)
 			
 	# remove progress bar and cancel button
 	def removeProgressBar(self):
 		try:
 			cfg.iface.messageBar().popWidget(self.widgetBar)
 		except:
-			pass
+			int(0)
 		cfg.progressBar = None
 		cfg.actionCheck = 'No'
 		self.setInterface(True)

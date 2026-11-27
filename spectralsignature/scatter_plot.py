@@ -470,7 +470,7 @@ class Scatter_Plot:
 			cfg.uiscp.Scatter_Widget_2.sigCanvas.ax.xaxis.set_major_locator(cfg.MaxNLocatorSCP(5))
 			cfg.uiscp.Scatter_Widget_2.sigCanvas.ax.yaxis.set_major_locator(cfg.MaxNLocatorSCP(5))	
 		except:
-			pass
+			int(0)
 		try:
 			self.xMin = min(xMins)
 			self.xMax = max(xMaxs)
@@ -482,7 +482,7 @@ class Scatter_Plot:
 				self.lastyMin = self.yMin
 				self.lastyMax = self.yMax
 		except:
-			pass		
+			int(0)		
 		for pol in self.patches:
 			self.polP.append(cfg.uiscp.Scatter_Widget_2.sigCanvas.ax.add_patch(pol))
 		# Draw the plot
@@ -653,7 +653,7 @@ class Scatter_Plot:
 			self.lastyMin = yLimMin
 			self.lastyMax = yLimMax
 		except:
-			pass
+			int(0)
 			
 	# move plot
 	def move(self):
@@ -670,7 +670,7 @@ class Scatter_Plot:
 			self.lastyMin = yMin + dY
 			self.lastyMax = yMax + dY
 		except:
-			pass
+			int(0)
 			
 	# draw line
 	def drawLine(self, colorLine):
@@ -680,7 +680,7 @@ class Scatter_Plot:
 			try:
 				self.line.remove()
 			except:
-				pass
+				int(0)
 			self.line, = cfg.uiscp.Scatter_Widget_2.sigCanvas.ax.plot(self.polX , self.polY, colorLine)
 			point = [float(self.press[0]),float(self.press[1])]
 			self.polygon.append(point)
@@ -698,7 +698,7 @@ class Scatter_Plot:
 			try:
 				self.line.remove()
 			except:
-				pass
+				int(0)
 			point = [float(self.press[0]),float(self.press[1])]
 			self.polygon.append(point)
 			pol = cfg.mplpltSCP.Polygon(self.polygon, True, facecolor=fillColor, alpha=transparency, fill=fillOption)

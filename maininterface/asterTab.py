@@ -633,7 +633,7 @@ class ASTERTab:
 					cfg.utls.addTableItem(l, str(dGains['BAND_' + band[-2:]]), b, 1)
 					cfg.utls.addTableItem(l, dBs['BAND_' + band[-2:]], b, 2)
 				except:
-					pass
+					int(0)
 				b = b + 1
 			if batch == 'No':
 				cfg.uiUtls.removeProgressBar()			

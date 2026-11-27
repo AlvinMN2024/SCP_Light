@@ -84,7 +84,7 @@ class Sentinel3Tab:
 							if int(bNmb) in range(0,22):
 								bandNames.append(f)
 						except:
-							pass
+							int(0)
 			cfg.uiUtls.updateBar(50)
 			# add band items to table
 			b = 0
@@ -205,7 +205,7 @@ class Sentinel3Tab:
 							gcp = cfg.gdalSCP.GCP(float(x), float(y), z, pX, pY)
 							gcpList.append(gcp)
 						except:
-							pass
+							int(0)
 				sr = cfg.osrSCP.SpatialReference()
 				sr.ImportFromEPSG(4326)
 				gcpProj = sr.ExportToWkt()
@@ -354,7 +354,7 @@ class Sentinel3Tab:
 					cfg.bst.setSatelliteWavelength(cfg.satSentinel3, bandSetList, bandSetNumber)				
 					if bandSetNumber is None:
 						bandSetNumber = cfg.ui.Band_set_tabWidget.currentIndex()
-					tW = eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber])
+					tW = cfg.scp_eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber], locals())
 					tW.clearSelection()
 				cfg.bst.bandSetTools(oDir)
 		if batch == 'No':

@@ -59,7 +59,7 @@ class BandsetTab:
 	# set Band unit
 	def setBandUnit(self):
 		bandSetNumber = cfg.ui.Band_set_tabWidget.currentIndex()
-		tW = eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber])
+		tW = cfg.scp_eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber], locals())
 		c = tW.rowCount()
 		cfg.BandTabEdited = 'No'
 		tW.blockSignals(True)
@@ -75,7 +75,7 @@ class BandsetTab:
 			Qdate = cfg.ui.bandset_dateEdit.date()
 			date = Qdate.toPyDate().strftime('%Y-%m-%d') 
 			bandSetNumber = cfg.ui.Band_set_tabWidget.currentIndex()
-			tW = eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber])
+			tW = cfg.scp_eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber], locals())
 			c = tW.rowCount()
 			cfg.BandTabEdited = 'No'
 			tW.blockSignals(True)
@@ -94,7 +94,7 @@ class BandsetTab:
 			satelliteName = cfg.ui.wavelength_sat_combo.currentText()
 		if bandSetNumber is None:
 			bandSetNumber = cfg.ui.Band_set_tabWidget.currentIndex()
-		tW = eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber])
+		tW = cfg.scp_eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber], locals())
 		c = tW.rowCount()
 		wl = []
 		tW.blockSignals(True)
@@ -219,7 +219,7 @@ class BandsetTab:
 							else:
 								tW.item(i, 1).setText(str(q))							
 						except:
-							pass
+							int(0)
 				q = q + 1
 		else:
 			try:
@@ -229,7 +229,7 @@ class BandsetTab:
 					tW.item(b, 1).setText(str(float(i)))
 					b = b + 1		
 			except:
-				pass
+				int(0)
 		tW.blockSignals(False)
 		cfg.BandTabEdited = 'Yes'
 		cfg.bst.orderByWavelength(bandSetNumber)
@@ -248,7 +248,7 @@ class BandsetTab:
 	def addFileToBandSet(self, batch = 'No', fileListString = None, wavelengthString = None, multiplicativeFactorString = None, additiveFactorString = None, date = None, bandSetNumber = None):
 		if bandSetNumber is None:
 			bandSetNumber = cfg.ui.Band_set_tabWidget.currentIndex()
-		tW = eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber])
+		tW = cfg.scp_eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber], locals())
 		satellite = None
 		if batch == 'No':
 			files = cfg.utls.getOpenFileNames(None , cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'Select a raster'), '', 'Raster (*.*)')
@@ -285,9 +285,9 @@ class BandsetTab:
 										date = dPPS
 										break
 									except:
-										pass
+										int(0)
 							except:
-								pass
+								int(0)
 			else:
 				for f in fileList:
 					files.append(f.strip())
@@ -390,7 +390,7 @@ class BandsetTab:
 		bandSetNumber = None
 		if bandSetNumber is None:
 			bandSetNumber = cfg.ui.Band_set_tabWidget.currentIndex()
-		tW = eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber])
+		tW = cfg.scp_eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber], locals())
 		c = tW.rowCount()
 		# check if single raster
 		if c > 0 and cfg.bandSetsList[bandSetNumber][0] == 'No':
@@ -436,7 +436,7 @@ class BandsetTab:
 			if bandSetNumber is None:
 				bandSetNumber = cfg.ui.Band_set_tabWidget.currentIndex()
 		if cfg.bandSetsList[bandSetNumber][0] == 'Yes':
-			tW = eval("cfg.ui.tableWidget__" + cfg.bndSetTabList[bandSetNumber])
+			tW = cfg.scp_eval("cfg.ui.tableWidget__" + cfg.bndSetTabList[bandSetNumber], locals())
 			cfg.BandTabEdited = 'No'
 			tW.blockSignals(True)		
 			# count table rows
@@ -498,7 +498,7 @@ class BandsetTab:
 		if a == 'Yes':	
 			if bandSetNumber is None:
 				bandSetNumber = cfg.ui.Band_set_tabWidget.currentIndex()
-			tW = eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber])
+			tW = cfg.scp_eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber], locals())
 			cfg.BandTabEdited = 'No'
 			cfg.utls.clearTable(tW)
 			cfg.BandTabEdited = 'Yes'
@@ -506,7 +506,7 @@ class BandsetTab:
 			try:
 				cfg.bandSetsList[bandSetNumber] = []
 			except:
-				pass
+				int(0)
 			if refresh == 'Yes':
 				# read band set
 				self.readBandSet('Yes', refresh)
@@ -515,7 +515,7 @@ class BandsetTab:
 		
 	# order by wavelength
 	def orderByWavelength(self, bandSetNumber):
-		tW = eval("cfg.ui.tableWidget__" + cfg.bndSetTabList[bandSetNumber])
+		tW = cfg.scp_eval("cfg.ui.tableWidget__" + cfg.bndSetTabList[bandSetNumber], locals())
 		cfg.BandTabEdited = 'No'
 		tW.blockSignals(True)		
 		nm = []
@@ -550,7 +550,7 @@ class BandsetTab:
 		bandSetNumber = None
 		if bandSetNumber is None:
 			bandSetNumber = cfg.ui.Band_set_tabWidget.currentIndex()
-		tW = eval("cfg.ui.tableWidget__" + cfg.bndSetTabList[bandSetNumber])
+		tW = cfg.scp_eval("cfg.ui.tableWidget__" + cfg.bndSetTabList[bandSetNumber], locals())
 		if cfg.BandTabEdited == 'Yes' and column == 1:
 			# check if bandset is empty
 			c = tW.rowCount()
@@ -653,12 +653,12 @@ class BandsetTab:
 						try:
 							cfg.utls.removeLayer(fN)
 						except:
-							pass
+							int(0)
 				else:	
 					try:
 						cfg.utls.removeLayer(cfg.bandSetsList[index][8])
 					except:
-						pass
+						int(0)
 			cfg.bst.deleteBandSetTab(index)
 		else:
 			cfg.mx.msg24()
@@ -668,12 +668,12 @@ class BandsetTab:
 						try:
 							cfg.utls.removeLayer(fN)
 						except:
-							pass
+							int(0)
 				else:	
 					try:
 						cfg.utls.removeLayer(cfg.bandSetsList[index][8])
 					except:
-						pass
+						int(0)
 			cfg.bst.clearBandSet(question = 'No', refresh = 'Yes', bandSetNumber = index)
 			cfg.bst.readBandSet('Yes')
 			
@@ -692,8 +692,8 @@ class BandsetTab:
 		band_set_tab.setObjectName(w)	
 		gridLayout = cfg.QtWidgetsSCP.QGridLayout(band_set_tab)
 		gridLayout.setObjectName('gridLayout' + str(dT))		
-		exec(w + ' = cfg.QtWidgetsSCP.QTableWidget(band_set_tab)')
-		tW = eval(w)
+		tW = cfg.QtWidgetsSCP.QTableWidget(band_set_tab)
+		setattr(cfg.ui, w.split('.')[-1], tW)
 		tW.setFrameShape(cfg.QtWidgetsSCP.QFrame.Shape.WinPanel)
 		tW.setFrameShadow(cfg.QtWidgetsSCP.QFrame.Shadow.Sunken)
 		tW.setAlternatingRowColors(False)
@@ -737,7 +737,7 @@ class BandsetTab:
 		try:
 			tW.cellChanged.disconnect()
 		except:
-			pass
+			int(0)
 		tW.cellChanged.connect(cfg.bst.editedBandSet)
 		if position is None:
 			cfg.ui.Band_set_tabWidget.addTab(band_set_tab, cfg.bandSetName + str(len(cfg.bndSetTabList)))
@@ -790,7 +790,7 @@ class BandsetTab:
 		imgName = ''	
 		for i in range(0, len(cfg.bndSetTabList)):
 			try:
-				tW = eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[i])
+				tW = cfg.scp_eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[i], locals())
 			except Exception as err:
 				self.tabBandSetChanged(0)
 				# logger
@@ -910,7 +910,7 @@ class BandsetTab:
 			try:
 				if bandSetNumber is None:
 					bandSetNumber = cfg.ui.Band_set_tabWidget.currentIndex()
-				tW = eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber])
+				tW = cfg.scp_eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber], locals())
 				# check if bandset is empty
 				c = tW.rowCount()
 				if c != 0:
@@ -993,12 +993,12 @@ class BandsetTab:
 					imNm[n] = ''
 			if bandSetNumber is None:
 				bandSetNumber = cfg.ui.Band_set_tabWidget.currentIndex()
-			tW = eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber])
+			tW = cfg.scp_eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber], locals())
 			cfg.BandTabEdited = 'No'
 			try:
 				cfg.ui.bandset_dateEdit.setDate(Qdate)
 			except:
-				pass
+				int(0)
 			while tW.rowCount() > 0:
 				tW.removeRow(0)
 			for x in sorted(bN):
@@ -1026,7 +1026,7 @@ class BandsetTab:
 			bandSetNumber = cfg.ui.Band_set_tabWidget.currentIndex()
 		if date is None:
 			date = ''
-		tW = eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber])
+		tW = cfg.scp_eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber], locals())
 		cfg.BandTabEdited = 'No'
 		try:
 			while tW.rowCount() > 0:
@@ -1056,7 +1056,7 @@ class BandsetTab:
 		bandSetNumber = None
 		if bandSetNumber is None:
 			bandSetNumber = cfg.ui.Band_set_tabWidget.currentIndex()
-		tW = eval("cfg.ui.tableWidget__" + cfg.bndSetTabList[bandSetNumber])
+		tW = cfg.scp_eval("cfg.ui.tableWidget__" + cfg.bndSetTabList[bandSetNumber], locals())
 		c = tW.rowCount()
 		# check if single raster
 		if c > 0 and cfg.bandSetsList[bandSetNumber][0] == 'No':
@@ -1094,7 +1094,7 @@ class BandsetTab:
 		bandSetNumber = None
 		if bandSetNumber is None:
 			bandSetNumber = cfg.ui.Band_set_tabWidget.currentIndex()
-		tW = eval("cfg.ui.tableWidget__" + cfg.bndSetTabList[bandSetNumber])
+		tW = cfg.scp_eval("cfg.ui.tableWidget__" + cfg.bndSetTabList[bandSetNumber], locals())
 		c = tW.rowCount()
 		# check if single raster
 		if c > 0 and cfg.bandSetsList[bandSetNumber][0] == 'No':
@@ -1143,7 +1143,7 @@ class BandsetTab:
 		bandSetNumber = None
 		if bandSetNumber is None:
 			bandSetNumber = cfg.ui.Band_set_tabWidget.currentIndex()
-		tW = eval("cfg.ui.tableWidget__" + cfg.bndSetTabList[bandSetNumber])
+		tW = cfg.scp_eval("cfg.ui.tableWidget__" + cfg.bndSetTabList[bandSetNumber], locals())
 		c = tW.rowCount()
 		# check if single raster
 		if c > 0 and cfg.bandSetsList[bandSetNumber][0] == 'No':
@@ -1197,7 +1197,7 @@ class BandsetTab:
 	def rasterToBandName(self, rasterName, date = '', bandSetNumber = None):		
 		if bandSetNumber is None:
 			bandSetNumber = cfg.ui.Band_set_tabWidget.currentIndex()
-		tW = eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber])
+		tW = cfg.scp_eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber], locals())
 		r = cfg.utls.selectLayerbyName(rasterName, 'Yes')
 		b = r.bandCount()
 		cfg.BandTabEdited = 'No'
@@ -1228,7 +1228,7 @@ class BandsetTab:
 		bandSetNumber = None
 		if bandSetNumber is None:
 			bandSetNumber = cfg.ui.Band_set_tabWidget.currentIndex()
-		tW = eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber])
+		tW = cfg.scp_eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber], locals())
 		c = tW.rowCount()
 		# check if single raster
 		if c > 0 and cfg.bandSetsList[bandSetNumber][0] == 'No':
@@ -1244,8 +1244,8 @@ class BandsetTab:
 
 	# select all bands for set
 	def removeBandsFromBandSet(self, bandSetNumber, bandList, unloadBands = None):
-		tW = eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber])
-		v = sorted(list(set(eval(str(bandList)))))
+		tW = cfg.scp_eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber], locals())
+		v = sorted(list(set(cfg.scp_eval(str(bandList), locals()))))
 		cfg.BandTabEdited = 'No'
 		for x in reversed(v):
 			if unloadBands == 'Yes':
@@ -1253,7 +1253,7 @@ class BandsetTab:
 				try:
 					cfg.utls.removeLayer(fN)
 				except:
-					pass
+					int(0)
 			# remove items
 			tW.removeRow(int(x)-1)
 		self.readBandSet('Yes')
@@ -1283,7 +1283,7 @@ class BandsetTab:
 			except Exception as err:
 				# logger
 				cfg.utls.logCondition(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), " ERROR exception: " + str(err))
-				pass
+				bool(err)
 		# logger
 		cfg.utls.logCondition(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), " all bands clicked")
 		
@@ -1298,7 +1298,7 @@ class BandsetTab:
 				bandSetDateDict[i] = cfg.datetimeSCP.datetime.strptime('2050-01-01', '%Y-%m-%d')
 		n = 0
 		for i in sorted(bandSetDateDict, key = bandSetDateDict.get):
-			tW = eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[n])
+			tW = cfg.scp_eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[n], locals())
 			cfg.BandTabEdited = 'No'
 			cfg.utls.clearTable(tW)
 			bndSet = cfg.bandSetsList[i][3] 

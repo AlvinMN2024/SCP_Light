@@ -269,11 +269,11 @@ class Sentinel1Tab:
 			try:
 				cfg.osSCP.remove(tVsnap)
 			except:
-				pass
+				int(0)
 			try:
 				cfg.osSCP.remove(tVsnap2)
 			except:
-				pass
+				int(0)
 			return outputRasterVH, outputRasterVV, date.split('T')[0]
 		else:
 			outputRaster = outputDirectory + '/grd' + date.split('T')[0] + '_s' + orbit[0] + '_' + satelliteN + 'o' + relativeOrbit + '_' + satelliteN + 's' + sliceNumber + '_' + polarization + '.tif'
@@ -340,7 +340,7 @@ class Sentinel1Tab:
 			try:
 				cfg.osSCP.remove(tVsnap)
 			except:
-				pass
+				int(0)
 			return outputRaster, date.split('T')[0]
 			
 	# process db
@@ -410,7 +410,7 @@ class Sentinel1Tab:
 			try:
 				cfg.osSCP.remove(oM)
 			except:
-				pass
+				int(0)
 			oM = tPMD2
 		try:
 			cfg.shutilSCP.move(oM, outputRaster)
@@ -421,11 +421,11 @@ class Sentinel1Tab:
 		try:
 			cfg.osSCP.remove(tPMD1)
 		except:
-			pass
+			int(0)
 		for tRL in cfg.tmpList:
 			try:
 				cfg.osSCP.remove(tRL)
 			except:
-				pass
+				int(0)
 		return outputRaster
 				

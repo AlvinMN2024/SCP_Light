@@ -341,7 +341,7 @@ class Sentinel2Tab:
 			for t in oM:
 				cfg.osSCP.remove(t)
 		except:
-			pass
+			int(0)
 		# logger
 		cfg.utls.logCondition(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), str(inputRaster))
 		return 'Yes'

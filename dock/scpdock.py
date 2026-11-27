@@ -77,7 +77,7 @@ class SCPDock:
 				else:
 					cfg.utls.setLayerVisible(l, False)
 		except:
-			pass
+			int(0)
 			
 	# left click pointer for classification preview
 	def pointerClickPreview(self, point):
@@ -148,7 +148,7 @@ class SCPDock:
 							i.setCheckState(0, cfg.QtSCP.CheckState(value))
 							cfg.signList['CHECKBOX_' + str(i.text(5))] = cfg.treeDockItm[str(i.text(5))].checkState(0)
 						except:
-							pass
+							int(0)
 					# macroclasses
 					else:
 						count = i.childCount()
@@ -157,7 +157,7 @@ class SCPDock:
 								i.child(roi).setCheckState(0, cfg.QtSCP.CheckState(value))
 								cfg.signList['CHECKBOX_' + str(i.child(roi).text(5))] = cfg.treeDockItm[str(i.child(roi).text(5))].checkState(0)
 							except:
-								pass
+								int(0)
 				else:
 					# logger
 					cfg.utls.logCondition(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), ' cancelled')
@@ -325,7 +325,7 @@ class SCPDock:
 			#cfg.utls.removeLayer(name)
 			pass
 		except:
-			pass
+			int(0)
 		# convert to geopackage
 		if nm.endswith('.shp'):
 			try:
@@ -333,7 +333,7 @@ class SCPDock:
 				v = cfg.utls.mergeAllLayers([cfg.inptDir + '/' + nm], cfg.inptDir + '/' + nm2)
 				nm = nm2
 			except:
-				pass
+				int(0)
 		if not cfg.osSCP.path.isfile(cfg.inptDir + '/' + nm):
 			cfg.mx.msgErr59()
 			# logger
@@ -479,7 +479,7 @@ class SCPDock:
 		try:
 			cfg.utls.removeLayerByLayer(cfg.shpLay)
 		except:
-			pass
+			int(0)
 		cfg.shpLay = mL
 		cfg.utls.addLayerToMap(cfg.shpLay)
 		sigFileNm = cfg.trnLay + '.slf'
@@ -495,11 +495,11 @@ class SCPDock:
 			try:
 				cfg.utls.removeLayerByLayer(cfg.shpLayList[i][0])
 			except:
-				pass
+				int(0)
 			try:
 				cfg.shpLayList.pop(i)
 			except:
-				pass
+				int(0)
 		# shape layer
 		cfg.shpLay = None
 		cfg.shpLayList = []
@@ -511,18 +511,18 @@ class SCPDock:
 			for sK in range(1, cfg.shpLayListCounter):
 				cfg.shpLayList.pop(-sK)
 		except:
-			pass
+			int(0)
 		cfg.shpLayList.append([memoryLayer, sigFile])
 		cfg.shpLayListCounter = 1
 		if len(cfg.shpLayList) > 10:
 			try:
 				cfg.utls.removeLayerByLayer(cfg.shpLayList[0][0])
 			except:
-				pass
+				int(0)
 			try:
 				cfg.shpLayList.pop(0)
 			except:
-				pass
+				int(0)
 				
 	# check shapefile and fields
 	def checkFields(self, trainingLayer):
@@ -616,7 +616,7 @@ class SCPDock:
 		try:
 			cfg.utls.removeLayerByLayer(cfg.shpLay)
 		except:
-			pass
+			int(0)
 		# create memory layer
 		provider = tSS.dataProvider()
 		fields = provider.fields().toList()
@@ -654,7 +654,7 @@ class SCPDock:
 				cfg.signIDs = {}
 			try:
 				MCID_LIST = root.get('MCID_LIST')
-				MC_List = eval(MCID_LIST)
+				MC_List = cfg.scp_eval(MCID_LIST, locals())
 				newList = []
 				idList = []
 				for k in cfg.MCID_List:
@@ -684,33 +684,33 @@ class SCPDock:
 				cfg.signIDs['ID_' + str(b)] = b
 				# get values
 				vls = str(child.find('VALUES').text).strip().replace('nan', '0')
-				x = eval(vls)
+				x = cfg.scp_eval(vls, locals())
 				cfg.signList['VALUES_' + str(b)] = x	
 				try:
 					lcsMin = str(child.find('LCS_MIN').text).strip()
-					min = eval(lcsMin)
+					min = cfg.scp_eval(lcsMin, locals())
 					cfg.signList['LCS_MIN_' + str(b)] = min			
 					lcsMax = str(child.find('LCS_MAX').text).strip()
-					max = eval(lcsMax)
+					max = cfg.scp_eval(lcsMax, locals())
 					cfg.signList['LCS_MAX_' + str(b)] = max
 				except:
 					cfg.signList['LCS_MIN_' + str(b)] = x
 					cfg.signList['LCS_MAX_' + str(b)] = x
 				try:
 					minV = str(child.find('MIN_VALUE').text).strip()
-					minVal = eval(minV)
+					minVal = cfg.scp_eval(minV, locals())
 					cfg.signList['MIN_VALUE_' + str(b)] = minVal
 					maxV = str(child.find('MAX_VALUE').text).strip()	
-					maxVal = eval(maxV)
+					maxVal = cfg.scp_eval(maxV, locals())
 					cfg.signList['MAX_VALUE_' + str(b)] = maxVal
 				except:
 					cfg.signList['MIN_VALUE_' + str(b)] = x
 					cfg.signList['MAX_VALUE_' + str(b)] = x			
-				cfg.signList['WAVELENGTH_' + str(b)] = eval(str(child.find('WAVELENGTH').text).strip())
-				cfg.signList['SD_' + str(b)] = eval(str(child.find('SD').text).strip().replace('nan', '0'))
-				cfg.signList['MEAN_VALUE_' + str(b)] = eval(str(child.find('MEAN_VALUE').text).strip().replace('nan', '0'))
+				cfg.signList['WAVELENGTH_' + str(b)] = cfg.scp_eval(str(child.find('WAVELENGTH').text).strip(), locals())
+				cfg.signList['SD_' + str(b)] = cfg.scp_eval(str(child.find('SD').text).strip().replace('nan', '0'), locals())
+				cfg.signList['MEAN_VALUE_' + str(b)] = cfg.scp_eval(str(child.find('MEAN_VALUE').text).strip().replace('nan', '0'), locals())
 				try:
-					cfg.signList['CHECKBOX_' + str(b)] = eval(str(child.find('CHECKBOX').text).strip())
+					cfg.signList['CHECKBOX_' + str(b)] = cfg.scp_eval(str(child.find('CHECKBOX').text).strip(), locals())
 				except:
 					cfg.signList['CHECKBOX_' + str(b)] = 2
 				c = cfg.QtGuiSCP.QColor()
@@ -719,7 +719,7 @@ class SCPDock:
 				# get covariance matrix
 				mt = str(child.find('COVARIANCE_MATRIX').text).strip()
 				try:
-					cm = eval(mt)
+					cm = cfg.scp_eval(mt, locals())
 				except:
 					cm = 'No'
 				cfg.signList['COVMATRIX_' + str(b)] = cfg.utls.listToCovarianceMatrix(cm)
@@ -784,7 +784,7 @@ class SCPDock:
 						cfg.signIDs['ID_' + str(id)] = id
 						v.append(id)
 					except:
-						pass
+						int(0)
 				# macroclasses
 				else:
 					count = i.childCount()
@@ -795,7 +795,7 @@ class SCPDock:
 							cfg.signIDs['ID_' + str(id)] = id
 							v.append(id)
 						except:
-							pass
+							int(0)
 			if len(v) == 0:
 				for id, val in cfg.treeDockItm.items():
 					cfg.signIDs['ID_' + str(id)] = id
@@ -854,7 +854,7 @@ class SCPDock:
 							cfg.signIDs['ID_' + i.text(5)]
 							v.append(i.text(5))
 						except:
-							pass
+							int(0)
 			# macroclasses
 			else:
 				count = i.childCount()
@@ -868,7 +868,7 @@ class SCPDock:
 								cfg.signIDs['ID_' + i.child(roi).text(5)]
 								v.append(i.child(roi).text(5))
 							except:
-								pass
+								int(0)
 		if len(v) == 0 and selectAll == 'Yes':
 			for id, val in cfg.treeDockItm.items():
 				v.append(id)
@@ -938,10 +938,10 @@ class SCPDock:
 					u = str(cfg.signList['UNIT_' + str(id)])
 					# wavelength
 					a = str(cfg.signList['WAVELENGTH_' + str(id)])
-					wlg = eval(a)
+					wlg = cfg.scp_eval(a, locals())
 					# signature values
 					n = str(cfg.signList['VALUES_' + str(id)])
-					val = eval(n)
+					val = cfg.scp_eval(n, locals())
 					# open file
 					l = open(signFile, 'a')
 					for k in range(0, len(wlg)):
@@ -1187,7 +1187,7 @@ class SCPDock:
 			cfg.signList.pop('MEAN_VALUE_' + str(id))
 			cfg.signList.pop('SD_' + str(id))
 		except:
-			pass
+			int(0)
 		cfg.signList.pop('VALUES_' + str(id))
 		cfg.signList.pop('LCS_MIN_' + str(id))
 		cfg.signList.pop('LCS_MAX_' + str(id))
@@ -1203,16 +1203,16 @@ class SCPDock:
 		try:
 			cfg.signList.pop('CHECKBOX' + str(id))
 		except:
-			pass
+			int(0)
 		try:
 			cfg.signList.pop('LCS_ROW' + str(id))
 		except:
-			pass
+			int(0)
 		try:
 			cfg.scaPlT.removeScatterByID(id)
 			cfg.scaPlT.scatterPlotListTable(cfg.uiscp.scatter_list_plot_tableWidget)
 		except:
-			pass
+			int(0)
 		
 	# add signatures to spectral plot
 	def addSignatureToSpectralPlot(self, tabIndex = 0):
@@ -1509,13 +1509,13 @@ class SCPDock:
 						_px = cfg.QtGuiSCP.QPixmap(24, 14); _px.fill(c); cfg.treeDockItm[str(id)].setIcon(4, cfg.QtGuiSCP.QIcon(_px))
 						cfg.signList['COLOR_' + str(id)] = c
 					except:
-						pass
+						int(0)
 					try:
 						cfg.treeDockMCItm[str(id)].setBackground(4, c)
 						_px = cfg.QtGuiSCP.QPixmap(24, 14); _px.fill(c); cfg.treeDockMCItm[str(id)].setIcon(4, cfg.QtGuiSCP.QIcon(_px))
 						cfg.SCPD.roiMacroclassInfoCompleter()
 					except:
-						pass
+						int(0)
 
 	# clear selection menu
 	def clearSelectionMenu(self):
@@ -1535,7 +1535,7 @@ class SCPDock:
 					v = cfg.signList['CHECKBOX_' + str(i.text(5))]
 					break
 				except:
-					pass
+					int(0)
 			# macroclasses
 			else:
 				count = i.childCount()
@@ -1544,11 +1544,11 @@ class SCPDock:
 						v = cfg.signList['CHECKBOX_' + str(i.child(roi).text(5))]
 						break
 					except:
-						pass
+						int(0)
 		try:
 			cfg.SCPD.selectAllSignatures(check = not v, selected = True)
 		except:
-			pass
+			int(0)
 		
 	# Create ROI list
 	def ROIListTableTree(self, layer, tree, checkstate=0):
@@ -1706,7 +1706,7 @@ class SCPDock:
 			cfg.cnvs.refresh()
 			cfg.cnvs.setRenderFlag(True)
 		except:
-			pass
+			int(0)
 		
 	# set Min ROI size
 	def minROISize(self):
@@ -2011,7 +2011,7 @@ class SCPDock:
 								_px = cfg.QtGuiSCP.QPixmap(24, 14); _px.fill(c); cfg.treeDockItm[str(id)].setIcon(4, cfg.QtGuiSCP.QIcon(_px))
 								cfg.signList['COLOR_' + str(id)] = c
 							except:
-								pass
+								int(0)
 				else:
 					cfg.SCPD.zoomToROI([id])
 				break
@@ -2172,11 +2172,11 @@ class SCPDock:
 			try:
 				tW.takeTopLevelItem(tW.indexOfTopLevelItem(val))
 			except:
-				pass
+				int(0)
 			try:
 				del cfg.treeDockMCItm[id]
 			except:
-				pass
+				int(0)
 		cfg.MCID_List = sL
 		return sL
 
@@ -2234,7 +2234,7 @@ class SCPDock:
 			cfg.utls.removeLayerByLayer(cfg.shpLay)
 			cfg.cnvs.refresh()
 		except:
-			pass
+			int(0)
 		cfg.SCPD.resetShapeList()
 		cfg.uidc.undo_save_Button.setEnabled(False)
 		cfg.uidc.redo_save_Button.setEnabled(False)
@@ -2407,11 +2407,11 @@ class SCPDock:
 			try:
 				self.clearCanvasPoly()
 			except:
-				pass
+				int(0)
 			try:
 				self.clearROICanvas()
 			except:
-				pass
+				int(0)
 			if progressbar == 'Yes':
 				cfg.uiUtls.updateBar(40)
 			# logger
@@ -2472,7 +2472,7 @@ class SCPDock:
 			try:
 				cfg.utls.removeLayerByLayer(cfg.shpLay)
 			except:
-				pass
+				int(0)
 			# create memory layer
 			cfg.shpLay = cfg.utls.duplicateMemoryLayer(cfg.shpLayList[-(cfg.shpLayListCounter)][0])
 			cfg.utls.ROISymbol(cfg.shpLay)
@@ -2510,7 +2510,7 @@ class SCPDock:
 			try:
 				cfg.utls.removeLayerByLayer(cfg.shpLay)
 			except:
-				pass
+				int(0)
 			cfg.shpLay = cfg.utls.duplicateMemoryLayer(cfg.shpLayList[-(cfg.shpLayListCounter)][0])
 			cfg.utls.ROISymbol(cfg.shpLay)
 			cfg.utls.addLayerToMap(cfg.shpLay)
@@ -2533,7 +2533,7 @@ class SCPDock:
 		try:
 			self.clearCanvasPoly()
 		except:
-			pass
+			int(0)
 		clr = cfg.QtGuiSCP.QColor(cfg.ROIClrVal)
 		try:
 			rT = 255 - int(cfg.ROITrnspVal) * 255 / 100
@@ -2547,7 +2547,7 @@ class SCPDock:
 		try:
 			cfg.rbbrBndPol.setFillColor(clr)
 		except:
-			pass
+			int(0)
 		cfg.rbbrBndPol.show()
 		cfg.show_ROI_radioButton.setChecked(True)
 		cfg.ctrlClick = None
@@ -2563,7 +2563,7 @@ class SCPDock:
 		try:
 			self.clearROICanvas()
 		except:
-			pass
+			int(0)
 		
 	# clear ROI point canvas
 	def clearROICanvas(self):
@@ -2855,7 +2855,7 @@ class SCPDock:
 						except:
 							r = arr.astype(int)
 				except:
-					pass
+					int(0)
 			check = 'Yes'
 			if cfg.np.count_nonzero(r) > 0:
 				try:

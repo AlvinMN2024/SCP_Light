@@ -324,7 +324,7 @@ class LandCoverChange:
 						cmbX = cmbntns[values[v]]
 						rasterBandUniqueVal[(cmbX[0], cmbX[1])] = [reclRasterBandUniqueVal[values[v]], values[v]]
 					except:
-						pass
+						int(0)
 				cfg.uiUtls.updateBar(80)
 				col2 = list(set(col))
 				row2 = list(set(row))

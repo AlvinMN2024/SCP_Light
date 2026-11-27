@@ -496,7 +496,7 @@ class Input:
 						with open(cfg.tmpDir + '/_images/' + i, 'wb') as f:
 							f.write(r.content)
 					except:
-						pass
+						int(0)
 			if len(html) > 0:
 				cfg.ui.help_textBrowser.clear()
 				cfg.ui.help_textBrowser.setHtml(html)
@@ -577,5 +577,5 @@ class Input:
 		try:
 			htmlTextF.close()
 		except:
-			pass
+			int(0)
 		

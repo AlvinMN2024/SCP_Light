@@ -155,7 +155,7 @@ class Accuracy:
 									cfg.utls.removeLayerByLayer(reml)
 									cfg.utls.removeLayerByLayer(remiClass)
 								except:
-									pass
+									int(0)
 								# logger
 								cfg.utls.logCondition(str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), ' ERROR exception: ' + str(err))
 								return 'No'
@@ -598,15 +598,15 @@ class Accuracy:
 				try:
 					cfg.utls.removeLayerByLayer(reml)
 				except:
-					pass
+					int(0)
 				try:
 					cfg.utls.removeLayerByLayer(remiClass)
 				except:
-					pass
+					int(0)
 				try:
 					cfg.utls.removeLayerByLayer(remiClass2)
 				except:
-					pass
+					int(0)
 				if batch == 'No':
 					# enable map canvas render
 					cfg.cnvs.setRenderFlag(True)
@@ -632,7 +632,7 @@ class Accuracy:
 					if str(i.typeName()).lower() != 'string':
 						cfg.dlg.class_field_combo(str(i.name()))
 		except:
-			pass
+			int(0)
 		# logger
 		cfg.utls.logCondition(str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'reference layer name: ' + str(cfg.referenceLayer))
 	

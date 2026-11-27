@@ -248,7 +248,7 @@ class EditRaster:
 			if e == 'No':
 				return 'No'
 			else:
-				dataArray = eval(e)
+				dataArray = cfg.scp_eval(e, locals())
 		else:
 			value = editValue
 			dataArray = cfg.np.where(a2 >0 , value, self.a1*sca+off)
@@ -282,7 +282,7 @@ class EditRaster:
 		eCopy = eCopy.replace('self.a1', 'ar1')
 		eCopy = eCopy.replace('a2', 'ar1')
 		try:
-			o = eval(eCopy)
+			o = cfg.scp_eval(eCopy, locals())
 			cfg.ui.expression_lineEdit.setStyleSheet('color : green')
 			# logger
 			cfg.utls.logCondition(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode())
@@ -312,7 +312,7 @@ class EditRaster:
 			# logger
 			cfg.utls.logCondition(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode())
 		except:
-			pass
+			int(0)
 		
 	# write an array to band
 	def writeArrayBlock(self, gdalRaster, bandNumber, dataArray, pixelStartColumn, pixelStartRow):

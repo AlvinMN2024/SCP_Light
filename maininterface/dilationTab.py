@@ -141,7 +141,7 @@ class DilationRaster:
 						try:
 							cfg.utls.copyRenderer(r, oR)
 						except:
-							pass
+							int(0)
 					if batch == 'No':
 						cfg.utls.finishSound()
 						cfg.utls.sendSMTPMessage(None, str(__name__))

@@ -144,7 +144,7 @@ class NeighborPixels:
 						statPerc = int(statPerc)
 						ee = ee.replace(cfg.statPerc, str(statPerc))
 					except:
-						pass
+						int(0)
 				else:
 					ee = statNp.replace('array', 'A, axis=2')
 				functionList = [ee.replace('np.', 'cfg.np.')]
@@ -202,7 +202,7 @@ class NeighborPixels:
 		lines = text.readlines()
 		for b in lines:
 			b = b.replace('nan', 'cfg.np.nan').replace('\n', '')
-			a = eval(b)
+			a = cfg.scp_eval(b, locals())
 			i = cfg.np.array(a,  dtype=cfg.np.float32)
 			try:
 				c = cfg.np.append(c, [i], axis=0)

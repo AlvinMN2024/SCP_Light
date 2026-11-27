@@ -151,11 +151,11 @@ class ZonalStatRasterTab:
 								try:
 									cfg.utls.removeLayerByLayer(reml)
 								except:
-									pass
+									int(0)
 								try:
 									cfg.utls.removeLayerByLayer(remiClass2)
 								except:
-									pass	
+									int(0)	
 								# logger
 								cfg.utls.logCondition(str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), ' ERROR exception: ' + str(err))
 								cfg.mx.msgErr9()
@@ -196,11 +196,11 @@ class ZonalStatRasterTab:
 						try:
 							cfg.utls.removeLayerByLayer(reml)
 						except:
-							pass
+							int(0)
 						try:
 							cfg.utls.removeLayerByLayer(remiClass2)
 						except:
-							pass	
+							int(0)	
 						return 'No'	
 					referenceRaster = tRC
 				# if reference raster
@@ -240,11 +240,11 @@ class ZonalStatRasterTab:
 						try:
 							cfg.utls.removeLayerByLayer(reml)
 						except:
-							pass
+							int(0)
 						try:
 							cfg.utls.removeLayerByLayer(remiClass2)
 						except:
-							pass	
+							int(0)	
 						return 'No'
 				rasterBandUniqueVal = cfg.np.unique(values).tolist()
 				classes = sorted(rasterBandUniqueVal)
@@ -275,7 +275,7 @@ class ZonalStatRasterTab:
 								statPerc = int(statPerc)
 								ee = ee.replace(cfg.statPerc, str(statPerc))
 							except:
-								pass
+								int(0)
 							functionList.append(ee)
 							variableList.append('rasterSCPArrayfunctionBand')
 							bandNumberList.append([0, b])
@@ -301,7 +301,7 @@ class ZonalStatRasterTab:
 								statPerc = int(statPerc)
 								ee = ee.replace(cfg.statPerc, str(statPerc))
 							except:
-								pass
+								int(0)
 							try:
 								if o[ee] is None:
 									value = cfg.NoDataVal
@@ -314,11 +314,11 @@ class ZonalStatRasterTab:
 								try:
 									cfg.utls.removeLayerByLayer(reml)
 								except:
-									pass
+									int(0)
 								try:
 									cfg.utls.removeLayerByLayer(remiClass2)
 								except:
-									pass	
+									int(0)	
 								if batch == 'No':
 									cfg.utls.finishSound()
 									cfg.utls.sendSMTPMessage(None, str(__name__))
@@ -340,11 +340,11 @@ class ZonalStatRasterTab:
 								try:
 									cfg.utls.removeLayerByLayer(reml)
 								except:
-									pass
+									int(0)
 								try:
 									cfg.utls.removeLayerByLayer(remiClass2)
 								except:
-									pass	
+									int(0)	
 								if batch == 'No':
 									cfg.utls.finishSound()
 									cfg.utls.sendSMTPMessage(None, str(__name__))
@@ -365,17 +365,17 @@ class ZonalStatRasterTab:
 				try:
 					cfg.osSCP.remove(tRC)
 				except:
-					pass
+					int(0)
 				cfg.uiUtls.updateBar(100)	
 				# remove temp layers
 				try:
 					cfg.utls.removeLayerByLayer(reml)
 				except:
-					pass
+					int(0)
 				try:
 					cfg.utls.removeLayerByLayer(remiClass2)
 				except:
-					pass	
+					int(0)	
 				if batch == 'No':
 					# enable map canvas render
 					cfg.cnvs.setRenderFlag(True)
@@ -402,7 +402,7 @@ class ZonalStatRasterTab:
 					if str(i.typeName()).lower() != 'string':
 						cfg.dlg.class_field_combo_4(str(i.name()))
 		except:
-			pass
+			int(0)
 		# logger
 		cfg.utls.logCondition(str(cfg.inspectSCP.stack()[0][3])+ " " + cfg.utls.lineOfCode(), "reference layer name: " + str(cfg.referenceLayer3))
 				

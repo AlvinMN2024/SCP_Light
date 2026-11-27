@@ -109,7 +109,7 @@ class DownloadProducts:
 		try:
 			cfg.mx.msgBarWarning(title, message)
 		except Exception:
-			pass
+			int(0)
 
 	def _cdseToken(self, force=False):
 		import time
@@ -224,7 +224,7 @@ class DownloadProducts:
 				try:
 					cfg.osSCP.remove(output)
 				except Exception:
-					pass
+					int(0)
 				raise
 		return 'No'
 
@@ -465,7 +465,7 @@ class DownloadProducts:
 		try:
 			self.clearCanvasPoly()
 		except:
-			pass
+			int(0)
 		pointF = cfg.QtCoreSCP.QPointF()
 		polF = cfg.QtGuiSCP.QPolygonF()
 		pointF.setX(pointUL.x())
@@ -528,7 +528,7 @@ class DownloadProducts:
 			LR1 = cfg.utls.projectPointCoordinates(LR, iCrs, pCrs)
 			self.addRubberBandPolygon(UL1, LR1)
 		except:
-			pass
+			int(0)
 			
 	# set coordinates
 	def pointerClickLR(self, point):
@@ -585,7 +585,7 @@ class DownloadProducts:
 			try:
 				l = open(file, 'w')
 			except:
-				pass
+				int(0)
 			try:
 				l.write(downloadTable)
 				l.close()
@@ -1060,7 +1060,7 @@ class DownloadProducts:
 										links.append(urlL + 'B' + str(i) + '.TIF')
 									else:
 										t = 'cfg.ui.checkBox_band_' + str(i) + '.isChecked()'
-										checkBand = eval(t)
+										checkBand = cfg.scp_eval(t, locals())
 										if checkBand is True:
 											# Landsat 7 bands 6
 											if NASAcollection == cfg.NASALandsat7Collection and i == 6:
@@ -1143,7 +1143,7 @@ class DownloadProducts:
 					return check
 				if cfg.osSCP.path.getsize(cfg.tmpDir + '//' + imgID) > 10000:
 					tarFiles = cfg.tarfileSCP.open(cfg.tmpDir + '//' + imgID, 'r:gz')
-					tarFiles.extractall(outputDirectory)
+					tarFiles.extractall(outputDirectory, filter="data")
 					tarFiles.close()
 					cfg.osSCP.remove(cfg.tmpDir + '//' + imgID)
 					return url
@@ -1200,12 +1200,12 @@ class DownloadProducts:
 		if self.checkAll == 'Yes':
 			for i in range(1, 13):
 				t = 'cfg.ui.checkBox_band_' + str(i) + '.setCheckState(cfg.QtSCP.CheckState.Checked)'
-				eval(t)
+				cfg.scp_eval(t, locals())
 			self.checkAll = 'No'
 		else:
 			for i in range(1, 13):
 				t = 'cfg.ui.checkBox_band_' + str(i) + '.setCheckState(cfg.QtSCP.CheckState.Unchecked)'
-				eval(t)
+				cfg.scp_eval(t, locals())
 			self.checkAll = 'Yes'
 			
 	# clear table
@@ -1224,7 +1224,7 @@ class DownloadProducts:
 			else:
 				self.clearCanvasPoly()
 		except:
-			pass
+			int(0)
 			
 ### Sentinel-3
 					
@@ -1767,13 +1767,13 @@ class DownloadProducts:
 		if self.checkAll == 'Yes':
 			for i in range(1, 14):
 				t = 'cfg.ui.checkBoxs_band_' + str(i) + '.setCheckState(cfg.QtSCP.CheckState.Checked)'
-				eval(t)
+				cfg.scp_eval(t, locals())
 			cfg.ui.ancillary_data_checkBox.setCheckState(cfg.QtSCP.CheckState.Checked)
 			self.checkAll = 'No'
 		else:
 			for i in range(1, 14):
 				t = 'cfg.ui.checkBoxs_band_' + str(i) + '.setCheckState(cfg.QtSCP.CheckState.Unchecked)'
-				eval(t)
+				cfg.scp_eval(t, locals())
 			cfg.ui.ancillary_data_checkBox.setCheckState(cfg.QtSCP.CheckState.Unchecked)
 			self.checkAll = 'Yes'
 			
@@ -1782,13 +1782,13 @@ class DownloadProducts:
 		if self.checkAll == 'Yes':
 			for i in range(1, 22):
 				t = 'cfg.ui.checkBoxs3_band_' + str(i) + '.setCheckState(cfg.QtSCP.CheckState.Checked)'
-				eval(t)
+				cfg.scp_eval(t, locals())
 			cfg.ui.s3_ancillary_data_checkBox.setCheckState(cfg.QtSCP.CheckState.Checked)
 			self.checkAll = 'No'
 		else:
 			for i in range(1, 22):
 				t = 'cfg.ui.checkBoxs3_band_' + str(i) + '.setCheckState(cfg.QtSCP.CheckState.Unchecked)'
-				eval(t)
+				cfg.scp_eval(t, locals())
 			cfg.ui.s3_ancillary_data_checkBox.setCheckState(cfg.QtSCP.CheckState.Unchecked)
 			self.checkAll = 'Yes'
 			
@@ -1797,12 +1797,12 @@ class DownloadProducts:
 		if self.checkAll == 'Yes':
 			for i in range(1, 7):
 				t = 'cfg.ui.checkBoxs_goes_band_' + str(i) + '.setCheckState(cfg.QtSCP.CheckState.Checked)'
-				eval(t)
+				cfg.scp_eval(t, locals())
 			self.checkAll = 'No'
 		else:
 			for i in range(1, 7):
 				t = 'cfg.ui.checkBoxs_goes_band_' + str(i) + '.setCheckState(cfg.QtSCP.CheckState.Unchecked)'
-				eval(t)
+				cfg.scp_eval(t, locals())
 			self.checkAll = 'Yes'
 			
 	# check band download
@@ -2282,7 +2282,7 @@ class DownloadProducts:
 						cfg.osSCP.remove(cfg.tmpDir + '//' + imgID)
 					else:
 						tarFiles = cfg.tarfileSCP.open(cfg.tmpDir + '//' + imgID, 'r:gz')
-						tarFiles.extractall(outputDirectory)
+						tarFiles.extractall(outputDirectory, filter="data")
 						tarFiles.close()
 						cfg.osSCP.remove(cfg.tmpDir + '//' + imgID)
 						return url

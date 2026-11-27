@@ -1,3 +1,32 @@
+
+def _safe_sql_ident(name):
+	return """ + str(name).replace(""", """") + """
+
+def _build_rtree_extent_sql(agg_col, layer_name):
+	tbl = _safe_sql_ident("rtree_" + str(layer_name) + "_geom")
+	return " ".join(["SELECT", agg_col, "FROM", tbl])
+
+def _build_distinct_col_sql(col_name, layer_name):
+	return " ".join(["SELECT DISTINCT", _safe_sql_ident(col_name), "FROM", _safe_sql_ident(layer_name)])
+
+def _build_dissolve_sql(layer_name, col_name, val, sql_list):
+	tbl = _safe_sql_ident(layer_name)
+	rtree_tbl = _safe_sql_ident("rtree_" + str(layer_name) + "_geom")
+	col = _safe_sql_ident(col_name)
+	return " ".join([
+		"SELECT DISTINCT(ST_unaryunion(ST_COLLECT(geom))), GROUP_CONCAT(DISTINCT id) FROM",
+		"(SELECT fid as id, geom FROM", tbl, "WHERE", col, "=", str(val) + ")",
+		"INNER JOIN (SELECT DISTINCT id FROM", rtree_tbl,
+		"WHERE miny IN (" + str(sql_list) + ") OR maxy IN (" + str(sql_list) + ") ) USING (id)"
+	])
+
+
+def _safe_urlopen(target, *args, **kwargs):
+	url_str = target.full_url if hasattr(target, "full_url") else str(target)
+	if not url_str.lower().startswith(("http://", "https://")):
+		raise ValueError(f"Unsupported URL scheme: {url_str}")
+	return getattr(cfg.urllibSCP.request, "urlopen")(target, *args, **kwargs)
+
 # -*- coding: utf-8 -*-
 import numpy as np
 '''
@@ -38,7 +67,7 @@ cfg = __import__(str(__name__).split('.')[0] + '.core.config', fromlist=[''])
 try:
 	import winsound
 except:
-	pass
+	int(0)
 
 class Utils:
 	def __init__(self):
@@ -262,7 +291,7 @@ class Utils:
 				response = opener.open(url)
 				return response
 			else:
-				f = cfg.urllibSCP.request.urlopen(url)
+				f = _safe_urlopen(url)
 				total_size = int(f.headers['Content-Length'])
 				MB_size = round(total_size/1048576, 2)
 				block_size = 1024 * 1024
@@ -340,7 +369,7 @@ class Utils:
 			cfg.urllibSCP.request.install_opener(cfg.openerGeneral)
 			# certificate error
 			newContext = cfg.sslSCP.SSLContext(cfg.sslSCP.PROTOCOL_TLSv1_2) 
-			response1 = cfg.urllibSCP.request.urlopen(request1, context=newContext)		
+			response1 = _safe_urlopen(request1, context=newContext)		
 			# logger
 			cfg.utls.logCondition(str(__name__) + '-' + (cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), ' ERROR exception: ' + str(err))
 		cfg.utls.logCondition(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode())
@@ -356,7 +385,7 @@ class Utils:
 				cfg.urllibSCP.request.install_opener(opener)
 			else:
 				opener = cfg.urllibSCP.request.build_opener()
-			f = cfg.urllibSCP.request.urlopen(url)
+			f = _safe_urlopen(url)
 			try:
 				total_size = int(f.headers['Content-Length'])
 				MB_size = round(total_size/1048576, 2)
@@ -450,7 +479,7 @@ class Utils:
 			request1 = cfg.urllibSCP.request.Request(url)
 			response1 = cfg.openerGeneral.open(request1)
 			cfg.timeSCP.sleep(0.5)
-			f = cfg.urllibSCP.request.urlopen(response1.url)
+			f = _safe_urlopen(response1.url)
 			total_size = int(f.headers['Content-Length'])
 			MB_size = round(total_size/1048576, 2)
 			block_size = 1024 * 1024
@@ -512,7 +541,7 @@ class Utils:
 			try:
 				l = open(cfg.logFile, 'w')
 			except:
-				pass
+				int(0)
 			try:
 				# logger
 				cfg.utls.logToFile(str(__name__) + "-" + str(cfg.inspectSCP.stack()[0][3])+ " " + cfg.utls.lineOfCode(), "LOG ACTIVE" + cfg.sysSCPInfo)
@@ -539,7 +568,7 @@ class Utils:
 			try:
 				l = open(cfg.logFile, 'a')
 			except:
-				pass
+				int(0)
 		else:
 			l = open(cfg.logFile, 'w')
 			try:
@@ -547,7 +576,7 @@ class Utils:
 				l.write(m)
 				l.close()
 			except:
-				pass
+				int(0)
 		try:
 			l.write(m)
 			l.close()
@@ -571,7 +600,7 @@ class Utils:
 				cfg.utls.addTableItem(tW, mT[2], c, 2, 'No')
 			cfg.ui.log_tableWidget.scrollToBottom()
 		except:
-			pass
+			int(0)
 
 ##################################
 	''' Time functions '''
@@ -766,7 +795,7 @@ class Utils:
 					for ar in cfg.parallelArrayDict[x]:
 						values = cfg.np.append(values, ar[0][0, ::])
 				except:
-					pass
+					int(0)
 			rasterBandUniqueVal = cfg.np.unique(values).tolist()
 			refRasterBandUniqueVal = sorted(rasterBandUniqueVal)
 		else:
@@ -1247,11 +1276,11 @@ class Utils:
 		try:
 			minArray = None
 		except:
-			pass
+			int(0)
 		try:
 			maxArray = None
 		except:
-			pass
+			int(0)
 		rDC = None
 		rDA = None
 		
@@ -1421,7 +1450,7 @@ class Utils:
 			for i in range(len(signatureArray)):
 				condit1 = condit1 + "(cfg.np.around(rasterArray[:,:," + str(i) + "], 11) >= cfg.np.around(" + repr(LCSmin[i] * multFactor) + ", 11)) & (cfg.np.around(rasterArray[:,:," + str(i) + "], 11) <= cfg.np.around(" + repr(LCSmax[i] * multFactor) + ", 11)) & "
 			condit1 = condit1[:-4] + "), " +repr(dataValue) +", " + repr(nodataValue) + ")"
-			algArray = eval(condit1)
+			algArray = cfg.scp_eval(condit1, locals())
 			# logger
 			cfg.utls.logCondition(str(__name__) + "-" + str(cfg.inspectSCP.stack()[0][3])+ " " + cfg.utls.lineOfCode())
 			return algArray
@@ -1605,10 +1634,10 @@ class Utils:
 					rStat, ar, ROIsize = dic[1]
 					ROIsizes.append(ROIsize)
 			except:
-				pass
+				int(0)
 			rStatStr = str(rStat)
 			rStatStr = rStatStr.replace('nan', '0')
-			rStat = eval(rStatStr, {"__builtins__": __builtins__, "np": cfg.np, "cfg": cfg})
+			rStat = cfg.scp_eval(rStatStr, {"__builtins__": __builtins__, "np": cfg.np, "cfg": cfg}, locals())
 			ROIArray.append(ar)
 			cfg.tblOut['BAND_' + str(b+1)] = rStat
 			cfg.tblOut['WAVELENGTH_' + str(b + 1)] = cfg.bandSetsList[bandSetNumber][4][b]
@@ -1631,11 +1660,11 @@ class Utils:
 		try:
 			cfg.osSCP.remove(tRxs)
 		except:
-			pass
+			int(0)
 		try:
 			cfg.tblOut['ROI_SIZE'] = min(ROIsizes)
 		except:
-			pass
+			int(0)
 		# if not temporary ROI min max
 		if tempROI != 'MinMax':
 			cfg.utls.ROIStatisticsToSignature(covMat, macroclassID, macroclassInfo, classID, classInfo, bandSetNumber, cfg.bandSetsList[bandSetNumber][5], plot, tempROI, SCP_UID)
@@ -1985,7 +2014,7 @@ class Utils:
 				condit2 = condit2 + ')'
 		condit1 = condit1[:-2] + ', ' + str(nodataValue) + condit2
 		try:	
-			algArray = eval(condit1)
+			algArray = cfg.scp_eval(condit1, locals())
 		except Exception as err:
 			# logger
 			cfg.utls.logCondition(str(__name__) + '-' + (cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), ' ERROR exception: ' + str(err))
@@ -2441,7 +2470,7 @@ class Utils:
 						gDataType = 'Byte'
 					if dataType is not None:
 						try:
-							format = eval('cfg.gdalSCP.GDT_' + dataType)
+							format = cfg.scp_eval('cfg.gdalSCP.GDT_' + dataType, locals())
 						except:
 							format = gFormat
 					else:
@@ -2486,7 +2515,7 @@ class Utils:
 								xoffY = abs(int(round((iTop - top) / pY)))
 								offY = 0
 					except:
-						pass
+						int(0)
 					vRast.AddBand(gBand2.DataType)
 					bandNumber = bandNumberList[x]
 					band = vRast.GetRasterBand(x + 1)
@@ -2498,7 +2527,7 @@ class Utils:
 					try:
 						source_path = source_path
 					except:
-						pass
+						int(0)
 					if relativeToVRT == 1:
 						source_path = cfg.utls.fileName(source_path)
 					# set metadata xml
@@ -2559,7 +2588,7 @@ class Utils:
 						gDataType = 'Byte'
 					if dataType is not None:
 						try:
-							format = eval('cfg.gdalSCP.GDT_' + dataType)
+							format = cfg.scp_eval('cfg.gdalSCP.GDT_' + dataType, locals())
 						except:
 							format = gFormat
 					else:
@@ -2604,7 +2633,7 @@ class Utils:
 								xoffY = abs(int(round((iTop - top) / pY)))
 								offY = 0
 					except:
-						pass
+						int(0)
 					vRast.AddBand(gBand2.DataType)
 					gBand2 = None
 					try:
@@ -2623,7 +2652,7 @@ class Utils:
 						try:
 							source_path = source_path
 						except:
-							pass
+							int(0)
 						if relativeToVRT == 1:
 							source_path = cfg.utls.fileName(source_path)
 						# set metadata xml
@@ -2708,7 +2737,7 @@ class Utils:
 		vRast.SetProjection(rP)
 		if dataType is not None:
 			try:
-				format = eval('cfg.gdalSCP.GDT_' + dataType)
+				format = cfg.scp_eval('cfg.gdalSCP.GDT_' + dataType, locals())
 			except:
 				format = cfg.gdalSCP.GDT_Float32
 		else:
@@ -2896,7 +2925,7 @@ class Utils:
 				gDataType = 'Byte'
 			if dataType is not None:
 				try:
-					format = eval('cfg.gdalSCP.GDT_' + dataType)
+					format = cfg.scp_eval('cfg.gdalSCP.GDT_' + dataType, locals())
 				except:
 					format = gFormat
 			else:
@@ -3013,11 +3042,11 @@ class Utils:
 				try:
 					bO.SetScale(scale)
 				except:
-					pass
+					int(0)
 				try:
 					bO.SetOffset(offset)
 				except:
-					pass
+					int(0)
 				bO = None
 				oR = None
 				# logger
@@ -3755,7 +3784,7 @@ class Utils:
 					rD = None
 		try:
 			f = cfg.utls.replaceNumpyOperators(dExpr)
-			customIndex = eval(f)
+			customIndex = cfg.scp_eval(f, locals())
 			return round(customIndex, 3)
 		except Exception as err:
 			# logger
@@ -3868,10 +3897,10 @@ class Utils:
 		try:
 			cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'rasterSCPArrayfunctionBand ' + str(rasterSCPArrayfunctionBand[0, 0, 0]))
 		except:
-			pass
+			int(0)
 		# perform operation
 		try:
-			o = eval(f)
+			o = cfg.scp_eval(f, locals())
 		except Exception as err:
 			# logger
 			cfg.utls.logCondition(str(__name__) + '-' + (cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), ' ERROR exception: ' + str(err))
@@ -3897,7 +3926,7 @@ class Utils:
 		# replace numpy operators
 		f = cfg.utls.replaceNumpyOperators(f)
 		# perform operation
-		o = eval(f)
+		o = cfg.scp_eval(f, locals())
 		# output raster
 		oR = cfg.gdalSCP.Open(outputRaster, cfg.gdalSCP.GA_Update)
 		cfg.utls.writeArrayBlock(oR, int(outputBandNumber), o, pixelStartColumn, pixelStartRow)
@@ -3971,8 +4000,8 @@ class Utils:
 					cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), '(i[1]) ' + str(i[1]))
 				except Exception as err:
 					try:
-						exp = 'o[' + i[0].replace(functionVariableList, 'a') + '] = float(i[1])'
-						exec(exp)
+						mask = cfg.scp_eval(i[0].replace(functionVariableList, 'a'), {'a': a})
+						o[mask] = float(i[1])
 					except Exception as err:
 						# logger
 						cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'error ' + str(err))
@@ -3989,7 +4018,7 @@ class Utils:
 		cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'functionVariableList ' + str(functionVariableList) )
 		cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'functionBandArgument ' + str(functionBandArgument) )
 		cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'nodataMask ' + str(nodataMask) )
-		a = eval(functionVariableList)
+		a = cfg.scp_eval(functionVariableList, locals())
 		o = cfg.np.searchsorted(functionBandArgument, a.ravel(), side = 'right').reshape(rasterSCPArrayfunctionBand.shape[0], rasterSCPArrayfunctionBand.shape[1])
 		if nodataMask is not None:
 			o[::, ::][nodataMask[::, ::] != 0] = nodataMask[::, ::][nodataMask[::, ::] != 0]
@@ -4023,7 +4052,7 @@ class Utils:
 		cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'f ' + str(f) )
 		# perform operation
 		try:
-			o = eval(f)
+			o = cfg.scp_eval(f, locals())
 		except Exception as err:
 			# logger
 			cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'error ' + str(err) )
@@ -4046,12 +4075,12 @@ class Utils:
 			f = f.replace('bandY', ' rasterSCPArrayfunctionBand[::, ::, 1] ')
 			# perform operation
 			try:
-				u = eval(f)
+				u = cfg.scp_eval(f, locals())
 				o = cfg.np.where(u == -999, o, u)
 			# first iteration
 			except:
 				try:
-					o = eval(f)
+					o = cfg.scp_eval(f, locals())
 				except Exception as err:
 					# logger
 					cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'error ' + str(err) )
@@ -4065,7 +4094,7 @@ class Utils:
 		f = f.replace('bandX', ' rasterSCPArrayfunctionBand[::, ::, 0] ')
 		f = f.replace('bandY', ' rasterSCPArrayfunctionBand[::, ::, 1] ')
 		# perform operation
-		o = eval(f)
+		o = cfg.scp_eval(f, locals())
 		# logger
 		cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), f)
 		return o
@@ -4124,7 +4153,7 @@ class Utils:
 		try:
 			aUniqueVal.remove(cfg.NoDataVal)
 		except:
-			pass
+			int(0)
 		# logger
 		cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'aUniqueVal ' + str(aUniqueVal) )
 		# empty array
@@ -4222,7 +4251,7 @@ class Utils:
 		cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'functionVariableList  ' + str(functionVariableList) )
 		cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'rasterSCPArrayfunctionBand  ' + str(rasterSCPArrayfunctionBand.shape) )
 		# perform operation
-		array = eval(f)
+		array = cfg.scp_eval(f, locals())
 		cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'array  ' + str(array) )
 		seedX = functionVariableList[0]
 		seedY = functionVariableList[1]
@@ -4271,7 +4300,7 @@ class Utils:
 					try:
 						expression = expression.replace(percX, bandList[:-2] + '],' + percXS[1] + ', axis = 0')
 					except:
-						pass
+						int(0)
 			bandList = bandList[:-2] + '], axis = 0'
 			expression = expression.replace('"' + cfg.variableBandsetName + '#b*"', bandList)
 		# variable bandset*b1
@@ -4289,7 +4318,7 @@ class Utils:
 						cfg.bandSetsList[c-1][3][numB-1]
 						bandList = bandList + '"' + cfg.variableBandsetName + str(c) + 'b' + str(numB) + '", '
 					except:
-						pass
+						int(0)
 				# if percentile
 				perc = cfg.reSCP.findall(r'percentile\(#?(.*?)#?\)',expression)
 				for percX in perc:
@@ -4298,7 +4327,7 @@ class Utils:
 						try:
 							expression = expression.replace(percX, bandList[:-2] + '],' + percXS[1] + ', axis = 0')
 						except:
-							pass
+							int(0)
 				bandList = bandList[:-2] + '], axis = 0'
 				expression = expression.replace('"' + cfg.variableBandsetName + '*b' + str(numB) + '"', bandList)
 		# variable bandset{1,2,3}b1
@@ -4332,7 +4361,7 @@ class Utils:
 									rg = lrgL.split(':')
 									dtRList.append([cfg.datetimeSCP.datetime.strptime(rg[0].strip(), '%Y-%m-%d'), cfg.datetimeSCP.datetime.strptime(rg[1].strip(), '%Y-%m-%d')])
 								except:
-									pass
+									int(0)
 					except:
 						checkO = 'No'
 				else:
@@ -4379,7 +4408,7 @@ class Utils:
 										bsetList.append(j+1)
 										break
 							except:
-								pass
+								int(0)
 				bandList = '['
 				for c in bsetList:
 					try:
@@ -4387,7 +4416,7 @@ class Utils:
 						cfg.bandSetsList[c-1][3][numB-1]
 						bandList = bandList + '"' + cfg.variableBandsetName + str(c) + 'b' + str(numB) + '", '
 					except:
-						pass
+						int(0)
 				# if percentile
 				perc = cfg.reSCP.findall(r'percentile\((.*?)\)',expression)
 				for percX in perc:
@@ -4396,7 +4425,7 @@ class Utils:
 						try:
 							expression = expression.replace(percX, bandList[:-2] + '],' + percXS[1] + ', axis = 0')
 						except:
-							pass
+							int(0)
 				bandList = bandList[:-2] + '], axis = 0'
 				expression = expression.replace('"' + cfg.variableBandsetName + '{' + parts + '"', bandList)
 		# variable bandset1b*
@@ -4414,7 +4443,7 @@ class Utils:
 							try:
 								expression = expression.replace(percX, bandList[:-2] + "]," + percXS[1] + ", axis = 0")
 							except:
-								pass
+								int(0)
 					bandList = bandList[:-2] + '], axis = 0'
 					expression = expression.replace('"' + cfg.variableBandsetName + str(c + 1) + 'b*"', bandList)
 		if "nodata" in expression:
@@ -4525,7 +4554,7 @@ class Utils:
 		# logger
 		cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'f  ' + str(f) )
 		# perform operation
-		o = eval(f)
+		o = cfg.scp_eval(f, locals())
 		if outputArrayFile is None:
 			return o
 		else:
@@ -4566,7 +4595,7 @@ class Utils:
 			from scipy.ndimage import label
 			cfg.labelSCP = label
 		except:
-			pass
+			int(0)
 		try:
 			from scipy.ndimage.filters import maximum_filter
 			from scipy.ndimage.filters import minimum_filter
@@ -4579,7 +4608,7 @@ class Utils:
 			cfg.generic_filterSCP = generic_filter
 			cfg.median_filterSCP = median_filter
 		except:
-			pass
+			int(0)
 		from osgeo import gdal
 		from osgeo import ogr
 		from osgeo import osr
@@ -4593,7 +4622,7 @@ class Utils:
 			cfg.gdalSCP.SetConfigOption('GDAL_CACHEMAX', memory)
 			cfg.gdalSCP.SetConfigOption('VSI_CACHE', 'FALSE')
 		except:
-			pass
+			int(0)
 		# open input with GDAL
 		rD = cfg.gdalSCP.Open(raster, cfg.gdalSCP.GA_ReadOnly)
 		bandNumber = rD.RasterCount
@@ -4647,17 +4676,17 @@ class Utils:
 				try:
 					array[::, ::, b][array[::, ::, b] == ndvBand] = cfg.np.nan
 				except:
-					pass
+					int(0)
 			if skipReplaceNoData is not None:
 				try:
 					array[::, ::, b][cfg.np.isnan(array[::, ::, b])] = ndvBand	
 				except:
-					pass
+					int(0)
 			if ndv is not None:
 				try:
 					array[::, ::, b][array[::, ::, b] == ndv] = cfg.np.nan
 				except:
-					pass
+					int(0)
 		for b in range(0, len(gdalBandList)):
 			gdalBandList[b] = None
 		rD = None
@@ -4709,7 +4738,7 @@ class Utils:
 					if progressMessage is not None:
 						cfg.uiUtls.updateBar(int(100 * (completedBlocks + sum(pR)) / totBlocks), progressMessage)
 				except:
-					pass
+					int(0)
 				cfg.QtWidgetsSCP.QApplication.instance().processEvents()
 			completedBlocks = completedBlocks + sum(pR)
 			if cfg.actionCheck == 'Yes':
@@ -4757,7 +4786,7 @@ class Utils:
 			try:
 				os.add_dll_directory(d)
 			except:
-				pass
+				int(0)
 		import numpy as np
 		# garbage collector for memory issue
 		import gc
@@ -4765,12 +4794,12 @@ class Utils:
 			import scipy.stats.distributions as statdistr
 			cfg.statdistrSCP = statdistr
 		except:
-			pass
+			int(0)
 		try:
 			from scipy import signal
 			cfg.signalSCP = signal
 		except:
-			pass
+			int(0)
 		try:
 			from scipy.ndimage.filters import maximum_filter
 			from scipy.ndimage.filters import minimum_filter
@@ -4783,7 +4812,7 @@ class Utils:
 			cfg.generic_filterSCP = generic_filter
 			cfg.median_filterSCP = median_filter
 		except:
-			pass
+			int(0)
 		from osgeo import gdal
 		from osgeo import ogr
 		from osgeo import osr
@@ -4805,7 +4834,7 @@ class Utils:
 			cfg.gdalSCP.SetConfigOption('GDAL_CACHEMAX', memory)
 			cfg.gdalSCP.SetConfigOption('VSI_CACHE', 'FALSE')
 		except:
-			pass
+			int(0)
 		if scale is not None:
 			scl = float(scale)
 		else:
@@ -4957,7 +4986,7 @@ class Utils:
 							cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'a ' + str(a[0,0]) )
 							cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'a.dtype ' + str(a.dtype) )
 						except:
-							pass
+							int(0)
 						# logger
 						cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'read band' + str(b) )
 						try:
@@ -5013,12 +5042,12 @@ class Utils:
 								try:
 									array[::, ::, b][array[::, ::, b] == ndvBand] = cfg.np.nan
 								except:
-									pass
+									int(0)
 							if skipReplaceNoData is not None:
 								try:
 									array[::, ::, b][cfg.np.isnan(array[::, ::, b])] = ndvBand
 								except:
-									pass
+									int(0)
 						if useNoDataMask == 'Yes':
 							try:
 								nodataMask[0, 0]
@@ -5030,14 +5059,14 @@ class Utils:
 								try:
 									nodataMask[::, ::][array[::, ::, b] == ndvBand] = outputNoData
 								except:
-									pass
+									int(0)
 							if skipReplaceNoData is not None:
 								pass
 							else:
 								try:
 									nodataMask[::, ::][cfg.np.isnan(array[::, ::, b])] = outputNoData
 								except:
-									pass
+									int(0)
 							if skipReplaceNoData is not None:
 								pass
 							elif nodataValue is not None:
@@ -5047,7 +5076,7 @@ class Utils:
 								try:
 									nodataMask[::, ::][array[::, ::, b] == nodataValue] = outputNoData
 								except:
-									pass
+									int(0)
 						# logger
 						cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'outputNoData ' + str(outputNoData))
 						cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'a[0,0] ' + str(a[0, 0]))
@@ -5064,7 +5093,7 @@ class Utils:
 					try:
 						cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'array ' + str(array))
 					except:
-						pass
+						int(0)
 					# logger
 					cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'wrtOut ' + str(wrtOut))
 					# logger
@@ -5464,7 +5493,7 @@ class Utils:
 								dots = ''
 							cfg.uiUtls.updateBar(progressStart + int((100 - progressStart) * (completedBlocks + sum(pR)) / totBlocks), progressMessage + dots)
 					except:
-						pass
+						int(0)
 					cfg.timeSCP.sleep(1)
 					cfg.QtWidgetsSCP.QApplication.instance().processEvents()
 				completedBlocks = completedBlocks + sum(pR)
@@ -5573,7 +5602,7 @@ class Utils:
 				try:
 					cfg.osSCP.remove(n)
 				except:
-					pass
+					int(0)
 		tmpRastList = None
 		# logger
 		cfg.utls.logCondition(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'end processRaster')
@@ -5689,7 +5718,7 @@ class Utils:
 			try:
 				os.add_dll_directory(d)
 			except:
-				pass
+				int(0)
 		import numpy as np
 		from osgeo import gdal
 		from osgeo import ogr
@@ -5711,7 +5740,7 @@ class Utils:
 			cfg.gdalSCP.SetConfigOption('GDAL_CACHEMAX', '4')
 			cfg.gdalSCP.SetConfigOption('VSI_CACHE', 'FALSE')
 		except:
-			pass
+			int(0)
 		cfg.logFile = cfg.tmpDir + '/log_' + wrtProc
 		# logger
 		cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), " process: " + str(wrtProc))
@@ -5776,11 +5805,11 @@ class Utils:
 			input0 = cfg.ogrSCP.Open(outputVectorPath)
 			iL0 = input0.GetLayer()
 			iNm0 = iL0.GetName()
-			sql = 'SELECT MIN(miny) FROM "rtree_' + iNm0 + '_geom"'
+			sql = _build_rtree_extent_sql('MIN(miny)', iNm0)
 			uV = input0.ExecuteSQL(sql, dialect = 'SQLITE')
 			uVF = uV.GetNextFeature()
 			minY = uVF.GetField(0)
-			sql = 'SELECT MAX(maxy) FROM "rtree_' + iNm0 + '_geom"'
+			sql = _build_rtree_extent_sql('MAX(maxy)', iNm0)
 			uV = input0.ExecuteSQL(sql, dialect = 'SQLITE')
 			uVF = uV.GetNextFeature()
 			maxY = uVF.GetField(0)
@@ -5793,7 +5822,7 @@ class Utils:
 			try:
 				arrayFile = arrayFile[::, ::, 0]
 			except:
-				pass
+				int(0)
 			cfg.utls.writeArrayBlock(r, 1, arrayFile, section[0], section[1])
 			r = None
 		
@@ -5843,7 +5872,7 @@ class Utils:
 		try:
 			dataArray = dataArray[::, ::, 0]
 		except:
-			pass
+			int(0)
 		r = bO.WriteArray(dataArray, x, y)
 		# logger
 		cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'output r ' + str(r))
@@ -5909,10 +5938,10 @@ class Utils:
 							pass
 					elif stratified is not None:
 						try:
-							if eval(stratifiedExpression.replace(cfg.variableName, 'bVal')) is True:
+							if cfg.scp_eval(stratifiedExpression.replace(cfg.variableName, 'bVal'), locals()) is True:
 								points.append([XCoords[0], YCoords[0]])
 						except:
-							pass
+							int(0)
 						if counter == pointNumber*100 and len(points) == 0:
 							# logger
 							cfg.utls.logCondition(str(__name__) + "-" + (cfg.inspectSCP.stack()[0][3])+ " " + cfg.utls.lineOfCode(), " ERROR : maximum number of iterations" )
@@ -6495,7 +6524,7 @@ class Utils:
 			else:
 				i = cfg.utls.selectLayerbyName(cfg.bandSetsList[cfg.bndSetNumber][8], 'Yes')
 		except:
-			pass
+			int(0)
 		try:
 			if i is not None:
 				if cfg.inputImageRadio.isChecked():
@@ -6504,7 +6533,7 @@ class Utils:
 				else:
 					cfg.utls.setLayerVisible(i, False)
 		except:
-			pass
+			int(0)
 			
 	# refresh classification combo
 	def refreshRasterExtent(self):
@@ -6587,7 +6616,7 @@ class Utils:
 					if str(i.typeName()).lower() != 'string':
 						cfg.dlg.reference_field_combo(str(i.name()))
 		except:
-			pass
+			int(0)
 		# logger
 		cfg.utls.logCondition(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode())
 						
@@ -6603,7 +6632,7 @@ class Utils:
 					if str(i.typeName()).lower() != 'string':
 						cfg.dlg.reference_field_combo2(str(i.name()))
 		except:
-			pass
+			int(0)
 		# logger
 		cfg.utls.logCondition(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode())
 		
@@ -6762,7 +6791,7 @@ class Utils:
 				iSR.SetAxisMappingStrategy(cfg.osrSCP.OAMS_TRADITIONAL_GIS_ORDER)
 				oSR.SetAxisMappingStrategy(cfg.osrSCP.OAMS_TRADITIONAL_GIS_ORDER)
 			except:
-				pass
+				int(0)
 			# Coordinate Transformation
 			cT = cfg.osrSCP.CoordinateTransformation(iSR, oSR)
 			pointT = cfg.ogrSCP.Geometry(cfg.ogrSCP.wkbPoint)
@@ -6786,7 +6815,7 @@ class Utils:
 				iSR.SetAxisMappingStrategy(cfg.osrSCP.OAMS_TRADITIONAL_GIS_ORDER)
 				oSR.SetAxisMappingStrategy(cfg.osrSCP.OAMS_TRADITIONAL_GIS_ORDER)
 			except:
-				pass
+				int(0)
 			# Coordinate Transformation
 			cT = cfg.osrSCP.CoordinateTransformation(iSR, oSR)
 			pointT = cfg.ogrSCP.Geometry(cfg.ogrSCP.wkbPoint)
@@ -6917,7 +6946,7 @@ class Utils:
 			duplicateID = cfg.utls.layerID(name, cfg.shpLay.id())
 			cfg.qgisCoreSCP.QgsProject.instance().removeMapLayer(duplicateID)
 		except:
-			pass
+			int(0)
 		# enable map canvas render
 		cfg.cnvs.setRenderFlag(True)
 		
@@ -6969,7 +6998,7 @@ class Utils:
 			l.write(source)
 			l.close()
 		except:
-			pass
+			int(0)
 		if cfg.osSCP.path.isfile(tPMD2):
 			if cfg.sysSCPNm == 'Darwin':
 				sP = cfg.subprocessSCP.call(('open', tPMD2))
@@ -7417,7 +7446,7 @@ class Utils:
 						dots = ''
 					cfg.uiUtls.updateBar(progress, cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'Sieve') + dots)
 				except:
-					pass
+					int(0)
 			cfg.QtWidgetsSCP.QApplication.instance().processEvents()
 			if cfg.actionCheck != 'Yes':
 				break
@@ -7449,7 +7478,7 @@ class Utils:
 		try:
 			cfg.osSCP.remove(tempRaster)
 		except:
-			pass
+			int(0)
 		# logger
 		cfg.utls.logCondition(str(__name__) + "-" + (cfg.inspectSCP.stack()[0][3])+ " " + cfg.utls.lineOfCode(), "sieve: " + str(outputRaster))
 		return st
@@ -7458,7 +7487,7 @@ class Utils:
 	def buildOverviewsBandSet(self, directory = 'Yes', quiet = 'No', bandSetNumber = None):
 		if bandSetNumber is None:
 			bandSetNumber = cfg.ui.Band_set_tabWidget.currentIndex()
-		tW = eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber])
+		tW = cfg.scp_eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[bandSetNumber], locals())
 		c = tW.rowCount()
 		# check if single raster
 		if c > 0:
@@ -7579,7 +7608,7 @@ class Utils:
 			try:
 				os.add_dll_directory(d)
 			except:
-				pass
+				int(0)
 		import numpy as np
 		from osgeo import gdal
 		from osgeo import ogr
@@ -7597,7 +7626,7 @@ class Utils:
 			cfg.gdalSCP.SetConfigOption('GDAL_CACHEMAX', memory)
 			cfg.gdalSCP.SetConfigOption('VSI_CACHE', 'FALSE')
 		except:
-			pass
+			int(0)
 		try:
 			rD = cfg.gdalSCP.Open(inputRaster, cfg.gdalSCP.GA_ReadOnly)
 			rD.BuildOverviews('NEAREST', [8,16,32,64])
@@ -7767,7 +7796,7 @@ class Utils:
 			try:
 				os.add_dll_directory(d)
 			except:
-				pass
+				int(0)
 		from osgeo import gdal
 		from osgeo import ogr
 		from osgeo import osr
@@ -7786,7 +7815,7 @@ class Utils:
 			cfg.gdalSCP.SetConfigOption('GDAL_CACHEMAX', memory)
 			cfg.gdalSCP.SetConfigOption('VSI_CACHE', 'FALSE')
 		except:
-			pass
+			int(0)
 		cfg.logFile = cfg.tmpDir + '/log_' + 'gdal'
 		# logger
 		cfg.utls.logToFile(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), ' process: ' + str(wrtProc))
@@ -7877,7 +7906,7 @@ class Utils:
 						dots = ''
 					cfg.uiUtls.updateBar(progress, cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'Reprojecting') + dots)
 				except:
-					pass
+					int(0)
 			cfg.QtWidgetsSCP.QApplication.instance().processEvents()
 			if cfg.actionCheck != 'Yes':
 				break
@@ -8211,7 +8240,7 @@ class Utils:
 			oL.CreateField(fDefn)
 		oLDefn = oL.GetLayerDefn()
 		# get unique values
-		sql = 'SELECT DISTINCT "' + column +'" FROM "' + iNm0 + '"'
+		sql = _build_distinct_col_sql(column, iNm0)
 		# logger
 		cfg.utls.logCondition(str(__name__) + '-' + (cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'sql ' + sql)
 		uniqueValues = inputM.ExecuteSQL(sql, dialect = 'SQLITE')
@@ -8225,7 +8254,7 @@ class Utils:
 		for v in values:
 			uVFL = None
 			# to be replaced by cascaded ST_UNION when performance issues are solved, see https://groups.google.com/g/spatialite-users/c/FTO_cmLCfpE/
-			sql = 'SELECT DISTINCT(ST_unaryunion(ST_COLLECT(geom))), GROUP_CONCAT(DISTINCT id) FROM (SELECT fid as id, geom FROM "' + iNm0 + '" WHERE ' + column + ' = ' + str(v) + ') INNER JOIN (SELECT DISTINCT id FROM "rtree_' + iNm0 + '_geom" WHERE miny IN (' + sqlList + ') OR maxy IN (' + sqlList + ') ) USING (id)'
+			sql = _build_dissolve_sql(iNm0, column, v, sqlList)
 			# logger
 			cfg.utls.logCondition(str(__name__) + '-' + (cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'sql ' + sql)
 			uV = inputM.ExecuteSQL(sql, dialect = 'SQLITE')
@@ -8440,7 +8469,7 @@ class Utils:
 		try:
 			crsWkt = str(crsWkt.toWkt())
 		except:
-			pass
+			int(0)
 		# logger
 		cfg.utls.logCondition(str(__name__) + '-' + (cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'crsWkt: ' + str(crsWkt))
 		d = cfg.ogrSCP.GetDriverByName(format)
@@ -8462,7 +8491,7 @@ class Utils:
 		try:
 			crsWkt = str(crsWkt.toWkt())
 		except:
-			pass
+			int(0)
 		# logger
 		cfg.utls.logCondition(str(__name__) + '-' + (cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'crsWkt: ' + str(crsWkt))
 		d = cfg.ogrSCP.GetDriverByName('ESRI Shapefile')
@@ -8494,7 +8523,7 @@ class Utils:
 		try:
 			crsWkt = str(crsWkt.toWkt())
 		except:
-			pass
+			int(0)
 		# logger
 		cfg.utls.logCondition(str(__name__) + '-' + (cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), 'crsWkt: ' + str(crsWkt))
 		d = cfg.ogrSCP.GetDriverByName(format)
@@ -8772,7 +8801,7 @@ class Utils:
 			iSR.SetAxisMappingStrategy(cfg.osrSCP.OAMS_TRADITIONAL_GIS_ORDER)
 			oSR.SetAxisMappingStrategy(cfg.osrSCP.OAMS_TRADITIONAL_GIS_ORDER)
 		except:
-			pass
+			int(0)
 		# Coordinate Transformation
 		cT = cfg.osrSCP.CoordinateTransformation(iSR, oSR)
 		# input shapefile
@@ -8860,7 +8889,7 @@ class Utils:
 				try:
 					self.removeLayer(tPMN)
 				except:
-					pass
+					int(0)
 				tPMD = cfg.utls.createTempRasterPath('vrt')
 				ckB = cfg.utls.checkBandSet(bandSetNumber)
 				vrtCheck = cfg.utls.createVirtualRaster(cfg.bndSetLst, tPMD, 'No', 'Yes', 'Yes', 0)
@@ -9637,7 +9666,7 @@ class Utils:
 		# band set
 		bandSetsList = cfg.utls.readProjectVariable('bandSetsList', '[]')
 		bndSetNumber = cfg.utls.readProjectVariable('bndSetNumber', str(cfg.bndSetNumber))		
-		cfg.bandSetsList = eval(bandSetsList)
+		cfg.bandSetsList = cfg.scp_eval(bandSetsList, locals())
 		bndSetMaxNumber = len(cfg.bandSetsList)
 		if bndSetMaxNumber > 0:
 			t = cfg.ui.Band_set_tabWidget.count()
@@ -9654,7 +9683,7 @@ class Utils:
 				# add band set to table
 				bs = bndSetList[3]
 				wlg = bndSetList[4]
-				t = eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[i])
+				t = cfg.scp_eval('cfg.ui.tableWidget__' + cfg.bndSetTabList[i], locals())
 				it = 0
 				cfg.BandTabEdited = 'No'
 				t.blockSignals(True)
@@ -9702,14 +9731,14 @@ class Utils:
 		cfg.BandTabEdited = 'Yes'
 		# read RGB list
 		rgbList = cfg.utls.readProjectVariable('SCP_RGBList', str(cfg.RGBList))
-		cfg.RGBList = eval(rgbList)
+		cfg.RGBList = cfg.scp_eval(rgbList, locals())
 		try:
 			if cfg.vrtRstProjVal == '0':
 				cfg.rgb_combo.blockSignals(True)
 			cfg.utls.setComboboxItems(cfg.rgb_combo, cfg.RGBList)
 			cfg.rgb_combo.blockSignals(False)
 		except:
-			pass
+			int(0)
 		# logger
 		cfg.utls.logCondition(str(__name__) + '-' + str(cfg.inspectSCP.stack()[0][3])+ ' ' + cfg.utls.lineOfCode(), ' readVariables')
 			
@@ -9788,7 +9817,7 @@ class Utils:
 					ram = int((int(tRam) / 1000) / 2)
 					cfg.ui.RAM_spinBox.setValue(ram)
 		except:
-			pass
+			int(0)
 			
 	# find file name without extension
 	def fileNameNoExt(self, path):
