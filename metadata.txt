@@ -3,7 +3,7 @@ name=SCP-Light
 qgisMinimumVersion=4.0
 qgisMaximumVersion=4.99
 description=QGIS 4 / Qt 6 port of Semi-Automatic Classification Plugin (SCP 7.10.11) without Remotior Sensus.
-version=1.0.4
+version=1.0.5
 about=SCP-Light is an independent QGIS 4 / Qt 6 port of the Semi-Automatic Classification Plugin (SCP 7.10.11) originally developed by Luca Congedo. It operates natively on QGIS 4 without external Remotior Sensus dependencies, retains classic SCP Band Set, ROI/Signature, Classification, Band Calc, and Postprocessing workflows, and adapts Sentinel search and download to the Copernicus Data Space Ecosystem. Validated on QGIS 4.2.3 (Qt 6 / Python 3.14).
 author=Alvin M. Natividad (based on SCP 7.10.11 by Luca Congedo)
 email=alvinmn2022@gmail.com
@@ -16,7 +16,10 @@ experimental=False
 deprecated=False
 hasProcessingProvider=yes
 tags=Raster, Classification, Land Cover, Remote Sensing, Analysis, Landsat, Sentinel
-changelog=1.0.4 (2026-11-27)
+changelog=1.0.5 (2026-11-27)
+    - Updated dock version label to 1.0.5 and migrated icons to Qt6 QDir search paths
+    - Bundled USGS spectral library CSVs cleanly for repository validation
+    1.0.4 (2026-11-27)
     - Eliminated all remaining Bandit static analysis warnings (B110, B404, B405, B408) for repository compliance
     1.0.3 (2026-11-26)
     - Escaped SQLite/SpatiaLite identifiers in vector extent and dissolve queries and removed legacy compiled resource file for Qt6 compliance

@@ -1413,7 +1413,7 @@ class SCPDock:
 	# add item to menu
 	def addMenuItem(self, menu, function, iconName, name, tooltip = ''):
 		try:
-			action = cfg.QtWidgetsSCP.QAction(cfg.QtGuiSCP.QIcon(':/plugins/semiautomaticclassificationplugin/icons/' + iconName), name, cfg.iface.mainWindow())
+			action = cfg.QtWidgetsSCP.QAction(cfg.QtGuiSCP.QIcon('scp_icons:' + iconName), name, cfg.iface.mainWindow())
 		except:
 			action = cfg.QtWidgetsSCP.QAction(name, cfg.iface.mainWindow())
 		action.setObjectName('action')

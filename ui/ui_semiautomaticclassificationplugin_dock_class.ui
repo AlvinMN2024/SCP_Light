@@ -56,7 +56,7 @@
        </property>
        <attribute name="icon">
         <iconset resource="resources.qrc">
-         <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_home.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_home.svg</iconset>
+         <normaloff>scp_icons:semiautomaticclassificationplugin_home.svg</normaloff>scp_icons:semiautomaticclassificationplugin_home.svg</iconset>
        </attribute>
        <attribute name="title">
         <string>Home</string>
@@ -79,7 +79,7 @@
               </property>
               <property name="icon">
                <iconset resource="resources.qrc">
-                <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_batch.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_batch.svg</iconset>
+                <normaloff>scp_icons:semiautomaticclassificationplugin_batch.svg</normaloff>scp_icons:semiautomaticclassificationplugin_batch.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -99,7 +99,7 @@
               </property>
               <property name="icon">
                <iconset resource="resources.qrc">
-                <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_post_process.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_post_process.svg</iconset>
+                <normaloff>scp_icons:semiautomaticclassificationplugin_post_process.svg</normaloff>scp_icons:semiautomaticclassificationplugin_post_process.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -119,7 +119,7 @@
               </property>
               <property name="icon">
                <iconset resource="resources.qrc">
-                <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_class_tool.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_class_tool.svg</iconset>
+                <normaloff>scp_icons:semiautomaticclassificationplugin_class_tool.svg</normaloff>scp_icons:semiautomaticclassificationplugin_class_tool.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -139,7 +139,7 @@
               </property>
               <property name="icon">
                <iconset resource="resources.qrc">
-                <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_bandset_tool.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_bandset_tool.svg</iconset>
+                <normaloff>scp_icons:semiautomaticclassificationplugin_bandset_tool.svg</normaloff>scp_icons:semiautomaticclassificationplugin_bandset_tool.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -159,7 +159,7 @@
               </property>
               <property name="icon">
                <iconset resource="resources.qrc">
-                <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_bandcalc_tool.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_bandcalc_tool.svg</iconset>
+                <normaloff>scp_icons:semiautomaticclassificationplugin_bandcalc_tool.svg</normaloff>scp_icons:semiautomaticclassificationplugin_bandcalc_tool.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -179,7 +179,7 @@
               </property>
               <property name="icon">
                <iconset resource="resources.qrc">
-                <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_download_arrow.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_download_arrow.svg</iconset>
+                <normaloff>scp_icons:semiautomaticclassificationplugin_download_arrow.svg</normaloff>scp_icons:semiautomaticclassificationplugin_download_arrow.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -199,7 +199,7 @@
               </property>
               <property name="icon">
                <iconset resource="resources.qrc">
-                <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_band_processing.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_band_processing.svg</iconset>
+                <normaloff>scp_icons:semiautomaticclassificationplugin_band_processing.svg</normaloff>scp_icons:semiautomaticclassificationplugin_band_processing.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -219,7 +219,7 @@
               </property>
               <property name="icon">
                <iconset resource="resources.qrc">
-                <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_roi_tool.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_roi_tool.svg</iconset>
+                <normaloff>scp_icons:semiautomaticclassificationplugin_roi_tool.svg</normaloff>scp_icons:semiautomaticclassificationplugin_roi_tool.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -377,7 +377,7 @@ padding: 2px;</string>
             </property>
             <property name="icon">
              <iconset resource="resources.qrc">
-              <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin.svg</iconset>
+              <normaloff>scp_icons:semiautomaticclassificationplugin.svg</normaloff>scp_icons:semiautomaticclassificationplugin.svg</iconset>
             </property>
             <property name="flat">
              <bool>false</bool>
@@ -422,7 +422,7 @@ padding: 2px;</string>
        </property>
        <attribute name="icon">
         <iconset resource="resources.qrc">
-         <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_training_input.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_training_input.svg</iconset>
+         <normaloff>scp_icons:semiautomaticclassificationplugin_training_input.svg</normaloff>scp_icons:semiautomaticclassificationplugin_training_input.svg</iconset>
        </attribute>
        <attribute name="title">
         <string>Training input</string>
@@ -442,7 +442,7 @@ padding: 2px;</string>
               </property>
               <property name="icon">
                <iconset resource="resources.qrc">
-                <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_new_file.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_new_file.svg</iconset>
+                <normaloff>scp_icons:semiautomaticclassificationplugin_new_file.svg</normaloff>scp_icons:semiautomaticclassificationplugin_new_file.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -475,7 +475,7 @@ padding: 2px;</string>
               </property>
               <property name="icon">
                <iconset resource="resources.qrc">
-                <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_open_file.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_open_file.svg</iconset>
+                <normaloff>scp_icons:semiautomaticclassificationplugin_open_file.svg</normaloff>scp_icons:semiautomaticclassificationplugin_open_file.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -495,7 +495,7 @@ padding: 2px;</string>
               </property>
               <property name="icon">
                <iconset resource="resources.qrc">
-                <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_reset.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_reset.svg</iconset>
+                <normaloff>scp_icons:semiautomaticclassificationplugin_reset.svg</normaloff>scp_icons:semiautomaticclassificationplugin_reset.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -563,7 +563,7 @@ padding: 2px;</string>
                 </property>
                 <property name="icon">
                  <iconset resource="resources.qrc">
-                  <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_merge_sign_tool.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_merge_sign_tool.svg</iconset>
+                  <normaloff>scp_icons:semiautomaticclassificationplugin_merge_sign_tool.svg</normaloff>scp_icons:semiautomaticclassificationplugin_merge_sign_tool.svg</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -586,7 +586,7 @@ padding: 2px;</string>
                 </property>
                 <property name="icon">
                  <iconset resource="resources.qrc">
-                  <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_add_sign_tool.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_add_sign_tool.svg</iconset>
+                  <normaloff>scp_icons:semiautomaticclassificationplugin_add_sign_tool.svg</normaloff>scp_icons:semiautomaticclassificationplugin_add_sign_tool.svg</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -609,7 +609,7 @@ padding: 2px;</string>
                 </property>
                 <property name="icon">
                  <iconset resource="resources.qrc">
-                  <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_delete_signature.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_delete_signature.svg</iconset>
+                  <normaloff>scp_icons:semiautomaticclassificationplugin_delete_signature.svg</normaloff>scp_icons:semiautomaticclassificationplugin_delete_signature.svg</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -645,7 +645,7 @@ padding: 2px;</string>
                 </property>
                 <property name="icon">
                  <iconset resource="resources.qrc">
-                  <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_sign_tool.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_sign_tool.svg</iconset>
+                  <normaloff>scp_icons:semiautomaticclassificationplugin_sign_tool.svg</normaloff>scp_icons:semiautomaticclassificationplugin_sign_tool.svg</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -668,7 +668,7 @@ padding: 2px;</string>
                 </property>
                 <property name="icon">
                  <iconset resource="resources.qrc">
-                  <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_scatter_tool.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_scatter_tool.svg</iconset>
+                  <normaloff>scp_icons:semiautomaticclassificationplugin_scatter_tool.svg</normaloff>scp_icons:semiautomaticclassificationplugin_scatter_tool.svg</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -704,7 +704,7 @@ padding: 2px;</string>
                 </property>
                 <property name="icon">
                  <iconset resource="resources.qrc">
-                  <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_import_spectral_library.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_import_spectral_library.svg</iconset>
+                  <normaloff>scp_icons:semiautomaticclassificationplugin_import_spectral_library.svg</normaloff>scp_icons:semiautomaticclassificationplugin_import_spectral_library.svg</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -728,7 +728,7 @@ padding: 2px;</string>
                 </property>
                 <property name="icon">
                  <iconset resource="resources.qrc">
-                  <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_export_spectral_library.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_export_spectral_library.svg</iconset>
+                  <normaloff>scp_icons:semiautomaticclassificationplugin_export_spectral_library.svg</normaloff>scp_icons:semiautomaticclassificationplugin_export_spectral_library.svg</iconset>
                 </property>
                 <property name="iconSize">
                  <size>
@@ -914,7 +914,7 @@ padding: 2px;</string>
               </property>
               <property name="icon">
                <iconset resource="resources.qrc">
-                <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_undo_save_roi.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_undo_save_roi.svg</iconset>
+                <normaloff>scp_icons:semiautomaticclassificationplugin_undo_save_roi.svg</normaloff>scp_icons:semiautomaticclassificationplugin_undo_save_roi.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -937,7 +937,7 @@ padding: 2px;</string>
               </property>
               <property name="icon">
                <iconset resource="resources.qrc">
-                <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_redo_save_roi.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_redo_save_roi.svg</iconset>
+                <normaloff>scp_icons:semiautomaticclassificationplugin_redo_save_roi.svg</normaloff>scp_icons:semiautomaticclassificationplugin_redo_save_roi.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -1005,7 +1005,7 @@ padding: 2px;</string>
               </property>
               <property name="icon">
                <iconset resource="resources.qrc">
-                <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_save_roi.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_save_roi.svg</iconset>
+                <normaloff>scp_icons:semiautomaticclassificationplugin_save_roi.svg</normaloff>scp_icons:semiautomaticclassificationplugin_save_roi.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -1030,7 +1030,7 @@ padding: 2px;</string>
        </property>
        <attribute name="icon">
         <iconset resource="resources.qrc">
-         <normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_roi_options.svg</normaloff>:/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_roi_options.svg</iconset>
+         <normaloff>scp_icons:semiautomaticclassificationplugin_roi_options.svg</normaloff>scp_icons:semiautomaticclassificationplugin_roi_options.svg</iconset>
        </attribute>
        <attribute name="title">
         <string> ROI options</string>

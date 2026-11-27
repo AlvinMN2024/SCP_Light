@@ -54,7 +54,7 @@ class Ui_Utils:
 		cfg.iconLabel.setMinimumSize(cfg.QtCoreSCP.QSize(20, 20))
 		cfg.iconLabel.setMaximumSize(cfg.QtCoreSCP.QSize(50, 50))
 		cfg.iconLabel.setSizePolicy(sizePolicy)
-		cfg.iconLabel.setPixmap(cfg.QtGuiSCP.QPixmap(':/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin.svg'))
+		cfg.iconLabel.setPixmap(cfg.QtGuiSCP.QPixmap('scp_icons:semiautomaticclassificationplugin.svg'))
 		cfg.msgLabelMain = cfg.QtWidgetsSCP.QLabel()
 		sizePolicy = cfg.QtWidgetsSCP.QSizePolicy(cfg.QtWidgetsSCP.QSizePolicy.Policy.Expanding, cfg.QtWidgetsSCP.QSizePolicy.Policy.Preferred)
 		cfg.msgLabelMain.setMinimumSize(cfg.QtCoreSCP.QSize(50, 0))

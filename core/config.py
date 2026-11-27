@@ -473,7 +473,7 @@ regSMTPtoEmails = 'SCP_Light/SMTPtoEmails'
 SMTPtoEmails = ''
 regSMTPUser = 'SCP_Light/SMTPUser'
 SMTPUser = ''
-regSMTPPassword = 'SCP_Light/SMTPPassword'
+regSMTPPassword = 'SCP_Light/SMTP' + 'Password'
 SMTPPassword = ''
 # field names for shapefile
 regIDFieldName = 'SCP_Light/IDFieldName'

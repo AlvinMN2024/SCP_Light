@@ -13,7 +13,7 @@ class Ui_SCP_Welcome(object):
         SCP_Welcome.setObjectName("SCP_Welcome")
         SCP_Welcome.resize(609, 355)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        icon.addPixmap(QtGui.QPixmap("scp_icons:semiautomaticclassificationplugin.svg"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         SCP_Welcome.setWindowIcon(icon)
         self.gridLayout_2 = QtWidgets.QGridLayout(SCP_Welcome)
         self.gridLayout_2.setObjectName("gridLayout_2")
@@ -50,6 +50,5 @@ class Ui_SCP_Welcome(object):
 "<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Droid Sans\'; font-size:11pt;\">You can also contribute to SCP translation.</span></p>\n"
 "<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Droid Sans\'; font-size:11pt;\">For comments or questions please join the </span><a href=\"https://www.facebook.com/groups/SemiAutomaticClassificationPlugin\"><span style=\" font-family:\'Noto Sans\'; font-size:11pt; text-decoration: underline; color:#0000ff;\">SCP group in Facebook</span></a><span style=\" font-family:\'Noto Sans\'; font-size:11pt;\"> .</span></p>\n"
 "<p align=\"center\" style=\"-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
-"<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><img src=\":/plugins/semiautomaticclassificationplugin/icons/fromGIStoRS.png\" /><a href=\"https://fromgistors.blogspot.com/p/semi-automatic-classification-plugin.html?spref=scp\"><span style=\" font-family:\'Droid Sans\'; font-size:14pt; text-decoration: underline; color:#0000ff;\">From GIS to Remote Sensing</span></a></p></body></html>"))
+"<p align=\"center\" style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><img src=\"scp_icons:fromGIStoRS.png\" /><a href=\"https://fromgistors.blogspot.com/p/semi-automatic-classification-plugin.html?spref=scp\"><span style=\" font-family:\'Droid Sans\'; font-size:14pt; text-decoration: underline; color:#0000ff;\">From GIS to Remote Sensing</span></a></p></body></html>"))
 
-from . import resources_rc

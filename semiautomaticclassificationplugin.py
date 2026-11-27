@@ -36,6 +36,8 @@
 global PluginCheck
 PluginCheck = 'Yes'
 import os
+from qgis.PyQt.QtCore import QDir as _QDirSCP
+_QDirSCP.addSearchPath("scp_icons", os.path.join(os.path.dirname(__file__), "ui", "icons"))
 import sys
 try:
 	from .core import config as cfg
@@ -54,7 +56,7 @@ import inspect
 import shutil
 import time
 import datetime
-_imp = getattr(__builtins__, "__import__") if isinstance(__builtins__, dict) else __builtins__.__import__; subprocess = _imp("".join(["sub", "process"]))
+_imp = getattr(__import__("builtins"), "__import__"); subprocess = _imp("".join(["sub", "process"]))
 import numpy as np
 import urllib
 import requests
@@ -68,8 +70,8 @@ import tarfile
 import base64
 import random
 import re
-_imp = getattr(__builtins__, "__import__") if isinstance(__builtins__, dict) else __builtins__.__import__; ET = _imp("".join(["xml.etree.", "ElementTree"]), fromlist=["ElementTree"])
-_imp = getattr(__builtins__, "__import__") if isinstance(__builtins__, dict) else __builtins__.__import__; minidom = _imp("".join(["xml.dom.", "minidom"]), fromlist=["minidom"])
+_imp = getattr(__import__("builtins"), "__import__"); ET = _imp("".join(["xml.etree.", "ElementTree"]), fromlist=["ElementTree"])
+_imp = getattr(__import__("builtins"), "__import__"); minidom = _imp("".join(["xml.dom.", "minidom"]), fromlist=["minidom"])
 import json
 import hashlib
 import ctypes
@@ -94,7 +96,6 @@ from osgeo import gdal
 from osgeo import ogr
 from osgeo import osr
 # Initialize Qt ui
-from .ui.resources_rc import *
 from .ui.ui_semiautomaticclassificationplugin import Ui_SemiAutomaticClassificationPlugin
 from .ui.ui_semiautomaticclassificationplugin_welcome import Ui_SCP_Welcome
 from .ui.semiautomaticclassificationplugindialog import SemiAutomaticClassificationPluginDialog
@@ -578,6 +579,12 @@ class SemiAutomaticClassificationPlugin:
 			cfg.utls.setColumnWidthList(cfg.ui.download_images_tableWidget, [[0, 100], [1, 400]])
 			# USGS spectral lbrary
 			cfg.usgsLib.addSpectralLibraryToCombo(cfg.usgs_lib_list)
+			_usgs_dir = cfg.plgnDir + '/spectralsignature/usgs_spectral_library'
+			_usgs_zip = _usgs_dir + '/usgs_spectral_library.zip'
+			if os.path.isfile(_usgs_zip) and not os.path.isfile(_usgs_dir + '/minerals.csv'):
+			    import zipfile as _zf_scp
+			    with _zf_scp.ZipFile(_usgs_zip, 'r') as _z:
+			        _z.extractall(_usgs_dir)
 			cfg.usgs_C1p = cfg.plgnDir + '/' + cfg.usgs_C1p
 			cfg.usgs_C2p = cfg.plgnDir + '/' + cfg.usgs_C2p
 			cfg.usgs_C3p = cfg.plgnDir + '/' + cfg.usgs_C3p

@@ -221,7 +221,7 @@ class Input:
 				
 	# Add toolbar action
 	def addToolbarAction(self, function, iconName, tooltip):
-		action = cfg.QtWidgetsSCP.QAction(cfg.QtGuiSCP.QIcon(':/plugins/semiautomaticclassificationplugin/icons/' + iconName), tooltip, cfg.iface.mainWindow())
+		action = cfg.QtWidgetsSCP.QAction(cfg.QtGuiSCP.QIcon('scp_icons:' + iconName), tooltip, cfg.iface.mainWindow())
 		action.setToolTip(tooltip)
 		action.triggered.connect(function)
 		cfg.toolBar2.addAction(action)
@@ -229,7 +229,7 @@ class Input:
 		
 	# Add toolbar button
 	def addToolbar2Button(self, function, iconName, tooltip):
-		toolButton = cfg.QtWidgetsSCP.QPushButton(cfg.QtGuiSCP.QIcon(':/plugins/semiautomaticclassificationplugin/icons/' + iconName), '')
+		toolButton = cfg.QtWidgetsSCP.QPushButton(cfg.QtGuiSCP.QIcon('scp_icons:' + iconName), '')
 		toolButton.setStyleSheet(' border: none;margin: 2px;icon-size: 24px; color: black')
 		toolButton.setToolTip(tooltip)
 		cfg.toolBar2.addWidget(toolButton)
@@ -238,7 +238,7 @@ class Input:
 		
 	# Add toolbar button
 	def addToolbarEditAction(self, function, iconName, tooltip):
-		action = cfg.QtWidgetsSCP.QAction(cfg.QtGuiSCP.QIcon(':/plugins/semiautomaticclassificationplugin/icons/' + iconName), tooltip, cfg.iface.mainWindow())
+		action = cfg.QtWidgetsSCP.QAction(cfg.QtGuiSCP.QIcon('scp_icons:' + iconName), tooltip, cfg.iface.mainWindow())
 		action.setToolTip(tooltip)
 		action.triggered.connect(function)
 		cfg.toolBar3.addAction(action)
@@ -273,7 +273,7 @@ class Input:
 	# add item to menu
 	def addMenuItem(self, menu, function, iconName, name):
 		try:
-			action = cfg.QtWidgetsSCP.QAction(cfg.QtGuiSCP.QIcon(':/plugins/semiautomaticclassificationplugin/icons/' + iconName), name, cfg.iface.mainWindow())
+			action = cfg.QtWidgetsSCP.QAction(cfg.QtGuiSCP.QIcon('scp_icons:' + iconName), name, cfg.iface.mainWindow())
 		except:
 			action = cfg.QtWidgetsSCP.QAction(name, cfg.iface.mainWindow())
 		action.setObjectName('action')
@@ -291,7 +291,7 @@ class Input:
 		# Band set
 		bandset_action = cfg.ipt.addMenuItem(cfg.menu, cfg.utls.bandSetTab, 'semiautomaticclassificationplugin_bandset_tool.svg', cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'Band set'))
 		# Band tools
-		cfg.basic_tools_menu = cfg.menu.addMenu(cfg.QtGuiSCP.QIcon(':/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_roi_tool.svg'), cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'Basic tools'))
+		cfg.basic_tools_menu = cfg.menu.addMenu(cfg.QtGuiSCP.QIcon('scp_icons:semiautomaticclassificationplugin_roi_tool.svg'), cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'Basic tools'))
 		# Algorithm band weight
 		algorithm_weight_action = cfg.ipt.addMenuItem(cfg.basic_tools_menu, cfg.utls.algorithmBandWeightTab, 'semiautomaticclassificationplugin_weight_tool.svg', cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'Algorithm band weight'))
 		# Band set list
@@ -311,7 +311,7 @@ class Input:
 		# Download
 		cfg.download_products_action = cfg.ipt.addMenuItem(cfg.menu, cfg.utls.downloadProductsTab, 'semiautomaticclassificationplugin_download_arrow.svg', cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'Download products'))
 		# Preprocessing
-		cfg.preprocessing_menu = cfg.menu.addMenu(cfg.QtGuiSCP.QIcon(':/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_class_tool.svg'), cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'Preprocessing'))
+		cfg.preprocessing_menu = cfg.menu.addMenu(cfg.QtGuiSCP.QIcon('scp_icons:semiautomaticclassificationplugin_class_tool.svg'), cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'Preprocessing'))
 		# ASTER
 		aster_action = cfg.ipt.addMenuItem(cfg.preprocessing_menu, cfg.utls.asterTab, 'semiautomaticclassificationplugin_aster_tool.svg', cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'ASTER'))
 		# GOES
@@ -343,7 +343,7 @@ class Input:
 		# Vector to raster
 		vector_to_raster_action = cfg.ipt.addMenuItem(cfg.preprocessing_menu, cfg.utls.vectorToRasterTab, 'semiautomaticclassificationplugin_vector_to_raster_tool.svg', cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'Vector to raster'))
 		# Band processing
-		cfg.band_processing_menu = cfg.menu.addMenu(cfg.QtGuiSCP.QIcon(':/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_band_processing.svg'), cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'Band processing'))
+		cfg.band_processing_menu = cfg.menu.addMenu(cfg.QtGuiSCP.QIcon('scp_icons:semiautomaticclassificationplugin_band_processing.svg'), cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'Band processing'))
 		# Band combination
 		band_combination_action = cfg.ipt.addMenuItem(cfg.band_processing_menu, cfg.utls.bandCombinationTab, 'semiautomaticclassificationplugin_band_combination_tool.svg', cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'Band combination'))
 		# Classification
@@ -357,7 +357,7 @@ class Input:
 		# spectral distance
 		spectral_distance_action = cfg.ipt.addMenuItem(cfg.band_processing_menu, cfg.utls.spectralDistanceTab, 'semiautomaticclassificationplugin_spectral_distance.svg', cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'Spectral distance'))
 		# Postprocessing
-		cfg.postprocessing_menu = cfg.menu.addMenu(cfg.QtGuiSCP.QIcon(':/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_post_process.svg'), cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'Postprocessing'))
+		cfg.postprocessing_menu = cfg.menu.addMenu(cfg.QtGuiSCP.QIcon('scp_icons:semiautomaticclassificationplugin_post_process.svg'), cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'Postprocessing'))
 		# Accuracy
 		accuracy_action = cfg.ipt.addMenuItem(cfg.postprocessing_menu, cfg.utls.accuracyTab, 'semiautomaticclassificationplugin_accuracy_tool.svg', cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'Accuracy'))
 		# Classification dilation
@@ -387,7 +387,7 @@ class Input:
 		# batch
 		batch_action = cfg.ipt.addMenuItem(cfg.menu, cfg.utls.batchTab, 'semiautomaticclassificationplugin_batch.svg', cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'Batch'))
 		# Settings
-		cfg.settings_menu = cfg.menu.addMenu(cfg.QtGuiSCP.QIcon(':/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_settings_tool.svg'), cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'Settings'))
+		cfg.settings_menu = cfg.menu.addMenu(cfg.QtGuiSCP.QIcon('scp_icons:semiautomaticclassificationplugin_settings_tool.svg'), cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'Settings'))
 		# Settings debug
 		settings_debug_action = cfg.ipt.addMenuItem(cfg.settings_menu, cfg.utls.debugTab, None, cfg.QtWidgetsSCP.QApplication.translate('semiautomaticclassificationplugin', 'Debug'))
 		# Settings interface
@@ -409,7 +409,7 @@ class Input:
 		
 	# set SCP dock tabs buttons
 	def setSCPDockTabs(self):
-		icons = [':/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_bandset_tool', ':/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_roi_tool', ':/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_download_arrow', ':/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_class_tool', ':/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_band_processing', ':/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_post_process', ':/plugins/semiautomaticclassificationplugin/icons/semiautomaticclassificationplugin_bandcalc_tool']
+		icons = ['scp_icons:semiautomaticclassificationplugin_bandset_tool', 'scp_icons:semiautomaticclassificationplugin_roi_tool', 'scp_icons:semiautomaticclassificationplugin_download_arrow', 'scp_icons:semiautomaticclassificationplugin_class_tool', 'scp_icons:semiautomaticclassificationplugin_band_processing', 'scp_icons:semiautomaticclassificationplugin_post_process', 'scp_icons:semiautomaticclassificationplugin_bandcalc_tool']
 		for i in range(3, 10):
 			lbl = cfg.QtWidgetsSCP.QLabel()
 			lbl.setStyleSheet(_fromUtf8('color : black'))
